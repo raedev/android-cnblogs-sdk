@@ -10,6 +10,9 @@ import com.cnblogs.api.BuildConfig;
 import com.cnblogs.api.CLog;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by rae on 2019-10-26.
@@ -22,14 +25,23 @@ public class CnblogsDBHelper extends SQLiteOpenHelper {
         super(context, name, null, BuildConfig.CNBLOGS_DB_VERSION);
     }
 
+    public <E> void checkTableAndCreate(Class<E> cls, String tableName) {
+        boolean tableExists = checkTableExists(tableName);
+        if (!tableExists) {
+            CLog.w("表不存在，重新建表：" + tableName);
+            createTable(cls, tableName);
+        }
+    }
+
     /**
      * 查询表是否存在
      *
      * @param name 表名
      */
     public boolean checkTableExists(String name) {
-        String sql = "SELECT COUNT(*) FROM sqlite_master WHERE TYPE='table' AND name =?";
-        return queryCount(sql, new String[]{name}) > 0;
+        String sql = "SELECT COUNT(*) FROM sqlite_master WHERE TYPE='table' AND name=?";
+        int count = queryCount(sql, new String[]{name});
+        return count > 0;
     }
 
     /**
@@ -37,15 +49,20 @@ public class CnblogsDBHelper extends SQLiteOpenHelper {
      *
      * @param cls 实体
      */
-    public <E> boolean createTable(Class<E> cls, String tableName) {
+    public <E> void createTable(Class<E> cls, String tableName) {
         try {
             SQLiteDatabase database = getWritableDatabase();
             StringBuilder sb = new StringBuilder();
-            sb.append("CREATE TABLE ");
+            sb.append("CREATE TABLE IF NOT EXISTS ");
             sb.append(tableName);
             sb.append("( ");
             sb.append("\"ID\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT");
-            Field[] fields = cls.getDeclaredFields();
+            List<Field> fields = new ArrayList<>(Arrays.asList(cls.getDeclaredFields()));
+            Class<?> parentClass = cls.getSuperclass();
+            if (parentClass != null) {
+                fields.addAll(Arrays.asList(parentClass.getDeclaredFields()));
+            }
+
             for (Field field : fields) {
                 String name = field.getName();
                 if ("CREATOR".equals(name)) continue;
@@ -59,14 +76,14 @@ public class CnblogsDBHelper extends SQLiteOpenHelper {
             }
             sb.append(")");
 
-            database.execSQL(sb.toString().toUpperCase());
+            database.execSQL(sb.toString());
 
-            CLog.d("SQL语句：" + sb.toString());
+            CLog.d("建表SQL语句：" + sb.toString());
         } catch (Exception ex) {
             CLog.e("建表异常：" + ex.getMessage(), ex);
         }
 
-        return checkTableExists(tableName);
+        checkTableExists(tableName);
     }
 
     @Override
@@ -84,8 +101,9 @@ public class CnblogsDBHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase database = getReadableDatabase();
             cursor = database.rawQuery(sql, args);
-            cursor.moveToFirst();
-            return cursor.getInt(0);
+            if (cursor.moveToNext()) {
+                return cursor.getInt(0);
+            }
         } catch (Exception e) {
             CLog.e("数据查询COUNT异常！", e);
         } finally {

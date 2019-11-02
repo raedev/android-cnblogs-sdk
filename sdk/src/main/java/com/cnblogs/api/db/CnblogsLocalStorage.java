@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.cnblogs.api.db.table.CnblogsDBHelper;
-import com.cnblogs.api.db.table.TbCategory;
+import com.cnblogs.api.db.table.DbCategory;
 import com.cnblogs.api.model.UserInfoBean;
 import com.rae.session.SessionManager;
 
@@ -26,7 +26,7 @@ public final class CnblogsLocalStorage {
     }
 
     public IDbCategory getCategory() {
-        return new TbCategory(getHelper());
+        return new DbCategory(getHelper());
     }
 
     private CnblogsDBHelper getHelper() {

@@ -26,14 +26,13 @@ public class BlogBean implements Parcelable {
     private String postId; // 帖子Id
     private String title; // 标题
     private String url; // 原文路径
-    private String blogApp; // 作者BlogAPP
-    private String avatar; // 头像地址
     private String summary; // 摘要
-    private String author; // 作者昵称
     private String likeCount; // 推荐数
     private String commentCount; // 评论数
     private String viewCount; // 阅读数
     private String postDate; // 发布时间
+    private String content; // 内容
+    private AuthorBean author; // 作者信息
 
     public BlogBean() {
     }
@@ -43,43 +42,13 @@ public class BlogBean implements Parcelable {
         this.postId = in.readString();
         this.title = in.readString();
         this.url = in.readString();
-        this.blogApp = in.readString();
-        this.avatar = in.readString();
         this.summary = in.readString();
-        this.author = in.readString();
         this.likeCount = in.readString();
         this.commentCount = in.readString();
         this.viewCount = in.readString();
         this.postDate = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getBlogApp() {
-        return blogApp;
-    }
-
-    public void setBlogApp(String blogApp) {
-        this.blogApp = blogApp;
+        this.content = in.readString();
+        this.author = in.readParcelable(AuthorBean.class.getClassLoader());
     }
 
     public String getBlogId() {
@@ -90,44 +59,12 @@ public class BlogBean implements Parcelable {
         this.blogId = blogId;
     }
 
-    public String getCommentCount() {
-        return commentCount;
-    }
-
-    public void setCommentCount(String commentCount) {
-        this.commentCount = commentCount;
-    }
-
-    public String getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(String likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    public String getPostDate() {
-        return postDate;
-    }
-
-    public void setPostDate(String postDate) {
-        this.postDate = postDate;
-    }
-
     public String getPostId() {
         return postId;
     }
 
     public void setPostId(String postId) {
         this.postId = postId;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
     }
 
     public String getTitle() {
@@ -146,6 +83,30 @@ public class BlogBean implements Parcelable {
         this.url = url;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(String likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public String getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(String commentCount) {
+        this.commentCount = commentCount;
+    }
+
     public String getViewCount() {
         return viewCount;
     }
@@ -154,19 +115,47 @@ public class BlogBean implements Parcelable {
         this.viewCount = viewCount;
     }
 
+    public String getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(String postDate) {
+        this.postDate = postDate;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public AuthorBean getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(AuthorBean author) {
+        this.author = author;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.blogId);
         dest.writeString(this.postId);
         dest.writeString(this.title);
         dest.writeString(this.url);
-        dest.writeString(this.blogApp);
-        dest.writeString(this.avatar);
         dest.writeString(this.summary);
-        dest.writeString(this.author);
         dest.writeString(this.likeCount);
         dest.writeString(this.commentCount);
         dest.writeString(this.viewCount);
         dest.writeString(this.postDate);
+        dest.writeString(this.content);
+        dest.writeParcelable(this.author, flags);
     }
 }

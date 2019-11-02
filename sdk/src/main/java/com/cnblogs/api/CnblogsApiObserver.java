@@ -48,7 +48,8 @@ public abstract class CnblogsApiObserver<T> extends DisposableObserver<T> {
         // 未登录处理
         if (message.contains("登录过期")
                 || message.contains("Authorization")
-                || (e instanceof CnblogsApiException && ((CnblogsApiException) e).getCode() == CnblogsApiException.ERROR_LOGIN_EXPIRED)
+                || (e instanceof CnblogsApiException
+                && ((CnblogsApiException) e).getCode() == CnblogsApiException.ERROR_LOGIN_EXPIRED)
         ) {
             clearLoginToken();
             onLoginExpired();

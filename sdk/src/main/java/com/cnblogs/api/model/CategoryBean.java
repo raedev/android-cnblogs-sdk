@@ -9,7 +9,7 @@ import java.util.List;
  * 分类
  * Created by ChenRui on 2016/11/30 0030 17:20.
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"unused"})
 public class CategoryBean implements Parcelable {
 
     public static final Creator<CategoryBean> CREATOR = new Creator<CategoryBean>() {

@@ -3,6 +3,7 @@ package com.cnblogs.api.parser.blog;
 import android.text.TextUtils;
 
 import com.cnblogs.api.http.IHtmlParser;
+import com.cnblogs.api.model.AuthorBean;
 import com.cnblogs.api.model.BlogBean;
 import com.cnblogs.api.parser.ParseUtils;
 
@@ -10,7 +11,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class HomeBlogParser implements IHtmlParser<List<BlogBean>> {
     }
 
     @Override
-    public List<BlogBean> parse(Document document) throws IOException {
+    public List<BlogBean> parse(Document document) {
         // 解析HTML
         List<BlogBean> result = new ArrayList<>();
         Elements elements = document.select(".post_item");
@@ -45,18 +45,21 @@ public class HomeBlogParser implements IHtmlParser<List<BlogBean>> {
 
 
             BlogBean m = new BlogBean();
+            m.setAuthor(new AuthorBean());
             m.setPostId(id);
             m.setBlogId(parseBlogId(item.select(".diggit").attr("onclick"), id));
             m.setTitle(element.select(".titlelnk").text()); // 标题
             m.setUrl(element.select(".titlelnk").attr("href"));  // 原文链接
-            m.setAvatar(getAvatar(element.select(".pfs").attr("src"))); // 头像地址
             m.setSummary(element.select(".post_item_summary").text()); // 摘要
-            m.setAuthor(element.select(".lightblue").text()); // 作者
-            m.setBlogApp(ParseUtils.getBlogApp(element.select(".lightblue").attr("href"))); // 博客APP
             m.setCommentCount(ParseUtils.getCount(element.select(".article_comment .gray").text())); // 评论
             m.setViewCount(ParseUtils.getCount(element.select(".article_view .gray").text()));  // 阅读
             m.setLikeCount(ParseUtils.getCount(item.select(".diggnum").text()));  // 点赞或者是推荐
             m.setPostDate(ParseUtils.getDate(element.select(".post_item_foot").text())); // 发布时间
+
+            m.getAuthor().setAvatar(getAvatar(element.select(".pfs").attr("src"))); // 头像地址
+            m.getAuthor().setName(element.select(".lightblue").text()); // 作者
+            m.getAuthor().setId(ParseUtils.getBlogApp(element.select(".lightblue").attr("href"))); // 博客APP
+
             result.add(m);
         }
 
@@ -71,5 +74,7 @@ public class HomeBlogParser implements IHtmlParser<List<BlogBean>> {
         }
         return def;
     }
+
+
 
 }

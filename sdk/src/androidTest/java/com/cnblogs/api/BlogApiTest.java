@@ -1,7 +1,5 @@
 package com.cnblogs.api;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.cnblogs.api.param.BlogListParam;
@@ -28,10 +26,28 @@ public class BlogApiTest extends CnblogsApiTest {
     }
 
     @Test
+    public void testBlogDetail() {
+        run(mBlogApi.getBlogDetail("https://www.cnblogs.com/skabyy/p/11396571.html"));
+    }
+
+    @Test
+    public void testBlogViewCount() {
+        run(mBlogApi.getBlogViewCount("skabyy", "11396571"));
+    }
+
+    @Test
+    public void testBlogCommentCount() {
+        run(mBlogApi.getBlogCommentCount("skabyy", "11396571"));
+    }
+
+    @Test
+    public void testBlogPostInfo() {
+        run(mBlogApi.getBlogPostInfo("skabyy", "166858", "11396571", "2f59e04f-bc3c-e311-8d02-90b11c0b17d6"));
+    }
+
+
+    @Test
     public void testHomeCategory() {
         run(mBlogApi.getHomeCategory());
-
-        Context context = InstrumentationRegistry.getContext();
-
     }
 }

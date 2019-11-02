@@ -30,6 +30,10 @@ public final class CLog {
         Log.e(TAG, msg);
     }
 
+    public static void w(String msg) {
+        Log.w(TAG, msg);
+    }
+
     public static void d(String msg) {
         Log.d(TAG, msg);
     }
