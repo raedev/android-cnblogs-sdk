@@ -106,18 +106,29 @@ public final class ParseUtils {
             return text;
         }
 
-        // UTC 时间
-        if (text.contains("T") || text.contains("+") || text.contains("Z")) {
-            text = toLocalDate(text);
-        }
-
-        String regx = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}";
-        Matcher matcher = Pattern.compile(regx).matcher(text);
+        String pattern = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}";
+        Matcher matcher = Pattern.compile(pattern).matcher(text);
         if (!matcher.find()) {
             return text;
         }
 
         text = matcher.group();
+
+        // UTC 时间
+        if (text.contains("T") || text.contains("+") || text.contains("Z")) {
+            text = toLocalDate(text);
+        }
+
+        return text;
+    }
+
+    /**
+     * 转为友好的日期
+     *
+     * @param text 日期
+     */
+    public static String getNiceDate(String text) {
+
         String time = text.split(" ")[1];
 
         // 时间间隔

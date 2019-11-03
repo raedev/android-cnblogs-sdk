@@ -22,14 +22,6 @@ public class BlogListParam {
     @SerializedName("ItemListActionName")
     private String actionName;
 
-    public BlogListParam(String actionName, String type, int parentId, int categoryId, int page) {
-        this.page = page;
-        this.type = type;
-        this.parentId = parentId;
-        this.categoryId = categoryId;
-        this.actionName = actionName;
-    }
-
     public BlogListParam(int page, String type, int parentId, int categoryId) {
         this.page = page;
         this.type = type;
