@@ -1,5 +1,7 @@
 package com.cnblogs.api.parser.blog;
 
+import android.text.TextUtils;
+
 import com.cnblogs.api.http.IHtmlParser;
 import com.cnblogs.api.model.AuthorBean;
 import com.cnblogs.api.model.BlogBean;
@@ -9,7 +11,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,10 +29,13 @@ public class BlogDetailParser implements IHtmlParser<BlogBean> {
         m.setTitle(document.select("#cb_post_title_url").text()); // 标题
         m.setSummary(parseSummary(document)); // 摘要
         m.setPostDate(document.select("#post-date").text()); // 发表时间
-        m.setContent(URLEncoder.encode(document.select("#cnblogs_post_body").html())); // 博文内容
+        m.setContent(document.select("#cnblogs_post_body").html()); // 博文内容
         m.setUrl(document.select("#cb_post_title_url").attr("href")); // 原文链接
-
-        m.getAuthor().setId(ParseUtils.getBlogApp(document.select("#blog_nav_myhome").attr("href"))); // blogApp
+        if (document.select("#Header1_HeaderTitle").size() > 0) {
+            m.getAuthor().setId(ParseUtils.getBlogApp(document.select("#Header1_HeaderTitle").attr("href"))); // blogApp
+        } else {
+            m.getAuthor().setId(ParseUtils.getBlogApp(document.select("#blog_nav_myhome").attr("href"))); // blogApp
+        }
         m.getAuthor().setName(parseAuthorName(document, m.getAuthor().getId())); // 作者昵称
         m.getAuthor().setUserId(parseUserGuid(document.html())); // 用户ID
 
@@ -54,7 +58,7 @@ public class BlogDetailParser implements IHtmlParser<BlogBean> {
         Elements elements = document.select(".postDesc a[href]");
         for (Element element : elements) {
             String href = element.attr("href");
-            if (href.contains(blogApp)) return element.text().trim();
+            if (!TextUtils.isEmpty(blogApp) && href.contains(blogApp)) return element.text().trim();
         }
         return "";
     }
