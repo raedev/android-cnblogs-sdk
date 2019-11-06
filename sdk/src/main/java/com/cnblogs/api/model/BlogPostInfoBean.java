@@ -11,6 +11,9 @@ public class BlogPostInfoBean {
     // 推荐数量
     private String diggCount;
 
+    // 是否已经推荐
+    private boolean isLike;
+
     public AuthorBean getAuthor() {
         return author;
     }
@@ -25,5 +28,13 @@ public class BlogPostInfoBean {
 
     public void setDiggCount(String diggCount) {
         this.diggCount = diggCount;
+    }
+
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public void setLike(boolean like) {
+        isLike = like;
     }
 }

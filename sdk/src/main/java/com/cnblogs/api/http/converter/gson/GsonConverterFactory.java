@@ -38,7 +38,7 @@ public class GsonConverterFactory extends Converter.Factory {
         for (Annotation annotation : annotations) {
             if (annotation instanceof JsonParser) {
                 TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(type));
-                return new GsonResponseBodyConverter<>(gson, adapter);
+                return new GsonResponseBodyConverter<>(gson, adapter, (JsonParser)annotation);
             }
         }
         return null;

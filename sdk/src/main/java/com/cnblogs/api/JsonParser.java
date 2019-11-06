@@ -16,4 +16,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(METHOD)
 @Retention(RUNTIME)
 public @interface JsonParser {
+
+    /**
+     * 使用默认的解析器
+     */
+    boolean isDefault() default false;
 }

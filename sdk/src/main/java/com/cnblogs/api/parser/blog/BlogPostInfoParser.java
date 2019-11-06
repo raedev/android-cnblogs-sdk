@@ -20,6 +20,7 @@ public class BlogPostInfoParser implements IHtmlParser<BlogPostInfoBean> {
         m.setAuthor(new AuthorBean());
         m.getAuthor().setAvatar("https:" + document.select(".author_avatar").attr("src"));
         m.setDiggCount(document.select("#digg_count").text());
+        m.setLike(document.select("#digg_tips").text().contains("已推荐"));
         return m;
     }
 }

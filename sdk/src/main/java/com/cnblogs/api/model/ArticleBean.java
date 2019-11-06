@@ -19,6 +19,7 @@ public class ArticleBean implements Parcelable {
     private String postDate; // 发布时间
     private String url; // 原文路径
     private String coverUrl; // 封面图路径
+    private boolean isLike; // 是否推荐
     private AuthorBean author; // 作者信息
 
     public String getTitle() {
@@ -101,6 +102,14 @@ public class ArticleBean implements Parcelable {
         this.author = author;
     }
 
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public void setLike(boolean like) {
+        isLike = like;
+    }
+
     public ArticleBean() {
     }
 
@@ -120,6 +129,7 @@ public class ArticleBean implements Parcelable {
         dest.writeString(this.postDate);
         dest.writeString(this.url);
         dest.writeString(this.coverUrl);
+        dest.writeByte(this.isLike ? (byte) 1 : (byte) 0);
         dest.writeParcelable(this.author, flags);
     }
 
@@ -133,6 +143,7 @@ public class ArticleBean implements Parcelable {
         this.postDate = in.readString();
         this.url = in.readString();
         this.coverUrl = in.readString();
+        this.isLike = in.readByte() != 0;
         this.author = in.readParcelable(AuthorBean.class.getClassLoader());
     }
 
