@@ -53,7 +53,7 @@ public class BlogCommentParser implements IHtmlParser<List<CommentBean>> {
                 // 找引用的作者
                 for (int i = 0; i < Math.min(4, nodes.size()); i++) {
                     Node node = nodes.get(i);
-                    if (i == 1) m.getQuote().getAuthor().setId(node.outerHtml());
+                    if (i == 1) m.getQuote().getAuthor().setName(node.outerHtml());
                     node.remove();
                 }
             }

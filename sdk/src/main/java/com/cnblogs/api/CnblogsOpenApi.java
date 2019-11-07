@@ -33,11 +33,7 @@ public final class CnblogsOpenApi {
     }
 
     public static void init(Application application) {
-        // SessionManager
-        SessionManager.init(new SessionManager.Builder()
-                .name("CnblogsSessionManger")
-                .withContext(application)
-                .userClass(UserInfoBean.class).build());
+        CnblogsUserManager.init(application);
     }
 
     private CnblogsOpenApi() {
