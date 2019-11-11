@@ -11,6 +11,7 @@ import com.cnblogs.api.model.EmptyBean;
 import com.cnblogs.api.param.BlogLikeParam;
 import com.cnblogs.api.param.BlogListParam;
 import com.cnblogs.api.param.BlogRecommendParam;
+import com.cnblogs.api.param.PostBlogCommentParam;
 import com.cnblogs.api.parser.HtmlStringParser;
 import com.cnblogs.api.parser.blog.BlogCommentParser;
 import com.cnblogs.api.parser.blog.BlogDetailParser;
@@ -20,11 +21,9 @@ import com.cnblogs.api.parser.blog.NextArticleParser;
 
 import java.util.List;
 
-import io.reactivex.Observable;
 import retrofit2.adapter.rxjava2.AndroidObservable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -121,7 +120,7 @@ public interface IBlogApi {
     /**
      * 获取评论列表
      *
-     * @param postId      博客ID
+     * @param postId  博客ID
      * @param blogApp 博主ID
      */
     @GET("https://www.cnblogs.com/{blogApp}/ajax/GetComments.aspx")
@@ -137,5 +136,20 @@ public interface IBlogApi {
     @Headers(CHeaders.XHR)
     @JsonParser(isDefault = true)
     AndroidObservable<EmptyBean> likeBlog(@Path("blogApp") String blogApp, @Body BlogLikeParam param);
+
+
+    /**
+     * 发表博客评论
+     * <p>如果要引用评论，则content参数取值为： </p>
+     * {@link com.cnblogs.api.parser.ParseUtils#formatCommentContent(String, String, String)} 来获取转换的内容
+     *
+     * @param blogApp 该文的博主ID
+     * @param param   参数
+     */
+    @POST("https://www.cnblogs.com/{blogApp}/ajax/PostComment/Add.aspx")
+    @Headers({CHeaders.XHR})
+    @JsonParser(isDefault = true)
+    AndroidObservable<EmptyBean> postBlogComment(@Path("blogApp") String blogApp,
+                                                 @Body PostBlogCommentParam param);
 
 }

@@ -6,8 +6,6 @@ import com.cnblogs.api.http.CnblogsCookieInterceptor;
 import com.cnblogs.api.http.CnblogsRequestInterceptor;
 import com.cnblogs.api.http.converter.gson.GsonConverterFactory;
 import com.cnblogs.api.http.converter.html.HtmlConverterFactory;
-import com.cnblogs.api.model.UserInfoBean;
-import com.rae.session.SessionManager;
 
 import java.util.concurrent.TimeUnit;
 
@@ -40,7 +38,7 @@ public final class CnblogsOpenApi {
 
         // HTTP日志输出
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor(CLog.HTTP_LOGGER);
-        logging.level(HttpLoggingInterceptor.Level.HEADERS);
+        logging.level(HttpLoggingInterceptor.Level.BASIC);
         // Cookie状态维持
         CnblogsCookieInterceptor cookie = new CnblogsCookieInterceptor();
 

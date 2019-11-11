@@ -10,6 +10,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
@@ -38,23 +40,36 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
             if (mAnnotation.isDefault()) {
                 TypeAdapter<CnblogsJsonResult<T>> cnblogsAdapter = this.gson.getAdapter(new CnblogsTypeToken<T>());
                 CnblogsJsonResult<T> result = cnblogsAdapter.read(jsonReader);
-                if (result.success) return result.data;
-                throw new CnblogsApiException(result.message);
+                if (!result.success) throw new CnblogsApiException(result.message);
+                T data = result.data;
+
+                // data 作为回调对象，一定不能空
+                if (data == null) {
+                    Type dataType = new TypeToken<T>() {
+                    }.getType();
+                    if (dataType == List.class) {
+                        data = this.adapter.fromJson("[]");
+                    } else {
+                        data = this.adapter.fromJson("{}");
+                    }
+                }
+
+                return data;
             }
 
             // 默认解析
-            T result = adapter.read(jsonReader);
+            T data = adapter.read(jsonReader);
             if (jsonReader.peek() != JsonToken.END_DOCUMENT) {
-                throw new CnblogsApiException("JSON document was not fully consumed.");
+                throw new CnblogsApiException("服务器JSON数据格式错误");
             }
-            return result;
+            return data;
         } finally {
             value.close();
         }
     }
 
 
-    class CnblogsJsonResult<E> {
+    public class CnblogsJsonResult<E> {
 
         @SerializedName("isSuccess")
         public boolean success;
@@ -66,7 +81,7 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
 
     }
 
-    class CnblogsTypeToken<E> extends TypeToken<CnblogsJsonResult<E>> {
+    private class CnblogsTypeToken<E> extends TypeToken<CnblogsJsonResult<E>> {
 
     }
 }

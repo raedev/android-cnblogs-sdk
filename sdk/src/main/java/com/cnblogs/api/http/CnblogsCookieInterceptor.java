@@ -38,14 +38,13 @@ public final class CnblogsCookieInterceptor implements Interceptor {
     @NonNull
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
-        // 请求之前同步浏览器Cookie
+        // 同步浏览器Cookie
         this.setJavaCookie(android.webkit.CookieManager.getInstance().getCookie(this.url));
-        // 自定义Cookie
+        // 同步自定义Cookie
         String cookie = request.header("Cookie");
         if (!TextUtils.isEmpty(cookie)) {
             this.setJavaCookie(cookie);
         }
-
         return chain.proceed(request);
     }
 
@@ -69,7 +68,6 @@ public final class CnblogsCookieInterceptor implements Interceptor {
             Cookie cookie = Cookie.parse(httpUrl, text);
             cookies.add(cookie);
         }
-
         // 保存cookie
         cookieJar.saveFromResponse(httpUrl, cookies);
     }

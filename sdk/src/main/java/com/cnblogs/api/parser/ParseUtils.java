@@ -214,4 +214,25 @@ public final class ParseUtils {
         }
         return text;
     }
+
+    /**
+     * 引用评论内容
+     *
+     * @param comment 要引用的评论
+     * @param content 你要发表的内容
+     * @return 内容
+     */
+    public static String formatCommentContent(String authorName, String quote, String content) {
+        // {"blogApp":"silenttiger","postId":6323406,"body":"@TCG2008\n[quote]网页应用都差不多，什么QQ上的应用宝，空间的应用啊，百度轻应用...主要都是为了引流，你一个小公司当然要从微信百度上引导别人使用你的产品啦。[/quote]\naa","parentCommentId":"3608347"}
+        StringBuilder sb = new StringBuilder();
+        sb.append("@");
+        sb.append(authorName);
+        sb.append("\n");
+        sb.append("[quote]");
+        sb.append(quote);
+        sb.append("[/quote]");
+        sb.append("\n");
+        sb.append(content);
+        return sb.toString();
+    }
 }
