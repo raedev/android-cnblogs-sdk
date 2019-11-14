@@ -67,15 +67,8 @@ public class BlogDetailParser implements IHtmlParser<BlogBean> {
      * 解析PostId
      */
     private String parsePostId(Document document) {
-        Elements elements = document.select(".postDesc a[onclick]");
-        for (Element element : elements) {
-            String attr = element.attr("onclick");
-            // 收藏的按钮含有PostID
-            // <a href="javascript:void(0)" onclick="AddToWz(11665021); return false;">收藏</a>
-            if (attr.contains("AddToWz")) {
-                return ParseUtils.getNumber(attr);
-            }
-        }
+        Elements elements = document.select(".postTitle2");
+        if (elements.size() > 0) return ParseUtils.getNumber(elements.attr("href"));
         return "0";
     }
 

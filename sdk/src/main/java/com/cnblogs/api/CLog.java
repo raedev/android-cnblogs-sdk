@@ -37,4 +37,8 @@ public final class CLog {
     public static void d(String msg) {
         Log.d(TAG, msg);
     }
+
+    public static void i(String msg) {
+        Log.i(TAG, msg);
+    }
 }
