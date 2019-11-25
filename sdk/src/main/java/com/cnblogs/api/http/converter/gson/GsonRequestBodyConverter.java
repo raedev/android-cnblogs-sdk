@@ -1,10 +1,10 @@
 package com.cnblogs.api.http.converter.gson;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonWriter;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -34,7 +34,7 @@ final class GsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
     }
 
     @Override
-    public RequestBody convert(@NotNull T value) throws IOException {
+    public RequestBody convert(@NonNull T value) throws IOException {
         Buffer buffer = new Buffer();
         Writer writer = new OutputStreamWriter(buffer.outputStream(), UTF_8);
         JsonWriter jsonWriter = gson.newJsonWriter(writer);

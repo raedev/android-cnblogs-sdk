@@ -1,7 +1,7 @@
 package com.cnblogs.api.http;
 
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
@@ -16,9 +16,9 @@ import okhttp3.Response;
 public class CnblogsRequestInterceptor implements Interceptor {
 
 
-    @NotNull
+    @NonNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         Request.Builder builder = request.newBuilder();
 

@@ -7,7 +7,6 @@ import com.cnblogs.api.http.IHtmlParser;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
@@ -27,7 +26,7 @@ class HtmlConverter<T> implements Converter<ResponseBody, T> {
     @Override
     @NonNull
     public T convert(@NonNull ResponseBody value) throws IOException {
-        String html = value.byteString().string(Charset.forName("UTF-8"));
+        String html = value.string();
 //        CLog.d("HTTP响应内容：");
 //        CLog.d(html);
         // 交给自定义的解析器执行解析

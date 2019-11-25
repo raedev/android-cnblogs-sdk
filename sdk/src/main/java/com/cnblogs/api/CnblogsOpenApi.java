@@ -38,7 +38,7 @@ public final class CnblogsOpenApi {
 
         // HTTP日志输出
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor(CLog.HTTP_LOGGER);
-        logging.level(HttpLoggingInterceptor.Level.BASIC);
+        logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
         // Cookie状态维持
         CnblogsCookieInterceptor cookie = new CnblogsCookieInterceptor();
 
