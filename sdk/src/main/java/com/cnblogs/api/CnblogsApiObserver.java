@@ -2,11 +2,7 @@ package com.cnblogs.api;
 
 import com.rae.session.SessionManager;
 
-import java.net.ConnectException;
-import java.net.UnknownHostException;
-
 import io.reactivex.observers.DisposableObserver;
-import retrofit2.HttpException;
 
 /**
  * 接口回调
@@ -42,42 +38,16 @@ public abstract class CnblogsApiObserver<T> extends DisposableObserver<T> {
 
     @Override
     public void onError(Throwable e) {
-        String message = e.getMessage();
-        CLog.e("回调处理异常：" + message, e);
+        CnblogsApiException exception = CnblogsApiException.valueOf(e);
+        CLog.e("回调处理异常：" + exception, e);
 
-        // 未登录处理
-        if (message.contains("登录过期")
-                || message.contains("Authorization")
-                || (e instanceof CnblogsApiException
-                && ((CnblogsApiException) e).getCode() == CnblogsApiException.ERROR_LOGIN_EXPIRED)
-        ) {
+        if (exception.getCode() == CnblogsApiException.ERROR_LOGIN_EXPIRED) {
             clearLoginToken();
             onLoginExpired();
             return;
         }
 
-        // 网络状态处理
-        if (e instanceof ConnectException) {
-            onError("无法连接到服务器");
-            return;
-        }
-        if (e instanceof UnknownHostException) {
-            onError("网络连接错误，请检查网络连接");
-            return;
-        }
-
-        // HTTP 状态错误
-        if (e instanceof HttpException) {
-            int code = ((HttpException) e).code();
-            if (code == 401) {
-                clearLoginToken();
-                onLoginExpired();
-                return;
-            }
-            onError(String.format("请求错误！状态码[%s]", code));
-            return;
-        }
-        onError(message);
+        onError(exception.getMessage());
     }
 
     /**

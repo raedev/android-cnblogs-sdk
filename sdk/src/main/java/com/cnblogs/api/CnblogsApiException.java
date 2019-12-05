@@ -1,6 +1,10 @@
 package com.cnblogs.api;
 
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
+
+import retrofit2.HttpException;
 
 /**
  * 博客园接口错误
@@ -8,12 +12,21 @@ import java.io.IOException;
  */
 public class CnblogsApiException extends IOException {
 
-    public static final int ERROR_LOGIN_EXPIRED = 404;
+    public static final int ERROR_UNKNOWN = 0;
+    public static final int ERROR_HTTP = 1;
+    public static final int ERROR_NETWORK = 2;
+    public static final int ERROR_CONNECT = 3;
+    public static final int ERROR_LOGIN_EXPIRED = 4;
 
     private int code;
 
-    // 响应信息
-    private String response;
+    // Http 请求状态代码
+    private int statusCode;
+
+    public static CnblogsApiException valueOf(Throwable e) {
+        if (e instanceof CnblogsApiException) return (CnblogsApiException) e;
+        return new CnblogsApiException(e);
+    }
 
     public CnblogsApiException() {
     }
@@ -33,17 +46,50 @@ public class CnblogsApiException extends IOException {
 
     public CnblogsApiException(Throwable cause) {
         super(cause);
+        String message = cause.getMessage();
+        if (message.contains("登录过期") || message.contains("Authorization")) {
+            this.code = ERROR_LOGIN_EXPIRED;
+        } else if (cause instanceof ConnectException) {
+            this.code = ERROR_CONNECT;
+        } else if (cause instanceof UnknownHostException) {
+            this.code = ERROR_NETWORK;
+        }
+        // HTTP 状态错误
+        else if (cause instanceof HttpException) {
+            int code = ((HttpException) cause).code();
+            if (code == 401) {
+                this.code = ERROR_LOGIN_EXPIRED;
+            }
+            this.code = ERROR_HTTP;
+            this.statusCode = code;
+        } else {
+            this.code = ERROR_UNKNOWN;
+        }
     }
 
     public int getCode() {
         return code;
     }
 
-    public String getResponse() {
-        return response;
+    public int getStatusCode() {
+        return statusCode;
     }
 
-    public void setResponse(String response) {
-        this.response = response;
+    @Override
+    public String getMessage() {
+        int code = getCode();
+        switch (code) {
+            case ERROR_HTTP:
+                return String.format("HTTP请求错误[%s]", statusCode);
+            case ERROR_CONNECT:
+                return "无法连接到服务器";
+            case ERROR_LOGIN_EXPIRED:
+                return "登录失效，请重新登录";
+            case ERROR_NETWORK:
+                return "网络错误，请检查网络连接";
+            case ERROR_UNKNOWN:
+            default:
+                return "未知错误：" + super.getMessage();
+        }
     }
 }
