@@ -17,6 +17,7 @@ import okhttp3.Response;
 
 /**
  * Cookie 请求拦截器
+ * 同步浏览器Cookie和HTTP请求接口的Cookie，实现双向登录同步。
  * Created by rae on 2019-10-20.
  * Copyright (c) https://github.com/raedev All rights reserved.
  */

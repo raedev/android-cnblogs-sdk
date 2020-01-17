@@ -5,23 +5,15 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 用户信息
  * Created by ChenRui on 2017/1/14 02:21.
  */
 public class UserInfoBean implements Parcelable {
 
-    public static final Creator<UserInfoBean> CREATOR = new Creator<UserInfoBean>() {
-        @Override
-        public UserInfoBean createFromParcel(Parcel source) {
-            return new UserInfoBean(source);
-        }
-
-        @Override
-        public UserInfoBean[] newArray(int size) {
-            return new UserInfoBean[size];
-        }
-    };
     /**
      * 用户ID，不同于blogApp
      */
@@ -57,24 +49,13 @@ public class UserInfoBean implements Parcelable {
     @Nullable
     private String account;
 
+    private String fansCount;
+    private String followCount;
+
+    /* 资料信息 */
+    private Map<String, String> profiles;
+
     public UserInfoBean() {
-    }
-
-    protected UserInfoBean(Parcel in) {
-        this.userId = in.readString();
-        this.blogApp = in.readString();
-        this.avatar = in.readString();
-        this.displayName = in.readString();
-        this.remarkName = in.readString();
-        this.mHasFollow = in.readByte() != 0;
-        this.introduce = in.readString();
-        this.joinDate = in.readString();
-        this.account = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     @Override
@@ -101,6 +82,14 @@ public class UserInfoBean implements Parcelable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Map<String, String> getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(Map<String, String> profiles) {
+        this.profiles = profiles;
     }
 
     public String getBlogApp() {
@@ -163,6 +152,28 @@ public class UserInfoBean implements Parcelable {
         mHasFollow = hasFollow;
     }
 
+
+    public String getFansCount() {
+        return fansCount;
+    }
+
+    public void setFansCount(String fansCount) {
+        this.fansCount = fansCount;
+    }
+
+    public String getFollowCount() {
+        return followCount;
+    }
+
+    public void setFollowCount(String followCount) {
+        this.followCount = followCount;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.userId);
@@ -174,5 +185,45 @@ public class UserInfoBean implements Parcelable {
         dest.writeString(this.introduce);
         dest.writeString(this.joinDate);
         dest.writeString(this.account);
+        dest.writeString(this.fansCount);
+        dest.writeString(this.followCount);
+        dest.writeInt(this.profiles.size());
+        for (Map.Entry<String, String> entry : this.profiles.entrySet()) {
+            dest.writeString(entry.getKey());
+            dest.writeString(entry.getValue());
+        }
     }
+
+    protected UserInfoBean(Parcel in) {
+        this.userId = in.readString();
+        this.blogApp = in.readString();
+        this.avatar = in.readString();
+        this.displayName = in.readString();
+        this.remarkName = in.readString();
+        this.mHasFollow = in.readByte() != 0;
+        this.introduce = in.readString();
+        this.joinDate = in.readString();
+        this.account = in.readString();
+        this.fansCount = in.readString();
+        this.followCount = in.readString();
+        int profilesSize = in.readInt();
+        this.profiles = new HashMap<String, String>(profilesSize);
+        for (int i = 0; i < profilesSize; i++) {
+            String key = in.readString();
+            String value = in.readString();
+            this.profiles.put(key, value);
+        }
+    }
+
+    public static final Creator<UserInfoBean> CREATOR = new Creator<UserInfoBean>() {
+        @Override
+        public UserInfoBean createFromParcel(Parcel source) {
+            return new UserInfoBean(source);
+        }
+
+        @Override
+        public UserInfoBean[] newArray(int size) {
+            return new UserInfoBean[size];
+        }
+    };
 }

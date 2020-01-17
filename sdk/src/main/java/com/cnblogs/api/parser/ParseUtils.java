@@ -97,6 +97,7 @@ public final class ParseUtils {
                 .replace("http", "")
                 .replace("://www.cnblogs.com/", "")
                 .replace("/u/", "")
+                .replace("/detail/", "")
                 .replace("/", "");
     }
 
@@ -234,5 +235,12 @@ public final class ParseUtils {
         sb.append("\n");
         sb.append(content);
         return sb.toString();
+    }
+
+    public static String getUrl(String url) {
+        // 解决缺少https协议头
+        if (TextUtils.isEmpty(url)) return url;
+        if (url.startsWith("//")) return "https:" + url; // 博客园差不多全站https了
+        return url;
     }
 }

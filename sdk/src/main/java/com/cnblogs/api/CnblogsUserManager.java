@@ -11,6 +11,8 @@ import android.webkit.CookieSyncManager;
 import com.cnblogs.api.model.UserInfoBean;
 import com.rae.session.SessionManager;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * 用户管理
  */
@@ -37,12 +39,13 @@ public final class CnblogsUserManager {
     }
 
     /**
-     * 设置当前用户
+     * 设置当前用户,并且发出通知，通知用户信息已更新
      *
      * @param user 用户信息
      */
     public static void setUser(@NonNull UserInfoBean user) {
         SessionManager.getDefault().setUser(user);
+        EventBus.getDefault().post(user);
     }
 
     /**
@@ -56,6 +59,8 @@ public final class CnblogsUserManager {
         if (cookieManager != null) {
             cookieManager.removeAllCookie();
         }
+        // 通知用户已退出
+        EventBus.getDefault().post(new UserInfoEvent(UserInfoEvent.TYPE_LOGOUT));
     }
 
     /**
@@ -87,5 +92,13 @@ public final class CnblogsUserManager {
         } else {
             CookieSyncManager.getInstance().sync();
         }
+    }
+
+    /**
+     * 通知更新用户信息
+     */
+    public static void notifyUpdateUserInfo() {
+        // 通知用户已退出
+        EventBus.getDefault().post(new UserInfoEvent(UserInfoEvent.TYPE_UPDATE_INFO));
     }
 }

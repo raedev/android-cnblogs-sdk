@@ -72,4 +72,12 @@ public final class CnblogsOpenApi {
         return mRetrofit.create(IBlogApi.class);
     }
 
+
+    /**
+     * 博客园用户接口
+     */
+    public IUserApi getUserApi() {
+        return mRetrofit.create(IUserApi.class);
+    }
+
 }

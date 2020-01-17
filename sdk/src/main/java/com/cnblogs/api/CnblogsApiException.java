@@ -80,16 +80,16 @@ public class CnblogsApiException extends IOException {
         int code = getCode();
         switch (code) {
             case ERROR_HTTP:
-                return String.format("HTTP请求错误[%s]", statusCode);
+                return String.format("[请求错误] 错误码：%s", statusCode);
             case ERROR_CONNECT:
-                return "无法连接到服务器";
+                return "[网络错误] 无法连接到服务器";
             case ERROR_LOGIN_EXPIRED:
-                return "登录失效，请重新登录";
+                return "[登录失效] 请重新登录";
             case ERROR_NETWORK:
-                return "网络错误，请检查网络连接";
+                return "[网络错误] 请检查网络连接";
             case ERROR_UNKNOWN:
             default:
-                return "未知错误：" + super.getMessage();
+                return "[未知错误] " + super.getMessage();
         }
     }
 }
