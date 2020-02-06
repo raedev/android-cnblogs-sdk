@@ -2,8 +2,9 @@ package com.cnblogs.api.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,14 +15,11 @@ import java.util.Map;
  */
 public class UserInfoBean implements Parcelable {
 
-    /**
-     * 用户ID，不同于blogApp
-     */
-    private String userId;
     private String blogApp;
     /**
      * 头像地址
      */
+    @SerializedName("iconName")
     private String avatar;
     /**
      * 昵称
@@ -43,14 +41,12 @@ public class UserInfoBean implements Parcelable {
      * 入园时间
      */
     private String joinDate;
-    /**
-     * 账号，从接口拿的，不是都有
-     */
-    @Nullable
-    private String account;
-
     private String fansCount;
     private String followCount;
+    // 登录账号
+    private String loginAccount;
+    // 用户Id
+    private String userId;
 
     /* 资料信息 */
     private Map<String, String> profiles;
@@ -64,16 +60,6 @@ public class UserInfoBean implements Parcelable {
             return TextUtils.equals(this.blogApp, ((UserInfoBean) obj).getBlogApp());
         }
         return super.equals(obj);
-    }
-
-    @Nullable
-    public String getAccount() {
-        if (TextUtils.isEmpty(account)) return blogApp;
-        return account;
-    }
-
-    public void setAccount(@Nullable String account) {
-        this.account = account;
     }
 
     public String getAvatar() {
@@ -136,13 +122,6 @@ public class UserInfoBean implements Parcelable {
         this.remarkName = remarkName;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public boolean isHasFollow() {
         return mHasFollow;
@@ -169,6 +148,22 @@ public class UserInfoBean implements Parcelable {
         this.followCount = followCount;
     }
 
+    public String getLoginAccount() {
+        return loginAccount;
+    }
+
+    public void setLoginAccount(String loginAccount) {
+        this.loginAccount = loginAccount;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -176,7 +171,6 @@ public class UserInfoBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.userId);
         dest.writeString(this.blogApp);
         dest.writeString(this.avatar);
         dest.writeString(this.displayName);
@@ -184,9 +178,10 @@ public class UserInfoBean implements Parcelable {
         dest.writeByte(this.mHasFollow ? (byte) 1 : (byte) 0);
         dest.writeString(this.introduce);
         dest.writeString(this.joinDate);
-        dest.writeString(this.account);
         dest.writeString(this.fansCount);
         dest.writeString(this.followCount);
+        dest.writeString(this.loginAccount);
+        dest.writeString(this.userId);
         dest.writeInt(this.profiles.size());
         for (Map.Entry<String, String> entry : this.profiles.entrySet()) {
             dest.writeString(entry.getKey());
@@ -195,7 +190,6 @@ public class UserInfoBean implements Parcelable {
     }
 
     protected UserInfoBean(Parcel in) {
-        this.userId = in.readString();
         this.blogApp = in.readString();
         this.avatar = in.readString();
         this.displayName = in.readString();
@@ -203,9 +197,10 @@ public class UserInfoBean implements Parcelable {
         this.mHasFollow = in.readByte() != 0;
         this.introduce = in.readString();
         this.joinDate = in.readString();
-        this.account = in.readString();
         this.fansCount = in.readString();
         this.followCount = in.readString();
+        this.loginAccount = in.readString();
+        this.userId = in.readString();
         int profilesSize = in.readInt();
         this.profiles = new HashMap<String, String>(profilesSize);
         for (int i = 0; i < profilesSize; i++) {

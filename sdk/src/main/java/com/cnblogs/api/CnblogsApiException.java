@@ -17,6 +17,7 @@ public class CnblogsApiException extends IOException {
     public static final int ERROR_NETWORK = 2;
     public static final int ERROR_CONNECT = 3;
     public static final int ERROR_LOGIN_EXPIRED = 4;
+    public static final int ERROR_CONTENT_PARSER = 5;
 
     private int code;
 
@@ -57,14 +58,18 @@ public class CnblogsApiException extends IOException {
         // HTTP 状态错误
         else if (cause instanceof HttpException) {
             int code = ((HttpException) cause).code();
+            this.code = ERROR_HTTP;
             if (code == 401) {
                 this.code = ERROR_LOGIN_EXPIRED;
             }
-            this.code = ERROR_HTTP;
             this.statusCode = code;
         } else {
             this.code = ERROR_UNKNOWN;
         }
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public int getCode() {
@@ -77,6 +82,7 @@ public class CnblogsApiException extends IOException {
 
     @Override
     public String getMessage() {
+        String message = super.getMessage();
         int code = getCode();
         switch (code) {
             case ERROR_HTTP:
@@ -87,9 +93,11 @@ public class CnblogsApiException extends IOException {
                 return "[登录失效] 请重新登录";
             case ERROR_NETWORK:
                 return "[网络错误] 请检查网络连接";
+            case ERROR_CONTENT_PARSER:
+                return "[数据解析错误] 返回数据：" + message;
             case ERROR_UNKNOWN:
             default:
-                return "[未知错误] " + super.getMessage();
+                return message;
         }
     }
 }

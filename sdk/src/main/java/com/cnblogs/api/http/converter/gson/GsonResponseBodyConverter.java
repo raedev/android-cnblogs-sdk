@@ -72,6 +72,12 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
             }
 
             return data;
+        } catch (CnblogsApiException e) {
+            throw e;
+        } catch (Exception e) {
+            CnblogsApiException exception = new CnblogsApiException(body, e);
+            exception.setCode(CnblogsApiException.ERROR_CONTENT_PARSER);
+            throw exception;
         } finally {
             value.close();
         }

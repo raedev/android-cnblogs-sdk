@@ -16,4 +16,5 @@ public class UserNicknameParam {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
+
 }

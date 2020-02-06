@@ -12,11 +12,12 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 public final class CLog {
 
-    private final static String TAG = "cnblogs";
+    private final static String TAG = "Cnblogs";
+
     final static HttpLoggingInterceptor.Logger HTTP_LOGGER = new HttpLoggingInterceptor.Logger() {
         @Override
-        public void log(@NonNull String s) {
-            d(s);
+        public void log(@NonNull String msg) {
+            Log.i("CNBLOGS_OPEN_API", msg);
         }
     };
 

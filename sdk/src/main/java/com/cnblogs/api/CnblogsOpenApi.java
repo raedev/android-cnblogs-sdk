@@ -7,6 +7,8 @@ import com.cnblogs.api.http.CnblogsRequestInterceptor;
 import com.cnblogs.api.http.converter.gson.GsonConverterFactory;
 import com.cnblogs.api.http.converter.html.HtmlConverterFactory;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -25,6 +27,7 @@ public final class CnblogsOpenApi {
     // 单例
     private final static CnblogsOpenApi sOpenApi = new CnblogsOpenApi();
     private final Retrofit mRetrofit;
+    private final OkHttpClient mHttpClient;
 
     public static CnblogsOpenApi getInstance() {
         return sOpenApi;
@@ -38,19 +41,25 @@ public final class CnblogsOpenApi {
 
         // HTTP日志输出
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor(CLog.HTTP_LOGGER);
-        logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         // Cookie状态维持
         CnblogsCookieInterceptor cookie = new CnblogsCookieInterceptor();
 
-        OkHttpClient client = new OkHttpClient.Builder()
+        // 调试接口用的代理
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.3.102", 8888));
+
+        mHttpClient = new OkHttpClient.Builder()
                 // Cookie，当HTTP请求返回Set-Cookie的时候会自动保存到本地的CookieManager中去
                 .cookieJar(cookie.getCookieJar())
                 //  连接超时
-                .connectTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(20, TimeUnit.SECONDS)
                 // 流读取超时
                 .readTimeout(120, TimeUnit.SECONDS)
                 // 流写入超时
                 .writeTimeout(120, TimeUnit.SECONDS)
+//                .proxy(proxy) // 调试用
+//                .sslSocketFactory(HttpsCertificateFactory.getInstance(), new HttpsCertificateFactory.HttpsTrustManager())
+//                .hostnameVerifier(HttpsCertificateFactory.hostnameVerifier())
                 .addInterceptor(new CnblogsRequestInterceptor())
                 .addInterceptor(logging)
                 .addInterceptor(cookie)
@@ -58,7 +67,7 @@ public final class CnblogsOpenApi {
 
         mRetrofit = new Retrofit.Builder()
                 .baseUrl("https://www.cnblogs.com")
-                .client(client)
+                .client(mHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(HtmlConverterFactory.create())
                 .addCallAdapterFactory(RxAndroidCallAdapterFactory.create())
@@ -78,6 +87,14 @@ public final class CnblogsOpenApi {
      */
     public IUserApi getUserApi() {
         return mRetrofit.create(IUserApi.class);
+    }
+
+    public Retrofit getRetrofit() {
+        return mRetrofit;
+    }
+
+    public OkHttpClient getHttpClient() {
+        return mHttpClient;
     }
 
 }

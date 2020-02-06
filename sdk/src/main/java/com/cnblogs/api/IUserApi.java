@@ -1,11 +1,14 @@
 package com.cnblogs.api;
 
 import com.cnblogs.api.http.HtmlParser;
+import com.cnblogs.api.model.AccountInfoBean;
 import com.cnblogs.api.model.CnblogsJsonResult;
+import com.cnblogs.api.model.SimpleUserInfoBean;
 import com.cnblogs.api.model.UploadAvatarResult;
 import com.cnblogs.api.model.UserInfoBean;
+import com.cnblogs.api.param.ResetPasswordParam;
+import com.cnblogs.api.param.UpdateAccountParam;
 import com.cnblogs.api.param.UserNicknameParam;
-import com.cnblogs.api.parser.user.CurrentUserInfoParser;
 import com.cnblogs.api.parser.user.UserInfoParser;
 
 import okhttp3.RequestBody;
@@ -28,16 +31,20 @@ import retrofit2.http.Query;
  */
 public interface IUserApi {
 
+    /**
+     * 获取个人资料信息
+     */
+    @GET("https://account.cnblogs.com/api/account")
+    @JsonParser
+    AndroidObservable<AccountInfoBean> getAccountInfo();
+
 
     /**
-     * 登录后获取blogApp信息，然后需要再次调用{@link #getUserInfo(String)} 来获取真正的用户信息。
-     *
-     * @param timestamp 时间戳
+     * 获取个人资料信息
      */
-    @GET("https://home.cnblogs.com/user/CurrentUserInfo")
-    @HtmlParser(CurrentUserInfoParser.class)
-    AndroidObservable<String> getUserBlogApp(@Query("_") long timestamp);
-
+    @GET("https://account.cnblogs.com/api/user/info")
+    @JsonParser
+    AndroidObservable<SimpleUserInfoBean> getCurrentUserInfo();
 
     /**
      * 获取用户信息
@@ -79,31 +86,26 @@ public interface IUserApi {
                                                        @Field("h") int h,
                                                        @Field("imgsrc") String url);
 
+
     /**
      * 更新昵称
      */
     @PUT("https://account.cnblogs.com/api/account/display-name")
-    @Headers("Referer: https://account.cnblogs.com/settings/account")
-    @JsonParser(isDefault = true)
+    @JsonParser
     AndroidObservable<CnblogsJsonResult> updateNickName(@Body UserNicknameParam param);
-//
-//    /**
-//     * 更新账号
-//     *
-//     * @return
-//     */
-//    @POST(ApiUrls.API_USER_ACCOUNT)
-//    @Headers({JsonBody.CONTENT_TYPE, JsonBody.XHR})
-//    @FormUrlEncoded
-//    Observable<String> updateAccount(@Field("oldLoginName") String oldName,
-//                                     @Field("newLoginName") String newName);
-//
-//    /**
-//     * 更新密码
-//     */
-//    @POST(ApiUrls.API_USER_PASSWORD)
-//    @Headers({JsonBody.CONTENT_TYPE, JsonBody.XHR})
-//    @FormUrlEncoded
-//    Observable<String> changePassword(@Field("oldpwd") String oldPwd,
-//                                      @Field("newpwd") String newPwd);
+
+    /**
+     * 更新账号
+     */
+    @PUT("https://account.cnblogs.com/api/account/login-name")
+    @JsonParser
+    AndroidObservable<CnblogsJsonResult> updateLoginAccount(@Body UpdateAccountParam param);
+
+    /**
+     * 更新密码
+     */
+    @PUT("https://account.cnblogs.com/api/account/password")
+    @JsonParser
+    AndroidObservable<CnblogsJsonResult> resetPassword(@Body ResetPasswordParam param);
+
 }
