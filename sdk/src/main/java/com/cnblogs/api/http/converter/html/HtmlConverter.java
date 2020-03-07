@@ -1,6 +1,6 @@
 package com.cnblogs.api.http.converter.html;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.cnblogs.api.http.IHtmlParser;
 

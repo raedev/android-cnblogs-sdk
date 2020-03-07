@@ -36,6 +36,14 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
         mAnnotation = annotation;
     }
 
+    private String copyBufferBody(BufferedSource source) throws IOException {
+        source.request(Long.MAX_VALUE); // Buffer the entire body.
+        Buffer buffer = source.getBuffer();
+        Charset charset = Charset.forName("UTF-8");
+        return buffer.clone().readString(charset);
+    }
+
+    @SuppressWarnings("unchecked")
     @Override
     public T convert(ResponseBody value) throws IOException {
         JsonReader jsonReader = gson.newJsonReader(value.charStream());
@@ -44,6 +52,10 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
         CLog.d(body);
 
         try {
+            // 直接返回源数据
+            if (mAnnotation.source()) {
+                return (T) body;
+            }
             // 解析公共的实体
             if (mAnnotation.isDefault()) {
                 TypeAdapter<JsonResult<T>> cnblogsAdapter = this.gson.getAdapter(new CnblogsTypeToken<T>());
@@ -81,13 +93,6 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
         } finally {
             value.close();
         }
-    }
-
-    private String copyBufferBody(BufferedSource source) throws IOException {
-        source.request(Long.MAX_VALUE); // Buffer the entire body.
-        Buffer buffer = source.getBuffer();
-        Charset charset = Charset.forName("UTF-8");
-        return buffer.clone().readString(charset);
     }
 
 

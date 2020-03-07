@@ -1,7 +1,7 @@
 package com.cnblogs.api.http;
 
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.IOException;
 

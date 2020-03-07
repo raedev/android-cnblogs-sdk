@@ -123,6 +123,21 @@ public final class ParseUtils {
         return text;
     }
 
+    @SuppressLint("SimpleDateFormat")
+    public static String getDate(String text, String sourcePattern, String targetPattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(sourcePattern);
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            Date utcDate = sdf.parse(text);
+            sdf.setTimeZone(TimeZone.getDefault());
+            sdf.applyPattern(targetPattern);
+            return sdf.format(utcDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return text;
+    }
+
     /**
      * 转为友好的日期
      *
@@ -242,5 +257,15 @@ public final class ParseUtils {
         if (TextUtils.isEmpty(url)) return url;
         if (url.startsWith("//")) return "https:" + url; // 博客园差不多全站https了
         return url;
+    }
+
+    /**
+     * h获取默认值
+     *
+     * @param text         原文本
+     * @param defaultValue 默认值
+     */
+    public static String getString(String text, String defaultValue) {
+        return TextUtils.isEmpty(text) ? defaultValue : text;
     }
 }

@@ -46,7 +46,7 @@ public final class CnblogsOpenApi {
         CnblogsCookieInterceptor cookie = new CnblogsCookieInterceptor();
 
         // 调试接口用的代理
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.3.102", 8888));
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.2.7", 8888));
 
         mHttpClient = new OkHttpClient.Builder()
                 // Cookie，当HTTP请求返回Set-Cookie的时候会自动保存到本地的CookieManager中去
@@ -57,9 +57,12 @@ public final class CnblogsOpenApi {
                 .readTimeout(120, TimeUnit.SECONDS)
                 // 流写入超时
                 .writeTimeout(120, TimeUnit.SECONDS)
-//                .proxy(proxy) // 调试用
+                // 调试代理用
+//                .proxy(proxy)
 //                .sslSocketFactory(HttpsCertificateFactory.getInstance(), new HttpsCertificateFactory.HttpsTrustManager())
 //                .hostnameVerifier(HttpsCertificateFactory.hostnameVerifier())
+
+                // 拦截器
                 .addInterceptor(new CnblogsRequestInterceptor())
                 .addInterceptor(logging)
                 .addInterceptor(cookie)
@@ -95,6 +98,10 @@ public final class CnblogsOpenApi {
 
     public OkHttpClient getHttpClient() {
         return mHttpClient;
+    }
+
+    public IMomentApi getMomentApi() {
+        return mRetrofit.create(IMomentApi.class);
     }
 
 }

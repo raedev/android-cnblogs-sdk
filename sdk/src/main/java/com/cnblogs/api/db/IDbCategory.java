@@ -1,6 +1,6 @@
 package com.cnblogs.api.db;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.cnblogs.api.db.model.CategoryDbModel;
 

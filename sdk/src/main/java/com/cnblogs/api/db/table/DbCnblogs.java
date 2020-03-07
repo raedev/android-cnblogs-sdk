@@ -2,7 +2,7 @@ package com.cnblogs.api.db.table;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.cnblogs.api.parser.ParseUtils;
 import com.google.gson.Gson;

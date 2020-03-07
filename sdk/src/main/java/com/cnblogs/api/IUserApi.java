@@ -3,13 +3,20 @@ package com.cnblogs.api;
 import com.cnblogs.api.http.HtmlParser;
 import com.cnblogs.api.model.AccountInfoBean;
 import com.cnblogs.api.model.CnblogsJsonResult;
+import com.cnblogs.api.model.MessageBean;
 import com.cnblogs.api.model.SimpleUserInfoBean;
 import com.cnblogs.api.model.UploadAvatarResult;
 import com.cnblogs.api.model.UserInfoBean;
+import com.cnblogs.api.param.ReplyMessageParam;
 import com.cnblogs.api.param.ResetPasswordParam;
 import com.cnblogs.api.param.UpdateAccountParam;
 import com.cnblogs.api.param.UserNicknameParam;
+import com.cnblogs.api.parser.user.FriendsParser;
+import com.cnblogs.api.parser.user.InboxMessageParser;
+import com.cnblogs.api.parser.user.MessageDetailParser;
 import com.cnblogs.api.parser.user.UserInfoParser;
+
+import java.util.List;
 
 import okhttp3.RequestBody;
 import retrofit2.adapter.rxjava2.AndroidObservable;
@@ -107,5 +114,47 @@ public interface IUserApi {
     @PUT("https://account.cnblogs.com/api/account/password")
     @JsonParser
     AndroidObservable<CnblogsJsonResult> resetPassword(@Body ResetPasswordParam param);
+
+
+    /**
+     * 获取粉丝列表
+     */
+    @GET("https://home.cnblogs.com/u/{blogApp}/relation/followers")
+    @HtmlParser(FriendsParser.class)
+    AndroidObservable<List<UserInfoBean>> getFans(@Path("blogApp") String blogApp, @Query("page") int page);
+
+    /**
+     * 获取关注列表
+     */
+    @GET("https://home.cnblogs.com/u/{blogApp}/relation/following")
+    @HtmlParser(FriendsParser.class)
+    AndroidObservable<List<UserInfoBean>> getFollows(@Path("blogApp") String blogApp, @Query("page") int page);
+
+    /**
+     * 系统消息列表
+     *
+     * @param type 类型：inbox 收件箱， unread 未读消息
+     */
+    @GET("https://msg.cnblogs.com/{type}/{page}")
+    @HtmlParser(InboxMessageParser.class)
+    AndroidObservable<List<MessageBean>> getMessages(@Path("type") String type, @Path("page") int page);
+
+
+    /**
+     * 消息详情
+     *
+     * @param id 消息Id
+     */
+    @GET("https://msg.cnblogs.com/item/{id}")
+    @HtmlParser(MessageDetailParser.class)
+    AndroidObservable<List<MessageBean>> getMessageDetail(@Path("id") String id);
+
+
+    /**
+     * 回复消息
+     */
+    @POST("https://msg.cnblogs.com/api/message/reply")
+    @JsonParser(source = true)
+    AndroidObservable<String> replyMessage(@Body ReplyMessageParam param);
 
 }
