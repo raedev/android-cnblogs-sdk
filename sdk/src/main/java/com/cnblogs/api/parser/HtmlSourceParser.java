@@ -7,9 +7,9 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 
 /**
- * 存字符串解析
+ * 直接返回网页源文
  */
-public class HtmlStringParser implements IHtmlParser<String> {
+public class HtmlSourceParser implements IHtmlParser<String> {
 
     @Override
     public String parse(Document document) throws IOException {

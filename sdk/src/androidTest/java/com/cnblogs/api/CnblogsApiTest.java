@@ -1,5 +1,10 @@
 package com.cnblogs.api;
 
+import android.app.Application;
+import android.content.Context;
+
+import androidx.test.core.app.ApplicationProvider;
+
 import com.google.gson.Gson;
 
 import org.junit.Assert;
@@ -15,10 +20,9 @@ import io.reactivex.internal.observers.BlockingBaseObserver;
 @SuppressWarnings("WeakerAccess")
 public class CnblogsApiTest {
 
-    CnblogsOpenApi mApi;
+    CnblogsOpenApi mOpenApi;
 
     public CnblogsApiTest() {
-        mApi = CnblogsOpenApi.getInstance();
     }
 
     <T> void run(Observable<T> observable) {
@@ -42,5 +46,9 @@ public class CnblogsApiTest {
 
     @Before
     public void setup() {
+        Context applicationContext = ApplicationProvider.getApplicationContext();
+        CnblogsOpenApi.init((Application) applicationContext);
+        mOpenApi = CnblogsOpenApi.getInstance();
+        CnblogsUserManager.mockLogin();
     }
 }

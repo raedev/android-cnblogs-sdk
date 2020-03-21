@@ -9,23 +9,23 @@ public class ReplyMessageParam {
     /**
      * 消息ID
      */
-    private String id;
+    private int id;
 
     /**
      * 回复消息内容
      */
     private String content;
 
-    public ReplyMessageParam(String id, String content) {
+    public ReplyMessageParam(int id, String content) {
         this.id = id;
         this.content = content;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -1,6 +1,7 @@
 package com.cnblogs.api.model;
 
 import android.os.Parcel;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -55,6 +56,19 @@ public class FeedbackInfo extends CnblogFeedbackInfo {
         return attachments;
     }
 
+    public boolean isSystem() {
+        return "SYSTEM".equalsIgnoreCase(this.userId);
+    }
+
+    @Override
+    public String getUserName() {
+        return TextUtils.isEmpty(this.userName) ? "热心园友" : this.userName;
+    }
+
+
+    public String getStatusText() {
+        return this.status == 0 ? "处理中" : "已完成";
+    }
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {

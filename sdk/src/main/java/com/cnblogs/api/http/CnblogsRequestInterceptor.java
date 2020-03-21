@@ -23,9 +23,9 @@ public class CnblogsRequestInterceptor implements Interceptor {
         Request.Builder builder = request.newBuilder();
 
         // 组合标准的请求头
-        builder.header("user-agent", CHeaders.UA);
-        builder.header("accept-language", CHeaders.LANG);
-        builder.header("cache-control", CHeaders.CACHE_CONTROL);
+        builder.header("user-agent", HttpHeaders.UA);
+        builder.header("accept-language", HttpHeaders.LANG);
+        builder.header("cache-control", HttpHeaders.CACHE_CONTROL);
         builder.header("dnt", "1");
 
         return chain.proceed(builder.build());

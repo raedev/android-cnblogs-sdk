@@ -1,5 +1,6 @@
 package com.cnblogs.api;
 
+import com.cnblogs.api.http.HttpHeaders;
 import com.cnblogs.api.http.HtmlParser;
 import com.cnblogs.api.model.AccountInfoBean;
 import com.cnblogs.api.model.CnblogsJsonResult;
@@ -154,6 +155,7 @@ public interface IUserApi {
      * 回复消息
      */
     @POST("https://msg.cnblogs.com/api/message/reply")
+    @Headers(HttpHeaders.XHR)
     @JsonParser(source = true)
     AndroidObservable<String> replyMessage(@Body ReplyMessageParam param);
 

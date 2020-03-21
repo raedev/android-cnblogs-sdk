@@ -9,12 +9,11 @@ import android.webkit.CookieSyncManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.cnblogs.api.model.AccountInfoBean;
 import com.cnblogs.api.model.SimpleUserInfoBean;
 import com.cnblogs.api.model.UserInfoBean;
 import com.rae.cnblogs.sdk.CnblogsSDK;
+import com.rae.cnblogs.sdk.model.CnblogsUserInfo;
 import com.rae.session.SessionManager;
-import com.rae.session.SessionUserInfo;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -43,7 +42,7 @@ public final class CnblogsUserManager {
      */
     public static void mockLogin() {
 //        setLoginCookie("_ga=GA1.2.578499859.1564977874; .AspNetCore.Antiforgery.b8-pDmTq1XM=CfDJ8Nf-Z6tqUPlNrwu2nvfTJEirIt99za7kLPUw0s0JPcrH73SUoStRCvkzWuIs5a5xJ5-7DO1j4g54kBtPtgukY_7pIsbsAHl-H8YvD97p0_istSrpo5cuBAlTenmMWlDc_x0jDtTaz6gWLN1us5a8FhY; _gid=GA1.2.760874555.1580535764; .Cnblogs.AspNetCore.Cookies=CfDJ8Nf-Z6tqUPlNrwu2nvfTJEjf_wW5J4dWSaOgsH-W4aH84shgSPZSdEePpncookOl2lx8gBHp_Rrz4-1VKVILT4HnHtYOoqflerpNlk0P4derszGqfW_WEKhNRjvCt9-eW1jFXo2AA3Nl8kaw0CU1C9lnOfg2ftAL_Hh83MSwOqppCcXmsHOqChcCX4bxWyZU_7LytJAUMJPm1zqqLFoamuIUF1fJRJyUcP_na5aDyiuvJjUM5yDXoXAAPiuYK9PDEnmax3egPLxGf7q1Gto6o5eqHsw7qJIlmOQOxtv1ueq8nGj6IDL0gfaeWKkzRDKkL9M5sM2s12r7QRtvf9_qEjjwJzi3KzreVADhgaSrkB0iaDclH0sTWnoUUgBdAS7aq1kgJM7on4LpLWwBrKskvKAcovdCIP0YcFxzg475GfR8sUQjhm3xaGIzEGW7yp_jL3OPRERyt5YwnRnJtwn2YJUN9IlmJAL3L7GYXpNAjZiPbUJZh-hQz8QYqesDb1N_TmhW0aujBRityaupbgvs6tpEKzFKb7K1qvQJfom2Mna4; .CNBlogsCookie=FCF1FEF6BE12FD9DB9158E2991511A55DBFB1EFB1A7561B185180CC5E4AA1DE33EE2F57464055E50286D5F24815A9231919C7BBB7ED8702E6F961CA4F65E3A8EC8C22A0ED62BC1BE182D1C2FCE9245DEB69A084A");
-        setLoginCookie("_ga=GA1.2.578499859.1564977874; _dx_uzZo5y=eccfe38c11ed246f7d63598361efdc1fe0c38635290b843026dfe7ff6b31c9a5dae0bfa5; _gid=GA1.2.290866735.1582380945; _gat=1; .Cnblogs.AspNetCore.Cookies=CfDJ8Nf-Z6tqUPlNrwu2nvfTJEiHQSN6Tx5EGDbS_eaNPmdVnuWaHy8coY7tmi45pK2Qq0vdP5dCKQ2UbjyRyfToCgTW7v17T3x-L9qPKpJp8R0G96F8mAY4Lj6COJI3S1wyu5hrnpgKaDAkEvE2eFds0tWfhZg9liNovLPTXZ_ZTX42bu0TAWtjOIdiS6SrZYue_QM1DwnCbnqSsyu_VV_vpR1FC787x59J--k-bkRfulch0qY6Xp49YxiGM592DVlIuwQ9wtK-Y1ZSB-Z4Fkh-VMlifJ4WFRxrqWyl_nq_gaqaPswa3iHQ91Ap6ASlJPlZLvupF748pqBc2Jq2e52vqEN6eNbJ17WPu_BU7WiB-WXqLUGb16hdhvNrhJuLqavKQjlfTyOwhPDd79LFdhghW7tPOjTvmJsUZPmZ8c_RjHeXanlkb-gTTNfYGBNCVXdMRdMcApvajNuZ7_b40B0tGoInVJyALDgiRM8pSHyAL7TDrIm0bPF92zEGIVjdaoy8uPvwCx-q4ty4IKKYsai1vCSs23rCpqXHfsMFolDpnv-zgZDhSSOeEfAyJYsEVKDCcA; .CNBlogsCookie=2C097F148E1A9CACEF8665F642BC241F160F1E86957046CEFCAE748F16C8BE78CC3841743FD5F9774291C24C4F3E76A0EEB8A55C55416D5743AA90790CA7C454DF2AB08826F68F226C7A1C07A03CE06B43239E4B");
+        setLoginCookie(" .CNBlogsCookie=0B389D3CEBC28A8D4300C3DA932D90AF7A4BED321B4DDF5183094C52B07A7C0720B602E1720AA84EE3F6EB2EBB0FC48CF64C4359DE045E5DC0A8B38B2B1FD27465B70F5858FE8BC6427467253DB9673CE5CB6170; .Cnblogs.AspNetCore.Cookies=CfDJ8Nf-Z6tqUPlNrwu2nvfTJEgC66ao_ZtxZ_-EDjdI5gUXFs3pzfYYZRzUO4qG73DA2JlDbJMVxGbMsJjS3-RrsyPKyxYjdQY5w9VtiVq1aY19QENgVSGDMoQ4YlGHIQS4PQAyuQY48UdftxoVdOZSs2zJxTdXGvRgDSmE7JgOM28ZxzcdGWeJdSt6zW3hXglYMHhYXQEtUYX6bjwh0HpS0-q-Fig9QGox3nEYwBSos4QiOQZMYYp1G9WlKmXmVxD3tBjq0CVVtq9pvBDOWhig5fxU9IVRa13RmbSzFr5V81Dc9zP3Uf-c1nAVkwkJvyQT50_Hd7Tmzjn3g22Vi68Dpc-zBYIOfD5afK_OjAGS9-aboBX49HszupceabSt1a-QBAfkOJzujF8wX40OclaFBvOcRGu8rUb70H0iFsjwzXjicIp5c0v9RnfxhZg9xjkq6tkKoHXVZbLa98QG6dE81Qs8Kw9lDqiovXxiSRLzMwdOKwwCF-wQhcFPCAlGqABe3BvjDruS9THMBYIBKJvL3nbF-h_hYF_dwel8E54dwcW6h4YjbNLdIGbnaLtlcawvPg; _ga=GA1.2.33225341.1583822654; _gid=GA1.2.1273943217.1583822654; _gat=1");
     }
 
 
@@ -65,7 +64,7 @@ public final class CnblogsUserManager {
         SessionManager.getDefault().setUser(user);
 
         // 关联网关接口用户
-        SessionUserInfo gatewayUser = new SessionUserInfo();
+        CnblogsUserInfo gatewayUser = new CnblogsUserInfo();
         gatewayUser.setName(user.getDisplayName());
         gatewayUser.setUserId(user.getBlogApp());
         CnblogsSDK.getInstance().setUser(gatewayUser);
@@ -138,41 +137,24 @@ public final class CnblogsUserManager {
         // 获取当前用户信息
         return userApi.getCurrentUserInfo()
                 // 根据blogApp获取更加详细的用户信息
-                .flatMap(new Function<SimpleUserInfoBean, ObservableSource<UserInfoBean>>() {
-                    @Override
-                    public ObservableSource<UserInfoBean> apply(final SimpleUserInfoBean simpleUserInfo) {
-                        String blogApp = TextUtils.isEmpty(simpleUserInfo.getBlogApp()) ? simpleUserInfo.getUserId() : simpleUserInfo.getBlogApp();
-                        return userApi.getUserInfo(blogApp)
-                                .map(new Function<UserInfoBean, UserInfoBean>() {
-                                    @Override
-                                    public UserInfoBean apply(UserInfoBean userInfoBean) {
-                                        userInfoBean.setUserId(simpleUserInfo.getUserId());
-                                        userInfoBean.setDisplayName(simpleUserInfo.getDisplayName());
-                                        return userInfoBean;
-                                    }
-                                });
-                    }
+                .flatMap((Function<SimpleUserInfoBean, ObservableSource<UserInfoBean>>) simpleUserInfo -> {
+                    String blogApp = TextUtils.isEmpty(simpleUserInfo.getBlogApp()) ? simpleUserInfo.getUserId() : simpleUserInfo.getBlogApp();
+                    return userApi.getUserInfo(blogApp)
+                            .map(userInfoBean -> {
+                                userInfoBean.setUserId(simpleUserInfo.getUserId());
+                                userInfoBean.setDisplayName(simpleUserInfo.getDisplayName());
+                                return userInfoBean;
+                            });
                 })
                 // 获取登录账号信息
-                .flatMap(new Function<UserInfoBean, ObservableSource<? extends UserInfoBean>>() {
-                    @Override
-                    public ObservableSource<? extends UserInfoBean> apply(final UserInfoBean userInfoBean) {
-                        return userApi.getAccountInfo().map(new Function<AccountInfoBean, UserInfoBean>() {
-                            @Override
-                            public UserInfoBean apply(AccountInfoBean accountInfoBean) {
-                                userInfoBean.setLoginAccount(accountInfoBean.getLoginName());
-                                return userInfoBean;
-                            }
-                        });
-                    }
-                })
+                .flatMap(userInfoBean -> userApi.getAccountInfo().map(accountInfoBean -> {
+                    userInfoBean.setLoginAccount(accountInfoBean.getLoginName());
+                    return userInfoBean;
+                }))
                 // 设置用户信息
-                .map(new Function<UserInfoBean, UserInfoBean>() {
-                    @Override
-                    public UserInfoBean apply(UserInfoBean userInfoBean) {
-                        setUser(userInfoBean);
-                        return userInfoBean;
-                    }
+                .map(userInfoBean -> {
+                    setUser(userInfoBean);
+                    return userInfoBean;
                 });
     }
 }

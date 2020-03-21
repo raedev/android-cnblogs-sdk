@@ -46,7 +46,7 @@ public final class CnblogsOpenApi {
         CnblogsCookieInterceptor cookie = new CnblogsCookieInterceptor();
 
         // 调试接口用的代理
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.2.7", 8888));
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.2.21", 8888));
 
         mHttpClient = new OkHttpClient.Builder()
                 // Cookie，当HTTP请求返回Set-Cookie的时候会自动保存到本地的CookieManager中去

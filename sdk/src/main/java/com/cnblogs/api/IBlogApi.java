@@ -1,6 +1,6 @@
 package com.cnblogs.api;
 
-import com.cnblogs.api.http.CHeaders;
+import com.cnblogs.api.http.HttpHeaders;
 import com.cnblogs.api.http.HtmlParser;
 import com.cnblogs.api.model.ArticleBean;
 import com.cnblogs.api.model.BlogBean;
@@ -12,7 +12,7 @@ import com.cnblogs.api.param.BlogLikeParam;
 import com.cnblogs.api.param.BlogListParam;
 import com.cnblogs.api.param.BlogRecommendParam;
 import com.cnblogs.api.param.PostBlogCommentParam;
-import com.cnblogs.api.parser.HtmlStringParser;
+import com.cnblogs.api.parser.HtmlSourceParser;
 import com.cnblogs.api.parser.blog.BlogCommentParser;
 import com.cnblogs.api.parser.blog.BlogDetailParser;
 import com.cnblogs.api.parser.blog.BlogPostInfoParser;
@@ -69,7 +69,7 @@ public interface IBlogApi {
      * @param postId  博客PostId
      */
     @GET("https://www.cnblogs.com/{blogApp}/ajax/GetViewCount.aspx")
-    @HtmlParser(HtmlStringParser.class)
+    @HtmlParser(HtmlSourceParser.class)
     AndroidObservable<String> getBlogViewCount(@Path("blogApp") String blogApp, @Query("postId") String postId);
 
     /**
@@ -79,7 +79,7 @@ public interface IBlogApi {
      * @param postId  博客PostId
      */
     @GET("https://www.cnblogs.com/{blogApp}/ajax/GetCommentCount.aspx")
-    @HtmlParser(HtmlStringParser.class)
+    @HtmlParser(HtmlSourceParser.class)
     AndroidObservable<String> getBlogCommentCount(@Path("blogApp") String blogApp, @Query("postId") String postId);
 
     /**
@@ -133,7 +133,7 @@ public interface IBlogApi {
      * @param blogApp 该文的博主ID
      */
     @POST("https://www.cnblogs.com/{blogApp}/ajax/vote/blogpost")
-    @Headers(CHeaders.XHR)
+    @Headers(HttpHeaders.XHR)
     @JsonParser(isDefault = true)
     AndroidObservable<EmptyBean> likeBlog(@Path("blogApp") String blogApp, @Body BlogLikeParam param);
 
@@ -147,7 +147,7 @@ public interface IBlogApi {
      * @param param   参数
      */
     @POST("https://www.cnblogs.com/{blogApp}/ajax/PostComment/Add.aspx")
-    @Headers({CHeaders.XHR})
+    @Headers({HttpHeaders.XHR})
     @JsonParser(isDefault = true)
     AndroidObservable<EmptyBean> postBlogComment(@Path("blogApp") String blogApp,
                                                  @Body PostBlogCommentParam param);

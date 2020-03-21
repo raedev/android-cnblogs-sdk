@@ -5,7 +5,7 @@ package com.cnblogs.api.http;
  * Created by rae on 2019-10-22.
  * Copyright (c) https://github.com/raedev All rights reserved.
  */
-public final class CHeaders {
+public final class HttpHeaders {
 
     /**
      * 异步请求

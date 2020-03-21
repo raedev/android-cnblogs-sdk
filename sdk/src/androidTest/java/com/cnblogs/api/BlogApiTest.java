@@ -1,6 +1,7 @@
 package com.cnblogs.api;
 
-import android.support.test.runner.AndroidJUnit4;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.cnblogs.api.param.BlogListParam;
 
@@ -17,7 +18,7 @@ public class BlogApiTest extends CnblogsApiTest {
     private IBlogApi mBlogApi;
 
     public BlogApiTest() {
-        mBlogApi = mApi.getBlogApi();
+        mBlogApi = mOpenApi.getBlogApi();
     }
 
     @Test

@@ -5,7 +5,10 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -101,6 +104,15 @@ public final class ParseUtils {
                 .replace("/", "");
     }
 
+    public static String getUserAlias(String text) {
+        if (TextUtils.isEmpty(text)) return text;
+        // showCommentBox(1243228,607820);return false;
+        Matcher matcher = Pattern.compile("\\d+").matcher(text);
+        while (matcher.find()) {
+            text = matcher.group();
+        }
+        return text;
+    }
 
     public static String getDate(String text) {
         if (TextUtils.isEmpty(text)) {
@@ -267,5 +279,21 @@ public final class ParseUtils {
      */
     public static String getString(String text, String defaultValue) {
         return TextUtils.isEmpty(text) ? defaultValue : text;
+    }
+
+    @NonNull
+    public static List<String> findMatchers(String pattern, String text) {
+        List<String> values = new ArrayList<>();
+        Matcher matcher = Pattern.compile(pattern).matcher(text);
+        while (matcher.find()) {
+            values.add(matcher.group());
+        }
+        return values;
+    }
+
+    public static String getString(List<String> values, int index) {
+        int size = values.size();
+        if (size <= 0 || index + 1 > size) return null;
+        return values.get(Math.max(0, index));
     }
 }
