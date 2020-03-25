@@ -35,4 +35,6 @@ public class MomentBean {
     public List<String> images;
     // 标签类别
     public List<String> topics;
+    // 链接
+    public List<String> links;
 }

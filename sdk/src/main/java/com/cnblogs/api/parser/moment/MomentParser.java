@@ -43,9 +43,10 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
             m.sourceContent = li.select(".ing_body").html();
             m.userId = parseUserId(li);
             m.isLuckyStar = checkIsLuckyStar(li);
-            m.comments = parseComments(li, m);
+            m.commentCount = ParseUtils.getNumber(li.select(".ing_reply").text());
+            m.comments = parseComments(li, m.id);
             m.images = parseImages(li);
-            m.topics = parseTopics(li);
+            parseLinkAndTopics(m, li);
 
             // 正文的获取放到最后，因为前面要对数据进行处理
             m.content = li.select(".ing_body").html();
@@ -60,15 +61,12 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
      * 评论列表解析
      */
     @NonNull
-    private List<MomentCommentBean> parseComments(Element li, MomentBean item) {
+    private List<MomentCommentBean> parseComments(Element li, String ingId) {
         List<MomentCommentBean> result = new ArrayList<>();
-        String ingId = item.id;
-        boolean hasMore = false; // 是否有浏览更多
-        Elements elements = li.select(".feed_ing_comment_block li");
+        Elements elements = li.select(".ing_comments li");
         for (Element element : elements) {
             // 过滤非评论的
             if (!element.attr("id").startsWith("comment")) {
-                hasMore = true;
                 continue;
             }
             MomentCommentBean m = new MomentCommentBean();
@@ -81,8 +79,6 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
             m.postTime = element.select(".ing_comment_time").text();
             m.userId = parseUserId(element);
         }
-        item.commentCount = String.valueOf(result.size());
-        if (result.size() > 0 && hasMore) item.commentCount += "+"; // 有更多加上一个加号
         return result;
     }
 
@@ -139,18 +135,20 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
     /**
      * 解析正文下的链接
      */
-    private List<String> parseTopics(Element li) {
-        List<String> result = new ArrayList<>();
+    private void parseLinkAndTopics(MomentBean m, Element li) {
+        m.topics = new ArrayList<>();
+        m.links = new ArrayList<>();
         Elements links = li.select(".ing_body a");
         for (Element link : links) {
             // 标签类型
             if (link.hasClass("ing_tag")) {
-                result.add(link.text().replace("[", "").replace("]", ""));
+                m.topics.add(link.text().replace("[", "").replace("]", ""));
+            } else {
+                m.links.add(link.attr("href"));
             }
             // 移除标签
             link.remove();
         }
-        return result;
     }
 
 }

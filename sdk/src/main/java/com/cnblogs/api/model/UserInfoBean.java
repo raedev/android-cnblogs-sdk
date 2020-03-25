@@ -19,11 +19,12 @@ public class UserInfoBean implements Parcelable {
     /**
      * 头像地址
      */
-    @SerializedName("iconName")
+    @SerializedName(value = "iconName", alternate = "IconUrl")
     private String avatar;
     /**
      * 昵称
      */
+    @SerializedName(value = "displayName", alternate = "DisplayName")
     private String displayName;
     /**
      * 备注名称
@@ -49,7 +50,7 @@ public class UserInfoBean implements Parcelable {
     private String userId;
 
     /* 资料信息 */
-    private Map<String, String> profiles;
+    private Map<String, String> profiles = new HashMap<>();
 
     public UserInfoBean() {
     }

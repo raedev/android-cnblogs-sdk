@@ -3,6 +3,8 @@ package com.cnblogs.api;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.cnblogs.api.param.MomentCommentParam;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -50,7 +52,17 @@ public class MomentApiTest extends CnblogsApiTest {
     public void testMomentDetail() {
 //        run(mApi.getMomentDetail("catSakura","1731563"));
 //        run(mApi.getMomentDetail("haohao111","1731662"));
-        run(mApi.getMomentDetail("393130","1731431"));
+        run(mApi.getMomentDetail("393130", "1731431"));
+    }
+
+    @Test
+    public void testPostMoment() {
+        MomentCommentParam param = new MomentCommentParam();
+        param.ingId = 1733007;
+        param.userId = 393130;
+        param.parentCommentId = 0;
+        param.content = "这是一条很有个性的评论";
+        run(mApi.postMomentComment(param));
     }
 
     @Test

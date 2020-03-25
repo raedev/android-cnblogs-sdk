@@ -68,6 +68,7 @@ public class MomentDetailParser implements IHtmlParser<MomentBean> {
             m.postTime = element.select(".text_green").text().trim();
             List<String> ids = ParseUtils.findMatchers("\\d+", element.select(".gray3").attr("onclick"));
             m.userId = ParseUtils.getString(ids, 2);
+            m.canDelete = element.select(".recycle").size() > 0;
         }
         item.commentCount = String.valueOf(result.size());
         return result;

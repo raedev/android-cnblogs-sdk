@@ -23,4 +23,6 @@ public class MomentCommentBean {
     public String postTime;
     // 引用的评论
     public MomentCommentBean quote;
+    // 是否可以删除
+    public boolean canDelete;
 }
