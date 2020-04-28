@@ -11,7 +11,7 @@ public class CnblogsJsonResult {
     @SerializedName(value = "isSuccess", alternate = "success")
     private boolean success;
 
-    @SerializedName(value = "message", alternate = {"msg", "Message"})
+    @SerializedName(value = "message", alternate = {"msg", "Message", "responseText"})
     private String message;
 
     public boolean success() {

@@ -13,6 +13,7 @@ import com.google.gson.stream.JsonToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -39,7 +40,7 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
     private String copyBufferBody(BufferedSource source) throws IOException {
         source.request(Long.MAX_VALUE); // Buffer the entire body.
         Buffer buffer = source.getBuffer();
-        Charset charset = Charset.forName("UTF-8");
+        Charset charset = StandardCharsets.UTF_8;
         return buffer.clone().readString(charset);
     }
 
@@ -96,7 +97,7 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
     }
 
 
-    public class JsonResult<E> extends CnblogsJsonResult {
+    public static class JsonResult<E> extends CnblogsJsonResult {
 
         private E data;
 
@@ -109,7 +110,7 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
         }
     }
 
-    private class CnblogsTypeToken<E> extends TypeToken<JsonResult<E>> {
+    private static class CnblogsTypeToken<E> extends TypeToken<JsonResult<E>> {
 
     }
 }

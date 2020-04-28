@@ -21,8 +21,10 @@ public class MomentBean {
     public String postTime;
     // 处理过后的内容
     public String content;
-    // 原文
+    // 原文包含HTML
     public String sourceContent;
+    // 原文文本
+    public String sourceTextContent;
     // 详情地址
     public String detailUrl;
     // 是否为幸运闪
@@ -37,4 +39,6 @@ public class MomentBean {
     public List<String> topics;
     // 链接
     public List<String> links;
+    // 是否可以删除
+    public boolean canDelete;
 }

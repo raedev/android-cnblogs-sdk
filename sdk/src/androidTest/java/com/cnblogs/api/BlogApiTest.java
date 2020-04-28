@@ -18,7 +18,7 @@ public class BlogApiTest extends CnblogsApiTest {
     private IBlogApi mBlogApi;
 
     public BlogApiTest() {
-        mBlogApi = mOpenApi.getBlogApi();
+//        mBlogApi = mOpenApi.getBlogApi();
     }
 
     @Test
@@ -51,4 +51,5 @@ public class BlogApiTest extends CnblogsApiTest {
     public void testHomeCategory() {
         run(mBlogApi.getHomeCategory());
     }
+
 }

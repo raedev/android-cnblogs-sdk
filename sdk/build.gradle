@@ -53,7 +53,7 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.12.1'
 
     // cnblogs gateway api
-    api('com.rae.cnblogs:gateway-sdk:1.0.0') {
+    api('com.rae.cnblogs:gateway-sdk:1.0.1') {
         exclude group: 'com.android.support'
         exclude group: 'com.github.raedev', module: 'session'
     }

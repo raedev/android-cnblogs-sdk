@@ -7,7 +7,6 @@ import com.cnblogs.api.model.MomentBean;
 import com.cnblogs.api.model.MomentCommentBean;
 import com.cnblogs.api.parser.ParseUtils;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
@@ -25,25 +24,32 @@ import java.util.regex.Pattern;
  */
 public class MomentDetailParser implements IHtmlParser<MomentBean> {
 
+    private final MomentCommonParser mCommonParser = new MomentCommonParser();
+
     @Override
     public MomentBean parse(Document document) throws IOException {
+        Element bodyElement = document.selectFirst("#ing_detail_body");
+        List<TextNode> textNodes = document.selectFirst(".ing_detail_title").textNodes();
 
         MomentBean m = new MomentBean();
+        m.userId = parseUserId(document);
+        m.sourceContent = bodyElement.html();
+        m.sourceTextContent = bodyElement.text();
         m.id = ParseUtils.getNumber(document.select("#comment_btn").attr("onclick"));
         m.nickName = document.select(".ing_item_author").text();
         m.avatar = ParseUtils.getUrl(document.select(".ing_item_face").attr("src"));
         m.blogApp = ParseUtils.getBlogApp(document.select(".ing_item_author").attr("href"));
-        List<TextNode> textNodes = document.selectFirst(".ing_detail_title").textNodes();
         m.postTime = textNodes.get(Math.max(0, textNodes.size() - 1)).text().trim();
-        m.sourceContent = document.select("#ing_detail_body").html();
-        m.userId = parseUserId(document);
-        m.isLuckyStar = checkIsLuckyStar(document);
+        m.isLuckyStar = mCommonParser.checkIsLuckyStar(document.select("#ing_detail_body img"));
+        m.canDelete = document.select(".recycle").size() > 0;
+        m.images = mCommonParser.parseImages(bodyElement);
+        m.topics = mCommonParser.parseTopics(bodyElement.select("a"));
+        m.links = mCommonParser.parseLinks(bodyElement.select("a"));
         m.comments = parseComments(document, m);
-        m.images = parseImages(document);
-        m.topics = parseTopics(document);
+        m.commentCount = String.valueOf(m.comments.size());
 
         // 正文的获取放到最后，因为前面要对数据进行处理
-        m.content = document.select("#ing_detail_body").html();
+        m.content = bodyElement.html();
         return m;
     }
 
@@ -64,29 +70,13 @@ public class MomentDetailParser implements IHtmlParser<MomentBean> {
             m.nickName = element.select("#comment_author_" + m.id).text();
             m.avatar = ParseUtils.getUrl(element.select(".ing_comment_face").attr("src"));
             m.blogApp = ParseUtils.getBlogApp(element.select("#comment_author_" + m.id).attr("href"));
-            m.content = element.select("bdo").text();
+            m.content = mCommonParser.parseCommentContent(element.select("bdo"));
             m.postTime = element.select(".text_green").text().trim();
             List<String> ids = ParseUtils.findMatchers("\\d+", element.select(".gray3").attr("onclick"));
             m.userId = ParseUtils.getString(ids, 2);
             m.canDelete = element.select(".recycle").size() > 0;
         }
         item.commentCount = String.valueOf(result.size());
-        return result;
-    }
-
-    /**
-     * 是否为幸运星
-     */
-    private boolean checkIsLuckyStar(Element li) {
-        Elements img = li.select("#ing_detail_body img");
-        boolean result = false;
-        for (Element element : img) {
-            if (element.attr("title").contains("星")) {
-                result = true;
-                // 移除图片
-                element.remove();
-            }
-        }
         return result;
     }
 
@@ -103,47 +93,4 @@ public class MomentDetailParser implements IHtmlParser<MomentBean> {
         }
         return ParseUtils.getNumber(text);
     }
-
-    /**
-     * 解析图片
-     */
-    private List<String> parseImages(Element li) {
-        List<String> result = new ArrayList<>();
-        Elements body = li.select("#ing_detail_body");
-        String content = body.html();
-        // 确定为图片
-        if (content.contains("#img") && content.contains("#end")) {
-            // 截取字符串
-            int startIndex = Math.max(0, content.indexOf("#img"));
-            int endIndex = Math.min(content.length(), content.indexOf("#end"));
-            String html = content.substring(startIndex, endIndex);
-            Elements images = Jsoup.parse(html).select("a");
-            for (Element image : images) {
-                result.add(ParseUtils.getUrl(image.attr("href")));
-            }
-            // 去掉内容
-            content = content.replace(html + "#end", "");
-            body.html(content);
-        }
-
-        return result;
-    }
-
-    /**
-     * 解析正文下的链接
-     */
-    private List<String> parseTopics(Element li) {
-        List<String> result = new ArrayList<>();
-        Elements links = li.select("#ing_detail_body a");
-        for (Element link : links) {
-            // 标签类型
-            if (link.hasClass("ing_tag")) {
-                result.add(link.text().replace("[", "").replace("]", ""));
-            }
-            // 移除标签
-            link.remove();
-        }
-        return result;
-    }
-
 }

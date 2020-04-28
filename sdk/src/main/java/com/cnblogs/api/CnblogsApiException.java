@@ -12,10 +12,10 @@ import retrofit2.HttpException;
  */
 public class CnblogsApiException extends IOException {
 
-    public static final int ERROR_UNKNOWN = 0;
-    public static final int ERROR_HTTP = 1;
-    public static final int ERROR_NETWORK = 2;
-    public static final int ERROR_CONNECT = 3;
+    private static final int ERROR_UNKNOWN = 0;
+    private static final int ERROR_HTTP = 1;
+    private static final int ERROR_NETWORK = 2;
+    private static final int ERROR_CONNECT = 3;
     public static final int ERROR_LOGIN_EXPIRED = 4;
     public static final int ERROR_CONTENT_PARSER = 5;
 
@@ -30,6 +30,10 @@ public class CnblogsApiException extends IOException {
     }
 
     public CnblogsApiException() {
+    }
+
+    public CnblogsApiException(int code) {
+        this.code = code;
     }
 
     public CnblogsApiException(int code, String message) {
@@ -82,6 +86,8 @@ public class CnblogsApiException extends IOException {
 
     @Override
     public String getMessage() {
+        // 调试模式直接返回错误信息
+        if (BuildConfig.DEBUG) return super.getMessage();
         String message = super.getMessage();
         int code = getCode();
         switch (code) {

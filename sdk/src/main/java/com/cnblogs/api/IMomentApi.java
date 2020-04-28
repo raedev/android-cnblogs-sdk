@@ -8,6 +8,7 @@ import com.cnblogs.api.model.MomentCommentBean;
 import com.cnblogs.api.model.UserInfoBean;
 import com.cnblogs.api.param.MomentCommentParam;
 import com.cnblogs.api.parser.moment.AtMeMomentParser;
+import com.cnblogs.api.parser.moment.DeleteMomentParser;
 import com.cnblogs.api.parser.moment.LuckyStarRankingParser;
 import com.cnblogs.api.parser.moment.MomentDetailParser;
 import com.cnblogs.api.parser.moment.MomentParser;
@@ -89,6 +90,24 @@ public interface IMomentApi {
     AndroidObservable<List<MomentCommentBean>> getAtMeMoments(@Query("PageIndex") int page,
                                                               @Query("PageSize") int pageSize,
                                                               @Query("_") long timestamp);
+
+    /**
+     * 发表闪存
+     */
+    @POST("https://ing.cnblogs.com/ajax/ing/Publish")
+    @Headers({HttpHeaders.XHR})
+    @JsonParser(isDefault = true)
+    @FormUrlEncoded
+    AndroidObservable<CnblogsJsonResult> postMoment(@Field("content") String content, @Field("publicFlag") int publicFlag);
+
+    /**
+     * 删除闪存
+     */
+    @POST("https://ing.cnblogs.com/ajax/ing/del")
+    @Headers({HttpHeaders.XHR})
+    @FormUrlEncoded
+    @HtmlParser(DeleteMomentParser.class)
+    AndroidObservable<CnblogsJsonResult> deleteMoment(@Field("ingId") String ingId);
 
     /**
      * 发表闪存评论

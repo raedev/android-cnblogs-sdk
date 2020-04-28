@@ -88,10 +88,6 @@ public class UserInfoBean implements Parcelable {
     }
 
     public String getDisplayName() {
-        // 优先显示备注
-        if (!TextUtils.isEmpty(remarkName)) {
-            return remarkName;
-        }
         return displayName;
     }
 

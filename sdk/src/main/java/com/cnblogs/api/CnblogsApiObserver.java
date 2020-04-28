@@ -1,5 +1,7 @@
 package com.cnblogs.api;
 
+import android.util.Log;
+
 import com.rae.session.SessionManager;
 
 import io.reactivex.observers.DisposableObserver;
@@ -54,6 +56,9 @@ public abstract class CnblogsApiObserver<T> extends DisposableObserver<T> {
      * 登录过期
      */
     protected void onLoginExpired() {
+        // 清除用户信息
+//        CnblogsUserManager.logout();
+        Log.e("cnblogs", "---------->!!! 登录过期了！！！");
         onError("登录失效，请重新登录");
     }
 

@@ -30,9 +30,7 @@ public class HtmlConverterFactory extends Converter.Factory {
                 Class<? extends IHtmlParser> cls = ((HtmlParser) annotation).value();
                 try {
                     parser = cls.newInstance();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
+                } catch (IllegalAccessException | InstantiationException e) {
                     e.printStackTrace();
                 }
                 break;

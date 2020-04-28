@@ -41,8 +41,7 @@ public final class CnblogsUserManager {
      * 模拟登录状态，仅仅用于调试
      */
     public static void mockLogin() {
-//        setLoginCookie("_ga=GA1.2.578499859.1564977874; .AspNetCore.Antiforgery.b8-pDmTq1XM=CfDJ8Nf-Z6tqUPlNrwu2nvfTJEirIt99za7kLPUw0s0JPcrH73SUoStRCvkzWuIs5a5xJ5-7DO1j4g54kBtPtgukY_7pIsbsAHl-H8YvD97p0_istSrpo5cuBAlTenmMWlDc_x0jDtTaz6gWLN1us5a8FhY; _gid=GA1.2.760874555.1580535764; .Cnblogs.AspNetCore.Cookies=CfDJ8Nf-Z6tqUPlNrwu2nvfTJEjf_wW5J4dWSaOgsH-W4aH84shgSPZSdEePpncookOl2lx8gBHp_Rrz4-1VKVILT4HnHtYOoqflerpNlk0P4derszGqfW_WEKhNRjvCt9-eW1jFXo2AA3Nl8kaw0CU1C9lnOfg2ftAL_Hh83MSwOqppCcXmsHOqChcCX4bxWyZU_7LytJAUMJPm1zqqLFoamuIUF1fJRJyUcP_na5aDyiuvJjUM5yDXoXAAPiuYK9PDEnmax3egPLxGf7q1Gto6o5eqHsw7qJIlmOQOxtv1ueq8nGj6IDL0gfaeWKkzRDKkL9M5sM2s12r7QRtvf9_qEjjwJzi3KzreVADhgaSrkB0iaDclH0sTWnoUUgBdAS7aq1kgJM7on4LpLWwBrKskvKAcovdCIP0YcFxzg475GfR8sUQjhm3xaGIzEGW7yp_jL3OPRERyt5YwnRnJtwn2YJUN9IlmJAL3L7GYXpNAjZiPbUJZh-hQz8QYqesDb1N_TmhW0aujBRityaupbgvs6tpEKzFKb7K1qvQJfom2Mna4; .CNBlogsCookie=FCF1FEF6BE12FD9DB9158E2991511A55DBFB1EFB1A7561B185180CC5E4AA1DE33EE2F57464055E50286D5F24815A9231919C7BBB7ED8702E6F961CA4F65E3A8EC8C22A0ED62BC1BE182D1C2FCE9245DEB69A084A");
-        setLoginCookie(" .CNBlogsCookie=0B389D3CEBC28A8D4300C3DA932D90AF7A4BED321B4DDF5183094C52B07A7C0720B602E1720AA84EE3F6EB2EBB0FC48CF64C4359DE045E5DC0A8B38B2B1FD27465B70F5858FE8BC6427467253DB9673CE5CB6170; .Cnblogs.AspNetCore.Cookies=CfDJ8Nf-Z6tqUPlNrwu2nvfTJEgC66ao_ZtxZ_-EDjdI5gUXFs3pzfYYZRzUO4qG73DA2JlDbJMVxGbMsJjS3-RrsyPKyxYjdQY5w9VtiVq1aY19QENgVSGDMoQ4YlGHIQS4PQAyuQY48UdftxoVdOZSs2zJxTdXGvRgDSmE7JgOM28ZxzcdGWeJdSt6zW3hXglYMHhYXQEtUYX6bjwh0HpS0-q-Fig9QGox3nEYwBSos4QiOQZMYYp1G9WlKmXmVxD3tBjq0CVVtq9pvBDOWhig5fxU9IVRa13RmbSzFr5V81Dc9zP3Uf-c1nAVkwkJvyQT50_Hd7Tmzjn3g22Vi68Dpc-zBYIOfD5afK_OjAGS9-aboBX49HszupceabSt1a-QBAfkOJzujF8wX40OclaFBvOcRGu8rUb70H0iFsjwzXjicIp5c0v9RnfxhZg9xjkq6tkKoHXVZbLa98QG6dE81Qs8Kw9lDqiovXxiSRLzMwdOKwwCF-wQhcFPCAlGqABe3BvjDruS9THMBYIBKJvL3nbF-h_hYF_dwel8E54dwcW6h4YjbNLdIGbnaLtlcawvPg; _ga=GA1.2.33225341.1583822654; _gid=GA1.2.1273943217.1583822654; _gat=1");
+        setLoginCookie("_ga=GA1.2.578499859.1564977874; _dx_uzZo5y=eccfe38c11ed246f7d63598361efdc1fe0c38635290b843026dfe7ff6b31c9a5dae0bfa5; _gid=GA1.2.732311221.1587634491; _gat=1; .Cnblogs.AspNetCore.Cookies=CfDJ8B9DwO68dQFBg9xIizKsC6QwWMgkHX56fQx6lks3XFX30E7dthizE9L1LxeqIKnAFc-MKa688YJ3r_WLaItmQLUwYmu6Og39BIqV_VncP_tXIaCkw2xSYOShwACWx8tu_wCutdAUle2R3tdw_dvQPz8UvPF5Pz1ihlscpcc6duHjp1LzjU0WHau--25vFF8Evfy0QJBDed6HwWFu8ZjjT0K2YLczzKEluq_kUyvDGcjuZbtVnkYFITs7ennps0Bct_X6UYHbZV3CkbKRyBAgIqw8Iwh0bnlfkN0fk8xofrNkki38UBRJWzMSXSFSlGiDXkhtwGz3Tm4zZENhts4_DerDLG3HG2m1nCpNq6l4zh0eLkCHCMjB15qohMMpvboxlQnKkbYbWsFyacskUOkreO_5s7fSJUnQzzamSH0EjNwa1Pn2nO2kETwgh6LqXeNYppB2We-n4ldVHmPbFZ1XhnrQSGPJcYYDgYfU1UZB43GQGynX6gOTRcdO7mMTqlliT4HDZl3j_zwJKt3u7BPEl5b38u0k6v12c5l-00a0uu9XGHKY67QlnCZfai3GQCzzRw; .CNBlogsCookie=77839CAF05272BA3CA77E00B574C4422841C3F4DBB3C4E91B603298443CF581AAF52D03BA079BA41B8176E98101999626FDD09C6A4EDB7FC1D93804D52782018B9D8CF170C9BC43BE3483AA8AE7ACD76915C6FC5");
     }
 
 
@@ -67,7 +66,7 @@ public final class CnblogsUserManager {
         CnblogsUserInfo gatewayUser = new CnblogsUserInfo();
         gatewayUser.setName(user.getDisplayName());
         gatewayUser.setUserId(user.getBlogApp());
-        CnblogsSDK.getInstance().setUser(gatewayUser);
+        CnblogsSDK.getInstance().getSessionManager().setUser(gatewayUser);
 
         // 通知
         EventBus.getDefault().post(user);
@@ -77,6 +76,15 @@ public final class CnblogsUserManager {
      * 退出登录
      */
     public static void logout() {
+        clear();
+        // 通知用户已退出
+        EventBus.getDefault().post(new UserInfoEvent(UserInfoEvent.TYPE_LOGOUT));
+    }
+
+    /**
+     * 清除用户登录信息，不会发出通知
+     */
+    public static void clear() {
         // 清除用户状态
         SessionManager.getDefault().clear();
         // 清除Cookie
@@ -86,8 +94,6 @@ public final class CnblogsUserManager {
         }
         // 关联网关接口状态
         CnblogsSDK.getInstance().getSessionManager().clear();
-        // 通知用户已退出
-        EventBus.getDefault().post(new UserInfoEvent(UserInfoEvent.TYPE_LOGOUT));
     }
 
     /**

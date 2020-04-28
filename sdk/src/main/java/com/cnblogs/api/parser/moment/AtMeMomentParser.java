@@ -26,26 +26,30 @@ public class AtMeMomentParser implements IHtmlParser<List<MomentCommentBean>> {
             MomentCommentBean m = new MomentCommentBean();
             result.add(m);
             m.id = ParseUtils.getNumber(element.select(".feed_body").attr("id"));
-            m.nickName = element.select("#comment_author_" + m.id).text();
             m.avatar = ParseUtils.getUrl(element.select(".feed_avatar img").attr("src"));
             m.blogApp = ParseUtils.getBlogApp(element.select(".feed_avatar a").attr("href"));
+            m.nickName = element.select("#comment_author_" + m.blogApp).text();
             m.postTime = element.select(".ing_time").text();
             String onclick = element.select(".ing_reply").attr("onclick");
             List<String> ids = ParseUtils.findMatchers("\\d+", onclick);
             m.ingId = ParseUtils.getString(ids, 0);
             m.userId = ids.size() > 3 ? ParseUtils.getString(ids, 2) : ParseUtils.getString(ids, 1);
             String parentCommentId = ids.size() > 3 ? ParseUtils.getString(ids, 1) : null;
-            m.quote = new MomentCommentBean();
-            m.quote.id = parentCommentId;
-            m.quote.nickName = element.select(".ing_body a").eq(0).text().replace("@", "");
-            m.quote.content = element.select(".comment-body-gray").text();
+            m.content = element.select(".ing_body").text();
 
-            element.select(".ing_body a").eq(0).remove();
-            String content = element.select(".ing_body").text().replace("：", "");
-            m.content = content;
-            if (element.select(".comment-body-topline").size() > 0) {
-                m.content = element.select(".comment-body-topline").text() + content;
+            // 普通昵称
+            if (element.select(".ing-author").size() > 0) {
+                m.nickName = element.select(".ing-author").text();
             }
+
+            // 在闪存提到的有引用的评论
+            if (element.select(".comment-body-topline").size() > 0) {
+                m.quote = new MomentCommentBean();
+                m.quote.id = parentCommentId;
+                m.quote.nickName = element.select(".ing_body a").eq(0).text().replace("@", "");
+                m.quote.content = element.select(".comment-body-gray").text();
+            }
+
         }
 
         return result;

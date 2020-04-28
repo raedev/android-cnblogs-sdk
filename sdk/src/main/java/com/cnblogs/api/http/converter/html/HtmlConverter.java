@@ -2,11 +2,14 @@ package com.cnblogs.api.http.converter.html;
 
 import androidx.annotation.NonNull;
 
+import com.cnblogs.api.CnblogsApiException;
 import com.cnblogs.api.http.IHtmlParser;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
@@ -27,9 +30,21 @@ class HtmlConverter<T> implements Converter<ResponseBody, T> {
     @NonNull
     public T convert(@NonNull ResponseBody value) throws IOException {
         String html = value.string();
-//        CLog.d("HTTP响应内容：");
-//        CLog.d(html);
         // 交给自定义的解析器执行解析
-        return mParser.parse(Jsoup.parse(html));
+        Document document = Jsoup.parse(html);
+        // 登录状态判断
+        if (isNotLogin(document, html)) {
+            throw new CnblogsApiException(CnblogsApiException.ERROR_LOGIN_EXPIRED, "登录过期，请重新登录");
+        }
+
+        return mParser.parse(document);
+    }
+
+    /**
+     * 是否还没登录
+     */
+    private boolean isNotLogin(Document document, String html) {
+        if (Pattern.compile("请先.+登录").matcher(html).find()) return true;
+        return document.title().startsWith("用户登录");
     }
 }

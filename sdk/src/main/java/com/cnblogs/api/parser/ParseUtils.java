@@ -246,7 +246,6 @@ public final class ParseUtils {
     /**
      * 引用评论内容
      *
-     * @param comment 要引用的评论
      * @param content 你要发表的内容
      * @return 内容
      */
@@ -295,5 +294,14 @@ public final class ParseUtils {
         int size = values.size();
         if (size <= 0 || index + 1 > size) return null;
         return values.get(Math.max(0, index));
+    }
+
+    /**
+     * 是否为博客路径
+     */
+    public static boolean isBlogUrl(String text) {
+        if (TextUtils.isEmpty(text)) return false;
+        Matcher matcher = Pattern.compile("www\\.cnblogs\\.com/.+/p/.+\\.html").matcher(text);
+        return matcher.find();
     }
 }
