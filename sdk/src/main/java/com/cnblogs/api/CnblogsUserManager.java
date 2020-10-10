@@ -3,6 +3,7 @@ package com.cnblogs.api;
 import android.app.Application;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
@@ -19,6 +20,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 
 /**
@@ -41,7 +43,9 @@ public final class CnblogsUserManager {
      * 模拟登录状态，仅仅用于调试
      */
     public static void mockLogin() {
-        setLoginCookie("_ga=GA1.2.578499859.1564977874; _dx_uzZo5y=eccfe38c11ed246f7d63598361efdc1fe0c38635290b843026dfe7ff6b31c9a5dae0bfa5; _gid=GA1.2.732311221.1587634491; _gat=1; .Cnblogs.AspNetCore.Cookies=CfDJ8B9DwO68dQFBg9xIizKsC6QwWMgkHX56fQx6lks3XFX30E7dthizE9L1LxeqIKnAFc-MKa688YJ3r_WLaItmQLUwYmu6Og39BIqV_VncP_tXIaCkw2xSYOShwACWx8tu_wCutdAUle2R3tdw_dvQPz8UvPF5Pz1ihlscpcc6duHjp1LzjU0WHau--25vFF8Evfy0QJBDed6HwWFu8ZjjT0K2YLczzKEluq_kUyvDGcjuZbtVnkYFITs7ennps0Bct_X6UYHbZV3CkbKRyBAgIqw8Iwh0bnlfkN0fk8xofrNkki38UBRJWzMSXSFSlGiDXkhtwGz3Tm4zZENhts4_DerDLG3HG2m1nCpNq6l4zh0eLkCHCMjB15qohMMpvboxlQnKkbYbWsFyacskUOkreO_5s7fSJUnQzzamSH0EjNwa1Pn2nO2kETwgh6LqXeNYppB2We-n4ldVHmPbFZ1XhnrQSGPJcYYDgYfU1UZB43GQGynX6gOTRcdO7mMTqlliT4HDZl3j_zwJKt3u7BPEl5b38u0k6v12c5l-00a0uu9XGHKY67QlnCZfai3GQCzzRw; .CNBlogsCookie=77839CAF05272BA3CA77E00B574C4422841C3F4DBB3C4E91B603298443CF581AAF52D03BA079BA41B8176E98101999626FDD09C6A4EDB7FC1D93804D52782018B9D8CF170C9BC43BE3483AA8AE7ACD76915C6FC5");
+        String cookie = "_ga=GA1.2.646038017.1597584943; .Cnblogs.AspNetCore.Cookies=CfDJ8K5MrGQfPjpFvRyctF-QEQcvOHeHQPSsTPWGyOPRyuLQUiRfOlXH_rRWXc_Tv2SUp0856ptMOJm5vAb0_DcpuA3mbDftDXMDsPMFmDQVqdwtPkqrejgnCzdtsr0CucxxGOucAiKbuSsU1BnHbWL0Y-Pbqw4xZDjBQtUr-xaul47zZlwgWTmelssyXGkFUA5DzsxzdZ1s02vbvXYKFcOkso5OdzthzHFeMoPCuEuIU3Y4Tpm_jTP0T-6eg_-lGzbV1aKL2Cg7ibyz2TWle90QpFL1ep1qbDr9B_GMwM7aHbHuvywgt2mbj_mBd5AcoX6c8Ss-qrZv7sBwry3IfiTGiMIXIIAoHxkABQtjELsvJ6u4DAbMTeOvOEr0rYpjJtaxze4WusNRV6BzeYzDJU3p3oRmPWWpQygJkpa5t1cO3HZjhwClVfFMyKoeOqCf2SHZJb0M8_3wmoOR9m1P0SvvQRMNdaHXFqkzBNVcvklfH8d6NbC1tt34TLtiUZPEiEAlxUecBK59AC8Xj-dZXReeYGayDSt2Hyk9oZP62KZ2NFDlDVg9XEzz3tmjNvji543CMQ; Hm_lvt_39b794a97f47c65b6b2e4e1741dcba38=1601037325,1601045935,1601261629,1601262126; _gid=GA1.2.1371163887.1601883227; _gat=1; SERVERID=6348d13ff393b8a263cfff7dae61eb75|1601883226|1601883226";
+        setLoginCookie(cookie);
+        Disposable subscribe = requestUserInfo().subscribe(userInfoBean -> Log.i("cnblogs", "Mock登录成功：" + userInfoBean.getBlogApp()), throwable -> Log.e("cnblogs", "Mock登录失败，" + throwable.getMessage(), throwable));
     }
 
 
@@ -136,7 +140,7 @@ public final class CnblogsUserManager {
 
 
     /**
-     * 请求用户信息
+     * 请求用户信息，并保持在SessionManger中
      */
     public static Observable<UserInfoBean> requestUserInfo() {
         final IUserApi userApi = CnblogsOpenApi.getInstance().getUserApi();

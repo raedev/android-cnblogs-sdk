@@ -1,7 +1,8 @@
 package com.cnblogs.api.http;
 
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import java.io.IOException;
 import java.net.CookieManager;
@@ -55,7 +56,6 @@ public final class CnblogsCookieInterceptor implements Interceptor {
             String value = item.value();
             if ("XSRF-TOKEN".equalsIgnoreCase(name)) {
                 builder = builder.header("x-xsrf-token", value);
-//                Log.w("rae", "cookie: " + name + " = " + value);
             }
         }
 

@@ -22,9 +22,6 @@ public class CnblogsApiTest {
 
     CnblogsOpenApi mOpenApi;
 
-    public CnblogsApiTest() {
-    }
-
     <T> void run(Observable<T> observable) {
 
         observable.blockingSubscribe(new BlockingBaseObserver<T>() {

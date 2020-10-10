@@ -7,8 +7,6 @@ import com.cnblogs.api.http.CnblogsRequestInterceptor;
 import com.cnblogs.api.http.converter.gson.GsonConverterFactory;
 import com.cnblogs.api.http.converter.html.HtmlConverterFactory;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -46,7 +44,7 @@ public final class CnblogsOpenApi {
         CnblogsCookieInterceptor cookie = new CnblogsCookieInterceptor();
 
         // 调试接口用的代理
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.2.21", 8888));
+//        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.2.21", 8888));
 
         mHttpClient = new OkHttpClient.Builder()
                 // Cookie，当HTTP请求返回Set-Cookie的时候会自动保存到本地的CookieManager中去
@@ -84,16 +82,11 @@ public final class CnblogsOpenApi {
         return mRetrofit.create(IBlogApi.class);
     }
 
-
     /**
      * 博客园用户接口
      */
     public IUserApi getUserApi() {
         return mRetrofit.create(IUserApi.class);
-    }
-
-    public Retrofit getRetrofit() {
-        return mRetrofit;
     }
 
     public OkHttpClient getHttpClient() {

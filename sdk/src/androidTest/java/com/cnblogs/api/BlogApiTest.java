@@ -17,8 +17,10 @@ public class BlogApiTest extends CnblogsApiTest {
 
     private IBlogApi mBlogApi;
 
-    public BlogApiTest() {
-//        mBlogApi = mOpenApi.getBlogApi();
+    @Override
+    public void setup() {
+        super.setup();
+        mBlogApi = mOpenApi.getBlogApi();
     }
 
     @Test

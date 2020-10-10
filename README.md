@@ -1,2 +1,2 @@
-# android-cnblogs-sdk
-博客园API接口
+# 博客园 Android API接口
+
