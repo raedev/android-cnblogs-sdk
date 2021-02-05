@@ -12,9 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.cnblogs.api.model.SimpleUserInfoBean;
 import com.cnblogs.api.model.UserInfoBean;
-import com.rae.cnblogs.sdk.CnblogsSDK;
-import com.rae.cnblogs.sdk.model.CnblogsUserInfo;
-import com.rae.session.SessionManager;
+import com.github.raedev.swift.session.SessionManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -25,18 +23,21 @@ import io.reactivex.functions.Function;
 
 /**
  * 用户管理
+ * @author rae
+ * @date 2021/01/19
  */
 public final class CnblogsUserManager {
+
+    private static SessionManager mSessionManager;
 
     /**
      * 初始化用户管理器
      */
     static void init(Application application) {
-        // SessionManager
-        SessionManager.init(new SessionManager.Builder()
-                .name("CnblogsUserManager")
-                .withContext(application)
-                .userClass(UserInfoBean.class).build());
+        mSessionManager = new SessionManager.Builder(application)
+                .setUserClass(UserInfoBean.class)
+                .setSessionName("CnblogsUserSession")
+                .build();
     }
 
     /**
@@ -54,25 +55,17 @@ public final class CnblogsUserManager {
      */
     @Nullable
     public static UserInfoBean getUser() {
-        return SessionManager.getDefault().getUser();
+        return mSessionManager.getUserInfo();
     }
 
     /**
      * 设置当前用户,并且发出通知，通知用户信息已更新
-     *
      * @param user 用户信息
      */
     public static void setUser(@NonNull UserInfoBean user) {
         // 设置用户
-        SessionManager.getDefault().setUser(user);
-
-        // 关联网关接口用户
-        CnblogsUserInfo gatewayUser = new CnblogsUserInfo();
-        gatewayUser.setName(user.getDisplayName());
-        gatewayUser.setUserId(user.getBlogApp());
-        CnblogsSDK.getInstance().getSessionManager().setUser(gatewayUser);
-
-        // 通知
+        mSessionManager.setUserInfo(user);
+        // 通知用户信息改变
         EventBus.getDefault().post(user);
     }
 
@@ -90,21 +83,19 @@ public final class CnblogsUserManager {
      */
     public static void clear() {
         // 清除用户状态
-        SessionManager.getDefault().clear();
+        SessionManager.getDefault().forgot();
         // 清除Cookie
         CookieManager cookieManager = CookieManager.getInstance();
         if (cookieManager != null) {
             cookieManager.removeAllCookie();
         }
-        // 关联网关接口状态
-        CnblogsSDK.getInstance().getSessionManager().clear();
     }
 
     /**
      * 是否登录
      */
     public static boolean isLogin() {
-        return SessionManager.getDefault().isLogin();
+        return mSessionManager.isLogin();
     }
 
     /**
@@ -112,13 +103,17 @@ public final class CnblogsUserManager {
      */
     private static void setLoginCookie(String cookie) {
         CookieManager cookieManager = CookieManager.getInstance();
-        if (cookieManager == null || TextUtils.isEmpty(cookie)) return;
+        if (cookieManager == null || TextUtils.isEmpty(cookie)) {
+            return;
+        }
         cookieManager.removeAllCookie(); // 移除所有Cookie
         String[] cookies = cookie.split(";");
         String url = "cnblogs.com";
         for (String item : cookies) {
             String[] itemCookie = item.split("=");
-            if (itemCookie.length != 2) continue;
+            if (itemCookie.length != 2) {
+                continue;
+            }
             String name = itemCookie[0];
             String value = itemCookie[1];
             String cookieValue = String.format("%s=%s; domain=.cnblogs.com; path=/; HttpOnly", name, value);
@@ -130,14 +125,6 @@ public final class CnblogsUserManager {
             CookieSyncManager.getInstance().sync();
         }
     }
-
-    /**
-     * 通知更新用户信息
-     */
-    public static void notifyUpdateUserInfo() {
-        EventBus.getDefault().post(new UserInfoEvent(UserInfoEvent.TYPE_UPDATE_INFO));
-    }
-
 
     /**
      * 请求用户信息，并保持在SessionManger中

@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import com.cnblogs.api.db.table.CnblogsDBHelper;
 import com.cnblogs.api.db.table.DbCategory;
 import com.cnblogs.api.model.UserInfoBean;
-import com.rae.session.SessionManager;
+import com.github.raedev.swift.session.SessionManager;
 
 /**
  * 本地数据存储

@@ -19,8 +19,8 @@ import okhttp3.Response;
 /**
  * Cookie 请求拦截器
  * 同步浏览器Cookie和HTTP请求接口的Cookie，实现双向登录同步。
- * Created by rae on 2019-10-20.
- * Copyright (c) https://github.com/raedev All rights reserved.
+ * @author rae
+ * @date 2019-10-20
  */
 public final class CnblogsCookieInterceptor implements Interceptor {
 
@@ -28,8 +28,10 @@ public final class CnblogsCookieInterceptor implements Interceptor {
     private final JavaNetCookieJar cookieJar;
 
     public CnblogsCookieInterceptor() {
-        CookieManager.setDefault(new CookieManager()); // 初始化默认的CookieManager
-        cookieJar = new JavaNetCookieJar(CookieManager.getDefault()); // 初始化CookieJar
+        // 初始化默认的CookieManager
+        CookieManager.setDefault(new CookieManager());
+        // 初始化CookieJar
+        cookieJar = new JavaNetCookieJar(CookieManager.getDefault());
     }
 
     public JavaNetCookieJar getCookieJar() {
@@ -66,14 +68,20 @@ public final class CnblogsCookieInterceptor implements Interceptor {
      * 同步网页的cookie到HTTP请求cookie中去
      */
     private void withJavaCookie(String webCookies) {
-        if (TextUtils.isEmpty(webCookies)) return;
+        if (TextUtils.isEmpty(webCookies)) {
+            return;
+        }
         List<Cookie> cookies = new ArrayList<>();
         String[] texts = webCookies.split(";");
         HttpUrl httpUrl = HttpUrl.parse(this.url);
-        if (httpUrl == null) return;
+        if (httpUrl == null) {
+            return;
+        }
         // 解析字符串
         for (String text : texts) {
-            if (TextUtils.isEmpty(text)) continue;
+            if (TextUtils.isEmpty(text)) {
+                continue;
+            }
             text = text.trim();
             if (!text.endsWith(";")) {
                 text += ";";
