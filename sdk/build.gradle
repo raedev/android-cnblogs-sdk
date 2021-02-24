@@ -30,22 +30,23 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-
     implementation rootProject.ext.dependencies.appcompat
 
     // rx
     implementation rootProject.ext.dependencies.rxjava
     implementation rootProject.ext.dependencies.rxandroid
+    implementation rootProject.ext.dependencies.rxlifecycle
     implementation rootProject.ext.dependencies.eventbus
 
     // retrofit
     implementation rootProject.ext.dependencies.retrofit
     implementation rootProject.ext.dependencies.retrofitRxAdapter
+    implementation rootProject.ext.dependencies.gsonConverter
     implementation rootProject.ext.dependencies.retrofitLog
     implementation rootProject.ext.dependencies.jsoup
     implementation rootProject.ext.dependencies.gson
     implementation rootProject.ext.dependencies.swift
     // Java Cookie
-    implementation('com.squareup.okhttp3:okhttp-urlconnection:3.14.4')
-
+    implementation rootProject.ext.dependencies.urlconnection
+    implementation 'com.trello.rxlifecycle4:rxlifecycle-android-lifecycle:4.0.2'
 }

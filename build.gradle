@@ -6,7 +6,7 @@ buildscript {
         maven { url 'https://maven.raeblog.com/repository/public/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:4.1.1'
     }
 }
 
@@ -21,4 +21,32 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    // Android 扩展配置
+    android = [
+            javaVersion      : '1.8', // Java 版本
+            sourceJavaVersion: '1.8', // Java 版本
+            compileSdkVersion: 30, // 28 -> Android 9.0
+            targetSdkVersion : 30, // 28 -> Android 9.0
+            minSdkVersion    : 21, // 21 -> Android 5.0
+    ]
+
+    dependencies = [
+            appcompat        : 'androidx.appcompat:appcompat:1.2.0',
+            gson             : 'com.google.code.gson:gson:2.8.6',
+            rxjava           : 'io.reactivex.rxjava3:rxjava:3.0.9', // 2021-01-19
+            rxandroid        : 'io.reactivex.rxjava3:rxandroid:3.0.0', // 2021-01-19
+            rxlifecycle      : 'com.trello.rxlifecycle4:rxlifecycle:4.0.2', // 2021-02-24
+            urlconnection    : 'com.squareup.okhttp3:okhttp-urlconnection:4.9.0', // 2021-02-24
+            retrofit         : 'com.squareup.retrofit2:retrofit:2.9.0', // 2021-01-19
+            okHttp           : 'com.squareup.okhttp3:okhttp:4.9.0', // 2021-01-19
+            retrofitLog      : 'com.squareup.okhttp3:logging-interceptor:4.9.0', // 2021-01-19
+            retrofitRxAdapter: 'com.squareup.retrofit2:adapter-rxjava3:2.9.0', // 2021-02-15
+            gsonConverter    : 'com.squareup.retrofit2:converter-gson:2.9.0', // 2021-02-15
+            jsoup            : 'org.jsoup:jsoup:1.12.1',
+            eventbus         : "org.greenrobot:eventbus:3.2.0",
+            swift            : 'com.github.raedev:swift:1.0.0-alpha2',  // 2021-01-19
+    ]
 }

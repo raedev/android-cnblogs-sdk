@@ -1,1 +1,3 @@
+rootProject.name = 'Cnblogs'
+include ':app'
 include ':sdk'
