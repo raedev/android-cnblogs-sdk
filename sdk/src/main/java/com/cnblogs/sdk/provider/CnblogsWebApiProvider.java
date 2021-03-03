@@ -10,7 +10,7 @@ import com.cnblogs.sdk.api.IUserApi;
  * @author RAE
  * @date 2021/02/10
  */
-public class CnblogsWebApiProvider extends BaseApiProvider {
+public class CnblogsWebApiProvider extends CnblogsBaseApiProvider {
 
     @Override
     protected String getName() {

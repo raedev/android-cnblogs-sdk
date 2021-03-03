@@ -4,14 +4,14 @@ import com.cnblogs.sdk.data.api.IBlogDataApi;
 import com.cnblogs.sdk.data.api.ICategoryDataApi;
 import com.cnblogs.sdk.data.api.IUserDataApi;
 import com.cnblogs.sdk.exception.CnblogsSdkException;
-import com.cnblogs.sdk.provider.BaseApiProvider;
+import com.cnblogs.sdk.provider.CnblogsBaseApiProvider;
 
 /**
  * 数据接口提供者
  * @author RAE
  * @date 2021/02/25
  */
-public class DataApiProvider extends BaseApiProvider {
+public class DataApiProvider extends CnblogsBaseApiProvider {
 
     @SuppressWarnings("unchecked")
     protected <T> T createDataApi(Class<T> cls) {

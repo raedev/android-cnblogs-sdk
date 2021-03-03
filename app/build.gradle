@@ -12,9 +12,6 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-        buildConfigField "String", "CLIENT_ID", '"c1c3de1c-3ca7-4fad-9fd3-13f4640e0ec6"'
-        buildConfigField "String", "CLIENT_SECRET", '"2RLMaR5_XXhwojPTdF5ycI9VeMcUVwprbrv1YEjt5Uwj-Y1uPxDIrpWwPeUWFbFi3PKdZOHBpBOhY4Kk"'
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -35,7 +32,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.tzx.json:jsonhandleview:1.2.2'

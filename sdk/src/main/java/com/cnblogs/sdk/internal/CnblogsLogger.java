@@ -6,10 +6,13 @@ import com.cnblogs.sdk.CnblogsSdk;
 
 /**
  * 日志记录
+ *
  * @author RAE
  * @date 2021/02/15
  */
 public final class CnblogsLogger {
+
+    public static boolean DEBUG = true;
 
     public static final String TAG = "cnblogs.logger";
 
@@ -26,19 +29,19 @@ public final class CnblogsLogger {
     }
 
     public static void d(String msg) {
-        if (CnblogsSdk.S_DEBUG) {
+        if (DEBUG) {
             Log.d(TAG, msg);
         }
     }
 
     public static void i(String msg) {
-        if (CnblogsSdk.S_DEBUG) {
+        if (DEBUG) {
             Log.i(TAG, msg);
         }
     }
 
     public static void d(String tag, String msg) {
-        if (CnblogsSdk.S_DEBUG) {
+        if (DEBUG) {
             Log.d(TAG.concat(".").concat(tag), msg);
         }
     }

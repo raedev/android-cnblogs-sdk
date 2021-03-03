@@ -18,13 +18,15 @@ import okhttp3.JavaNetCookieJar;
 
 /**
  * 博客园会话管理，维护登录信息、Token信息、Cookie同步。
+ *
  * @author RAE
  * @date 2021/02/20
  */
 public final class CnblogsSessionManager extends SharedPreferencesSessionManager {
 
-
     private final JavaNetCookieJar mCookieJar;
+    private final String mCookieUrl = "https://cnblogs.com";
+    private final HttpUrl mCookieHttpUrl;
 
     public CnblogsSessionManager(Context context) {
         super(context, "CnblogsSessionManager", UserInfo.class);
@@ -34,6 +36,7 @@ public final class CnblogsSessionManager extends SharedPreferencesSessionManager
             java.net.CookieManager.setDefault(cookieHandler);
         }
         mCookieJar = new JavaNetCookieJar(cookieHandler);
+        mCookieHttpUrl = HttpUrl.parse(mCookieUrl);
     }
 
     public JavaNetCookieJar getCookieJar() {
@@ -46,10 +49,9 @@ public final class CnblogsSessionManager extends SharedPreferencesSessionManager
      * 【 WebCookie > JavaNetCookie 】
      */
     public void syncWebCookie() {
-        final String url = "https://cnblogs.com";
         CookieManager cookieManager = android.webkit.CookieManager.getInstance();
-        String webCookies = cookieManager.getCookie(url.replace("https", "http"));
-        String sslCookies = cookieManager.getCookie(url);
+        String webCookies = cookieManager.getCookie(mCookieUrl.replace("https", "http"));
+        String sslCookies = cookieManager.getCookie(mCookieUrl);
         if (TextUtils.isEmpty(webCookies)) {
             webCookies = sslCookies;
         }
@@ -57,10 +59,6 @@ public final class CnblogsSessionManager extends SharedPreferencesSessionManager
             return;
         }
         // Cookie转换
-        HttpUrl httpUrl = HttpUrl.parse(url);
-        if (httpUrl == null) {
-            return;
-        }
         List<Cookie> cookies = new ArrayList<>();
         String[] texts = webCookies.split(";");
         // 解析字符串
@@ -74,12 +72,12 @@ public final class CnblogsSessionManager extends SharedPreferencesSessionManager
                 text += ";";
             }
             text += " domain=.cnblogs.com; path=/; HttpOnly";
-            Cookie cookie = Cookie.parse(httpUrl, text);
+            Cookie cookie = Cookie.parse(mCookieHttpUrl, text);
             CnblogsLogger.d("同步WebCookie：" + text);
             cookies.add(cookie);
         }
         // 保存Cookie
-        mCookieJar.saveFromResponse(httpUrl, cookies);
+        mCookieJar.saveFromResponse(mCookieHttpUrl, cookies);
     }
 
     /**
@@ -87,16 +85,11 @@ public final class CnblogsSessionManager extends SharedPreferencesSessionManager
      * 【 JavaNetCookie > WebCookie 】
      */
     public void syncJavaNetCookie() {
-        String url = "https://cnblogs.com";
-        HttpUrl uri = HttpUrl.parse(url);
-        if (uri == null) {
-            return;
-        }
-        List<Cookie> cookies = mCookieJar.loadForRequest(uri);
+        List<Cookie> cookies = mCookieJar.loadForRequest(mCookieHttpUrl);
         // 同步接口的cookie达到同步web登陆
         CookieManager cookieManager = CookieManager.getInstance();
         for (Cookie cookie : cookies) {
-            cookieManager.setCookie(url, cookie.toString());
+            cookieManager.setCookie(mCookieUrl, cookie.toString());
         }
         cookieManager.flush();
     }
@@ -105,11 +98,7 @@ public final class CnblogsSessionManager extends SharedPreferencesSessionManager
      * 清除JavaNetCookie
      */
     private void clearJavaNetCookie() {
-        HttpUrl url = HttpUrl.parse("https://cnblogs.com");
-        if (url == null) {
-            return;
-        }
-        List<Cookie> cookies = mCookieJar.loadForRequest(url);
+        List<Cookie> cookies = mCookieJar.loadForRequest(mCookieHttpUrl);
         List<Cookie> emptyCookies = new ArrayList<>(cookies.size());
         for (Cookie cookie : cookies) {
             // 使Cookie过期
@@ -123,7 +112,7 @@ public final class CnblogsSessionManager extends SharedPreferencesSessionManager
                     .expiresAt(0)
                     .build());
         }
-        this.mCookieJar.saveFromResponse(url, emptyCookies);
+        this.mCookieJar.saveFromResponse(mCookieHttpUrl, emptyCookies);
     }
 
     @Override
@@ -137,7 +126,8 @@ public final class CnblogsSessionManager extends SharedPreferencesSessionManager
 
     /**
      * 设置调试信息，仅仅当debug的时候调用
-     * @param cookie .CNBlogsCookie
+     *
+     * @param cookie    .CNBlogsCookie
      * @param netCookie .Cnblogs.AspNetCore.Cookies
      */
     public void mockLogin(String cookie, String netCookie) {
@@ -145,14 +135,10 @@ public final class CnblogsSessionManager extends SharedPreferencesSessionManager
             CnblogsLogger.w("调试登录信息请打开debug开关");
             return;
         }
-        HttpUrl url = HttpUrl.parse("https://cnblogs.com");
-        if (url == null) {
-            return;
-        }
         List<Cookie> cookies = new ArrayList<>();
         cookies.add(new Cookie.Builder().name(".CNBlogsCookie").domain("cnblogs.com").value(cookie).path("/").httpOnly().build());
         cookies.add(new Cookie.Builder().name(".Cnblogs.AspNetCore.Cookies").domain("cnblogs.com").value(netCookie).path("/").httpOnly().build());
-        mCookieJar.saveFromResponse(url, cookies);
+        mCookieJar.saveFromResponse(mCookieHttpUrl, cookies);
         syncJavaNetCookie();
     }
 }

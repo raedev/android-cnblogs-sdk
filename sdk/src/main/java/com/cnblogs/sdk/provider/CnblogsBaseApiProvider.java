@@ -23,7 +23,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
  * @author RAE
  * @date 2021/02/10
  */
-public abstract class BaseApiProvider {
+public abstract class CnblogsBaseApiProvider {
 
     protected Retrofit mRetrofit;
     protected OkHttpClient mHttpClient;
@@ -33,7 +33,7 @@ public abstract class BaseApiProvider {
      */
     protected final ObjectCacheHashMap<String, Object> mApiCacheMap = new ObjectCacheHashMap<>(4);
 
-    public BaseApiProvider() {
+    public CnblogsBaseApiProvider() {
         mHttpClient = makeHttpClient();
         mRetrofit = makeRetrofitBuilder(mHttpClient).build();
     }

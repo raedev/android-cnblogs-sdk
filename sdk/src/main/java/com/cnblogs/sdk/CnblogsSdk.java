@@ -8,6 +8,7 @@ import androidx.room.Room;
 
 import com.cnblogs.sdk.db.CnblogsDatabase;
 import com.cnblogs.sdk.exception.CnblogsSdkException;
+import com.cnblogs.sdk.internal.CnblogsLogger;
 import com.cnblogs.sdk.internal.CnblogsSessionManager;
 import com.cnblogs.sdk.provider.CnblogsConfigProvider;
 import com.cnblogs.sdk.provider.CnblogsDataProvider;
@@ -17,6 +18,7 @@ import com.github.raedev.swift.AppSwift;
 /**
  * 博客园SDK主入口，设计模式：工厂模式
  * <p>请在 {@link Application#onCreate()} 中调用{@link #config(Builder)}方法进行初始化</p>
+ *
  * @author RAE
  * @date 2021/02/10
  */
@@ -50,15 +52,17 @@ public final class CnblogsSdk {
 
     /**
      * 初始化接口配置
+     *
      * @param builder 构建者
      */
     public static void config(Builder builder) {
         S_DEBUG = builder.mDebug;
+        CnblogsLogger.DEBUG = builder.mDebug;
         if (sFactory == null) {
             synchronized (CnblogsSdk.class) {
                 Application application = builder.mApplication;
                 if (sFactory == null) {
-                    // 初始化AppSwift
+                    // 初始化 AppSwift
                     AppSwift.init(application);
                     // 初始化用户管理
                     sSessionManager = new CnblogsSessionManager(application);
@@ -71,12 +75,13 @@ public final class CnblogsSdk {
 
     /**
      * 获取工厂实例
+     *
      * @return 实例
      */
     @NonNull
     public static CnblogsSdk getInstance() {
         if (sFactory == null) {
-            throw new NullPointerException("invoke Builder.build() method first to create factory instance!");
+            throw new NullPointerException("please invoke Builder.build() method first to create sdk factory!");
         }
         return sFactory;
     }
