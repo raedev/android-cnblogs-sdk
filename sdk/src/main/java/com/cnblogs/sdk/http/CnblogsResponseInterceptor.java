@@ -2,6 +2,7 @@ package com.cnblogs.sdk.http;
 
 import com.cnblogs.sdk.api.ApiConstant;
 import com.cnblogs.sdk.exception.CnblogsSdkIOException;
+import com.cnblogs.sdk.exception.CnblogsTokenException;
 import com.cnblogs.sdk.internal.CnblogsLogger;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,14 +27,27 @@ public class CnblogsResponseInterceptor implements Interceptor {
     @Override
     public Response intercept(@NotNull Chain chain) throws IOException {
         Response response = chain.proceed(chain.request());
+        int httpCode = response.code();
         String contentType = response.header("content-type");
         if (contentType != null && contentType.contains(ApiConstant.CONTENT_TYPE_JSON)) {
-            response = interceptJsonResponse(chain.request(), response);
+            interceptJsonResponse(chain.request(), response);
+        } else {
+            interceptHtmlResponse(chain.request(), response);
+        }
+        if (!response.isSuccessful()) {
+            throw new CnblogsSdkIOException("接口发生异常，Code：" + httpCode);
+        }
+        if (httpCode == 204) {
+            throw new CnblogsTokenException("登录过期，请重新登录");
         }
         return response;
     }
 
-    private Response interceptJsonResponse(Request request, Response response) throws IOException {
+    private void interceptHtmlResponse(Request request, Response response) {
+
+    }
+
+    private void interceptJsonResponse(Request request, Response response) throws IOException {
         String body = HttpUtils.copyBufferBody(response.body());
         try {
             Object obj = new JSONTokener(body).nextValue();
@@ -51,6 +65,5 @@ public class CnblogsResponseInterceptor implements Interceptor {
         } catch (JSONException e) {
             CnblogsLogger.e("解析地址：" + request.url() + "流失败：" + e.getMessage(), e);
         }
-        return response;
     }
 }

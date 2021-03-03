@@ -1,7 +1,5 @@
 package com.cnblogs.sdk.provider;
 
-import android.util.LruCache;
-
 import androidx.annotation.NonNull;
 
 import com.cnblogs.sdk.CnblogsSdk;
@@ -11,6 +9,7 @@ import com.cnblogs.sdk.http.CnblogsRequestInterceptor;
 import com.cnblogs.sdk.http.CnblogsResponseInterceptor;
 import com.cnblogs.sdk.internal.CnblogsConverterFactory;
 import com.cnblogs.sdk.internal.CnblogsLogger;
+import com.cnblogs.sdk.internal.ObjectCacheHashMap;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,9 +25,13 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
  */
 public abstract class BaseApiProvider {
 
-    protected final LruCache<String, Object> mLruCache = new LruCache<>(8);
     protected Retrofit mRetrofit;
     protected OkHttpClient mHttpClient;
+
+    /**
+     * 缓存接口，因为调用频繁，避免过多的实例化操作
+     */
+    protected final ObjectCacheHashMap<String, Object> mApiCacheMap = new ObjectCacheHashMap<>(4);
 
     public BaseApiProvider() {
         mHttpClient = makeHttpClient();
@@ -41,6 +44,7 @@ public abstract class BaseApiProvider {
         return new OkHttpClient.Builder()
                 .cookieJar(CnblogsSdk.getSessionManager().getCookieJar())
                 .connectTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
                 .addInterceptor(new CnblogsCookieInterceptor())
                 .addInterceptor(new CnblogsRequestInterceptor())
                 .addInterceptor(new CnblogsResponseInterceptor())
@@ -67,7 +71,6 @@ public abstract class BaseApiProvider {
     protected int getVersion() {
         return 1;
     }
-
 
     @NonNull
     @Override

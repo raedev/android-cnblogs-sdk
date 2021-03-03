@@ -128,7 +128,7 @@ public class AuthWebViewHandler {
         }
         loadLoadingPage("正在获取用户信息");
         // 获取用户信息
-        mUserApi.handleUserInfo()
+        mUserApi.queryUserInfo()
                 .compose(Composer.uiThread(mOwner))
                 .subscribe(new CnblogsObserver<UserInfo>() {
                     @Override

@@ -1,9 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
+        maven { url 'https://maven.raeblog.com/repository/public/' }
         google()
         jcenter()
-        maven { url 'https://maven.raeblog.com/repository/public/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.1'
@@ -12,10 +12,10 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
-        jcenter()
-        maven { url 'https://jitpack.io' }
         maven { url 'https://maven.raeblog.com/repository/public/' }
+        maven { url 'https://jitpack.io' }
+        jcenter()
+        google()
     }
 }
 

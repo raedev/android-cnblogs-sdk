@@ -4,12 +4,15 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.room.Room;
 
+import com.cnblogs.sdk.db.CnblogsDatabase;
 import com.cnblogs.sdk.exception.CnblogsSdkException;
 import com.cnblogs.sdk.internal.CnblogsSessionManager;
 import com.cnblogs.sdk.provider.CnblogsConfigProvider;
 import com.cnblogs.sdk.provider.CnblogsDataProvider;
 import com.cnblogs.sdk.provider.CnblogsWebApiProvider;
+import com.github.raedev.swift.AppSwift;
 
 /**
  * 博客园SDK主入口，设计模式：工厂模式
@@ -36,11 +39,13 @@ public final class CnblogsSdk {
     private final Application mContext;
     @Nullable
     private CnblogsConfigProvider mConfigProvider;
+    private final CnblogsDatabase mDataBase;
 
     private CnblogsSdk(@NonNull Application context) {
         mContext = context;
         mCnblogsWebApiProvider = new CnblogsWebApiProvider();
         mCnblogsDataProvider = new CnblogsDataProvider();
+        mDataBase = Room.databaseBuilder(context, CnblogsDatabase.class, "cnblogs-v2").build();
     }
 
     /**
@@ -53,6 +58,8 @@ public final class CnblogsSdk {
             synchronized (CnblogsSdk.class) {
                 Application application = builder.mApplication;
                 if (sFactory == null) {
+                    // 初始化AppSwift
+                    AppSwift.init(application);
                     // 初始化用户管理
                     sSessionManager = new CnblogsSessionManager(application);
                     // 初始化接口工厂
@@ -110,6 +117,11 @@ public final class CnblogsSdk {
             mConfigProvider = new CnblogsConfigProvider(mContext);
         }
         return mConfigProvider;
+    }
+
+    @NonNull
+    public CnblogsDatabase getDatabase() {
+        return mDataBase;
     }
 
     public static class Builder {

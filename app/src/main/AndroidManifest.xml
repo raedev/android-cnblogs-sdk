@@ -22,6 +22,8 @@
             android:name=".activity.ApiDetailActivity"
             android:label="接口详情" />
         <activity android:name=".activity.OAuthWebLoginActivity" />
+        <activity android:name=".activity.CategoryApiActivity" />
+        <activity android:name=".activity.BlogApiActivity" />
     </application>
 
 </manifest>

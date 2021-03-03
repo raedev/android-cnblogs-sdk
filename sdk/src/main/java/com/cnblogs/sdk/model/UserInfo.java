@@ -10,41 +10,52 @@ import android.os.Parcelable;
  */
 public class UserInfo extends AuthTokenInfo implements Parcelable {
 
-    public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
-        @Override
-        public UserInfo createFromParcel(Parcel in) {
-            return new UserInfo(in);
-        }
-
-        @Override
-        public UserInfo[] newArray(int size) {
-            return new UserInfo[size];
-        }
-    };
     /**
-     * spaceUserId : 446312
-     * displayName : RAE
-     * blogApp : rae
-     * unreadMsg : 0
-     * homeLink : https://home.cnblogs.com/u/chenrui7
-     * blogLink : https://www.cnblogs.com/chenrui7/
-     * iconName : //pic.cnblogs.com/face/446312/20200420163446.png
-     * avatarName : //pic.cnblogs.com/avatar/446312/20200420163446.png
+     * 账号
      */
+    private String spaceUserId;
 
-
-    private int spaceUserId;
+    /**
+     * 昵称
+     */
     private String displayName;
+
+    /**
+     * blogApp,非常重要的字段,唯一ID
+     */
     private String blogApp;
+
+    /**
+     * 未读消息数量
+     */
     private int unreadMsg;
+
+    /**
+     * 个人中心主页
+     */
     private String homeLink;
+
+    /**
+     * 博客主页
+     */
     private String blogLink;
+
+    /**
+     * 头像小图
+     */
     private String iconName;
+
+    /**
+     * 头像大图
+     */
     private String avatarName;
+
+    public UserInfo() {
+    }
 
     protected UserInfo(Parcel in) {
         super(in);
-        spaceUserId = in.readInt();
+        spaceUserId = in.readString();
         displayName = in.readString();
         blogApp = in.readString();
         unreadMsg = in.readInt();
@@ -57,7 +68,7 @@ public class UserInfo extends AuthTokenInfo implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeInt(spaceUserId);
+        dest.writeString(spaceUserId);
         dest.writeString(displayName);
         dest.writeString(blogApp);
         dest.writeInt(unreadMsg);
@@ -72,11 +83,23 @@ public class UserInfo extends AuthTokenInfo implements Parcelable {
         return 0;
     }
 
-    public int getSpaceUserId() {
+    public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
+        @Override
+        public UserInfo createFromParcel(Parcel in) {
+            return new UserInfo(in);
+        }
+
+        @Override
+        public UserInfo[] newArray(int size) {
+            return new UserInfo[size];
+        }
+    };
+
+    public String getSpaceUserId() {
         return spaceUserId;
     }
 
-    public void setSpaceUserId(int spaceUserId) {
+    public void setSpaceUserId(String spaceUserId) {
         this.spaceUserId = spaceUserId;
     }
 
@@ -89,6 +112,9 @@ public class UserInfo extends AuthTokenInfo implements Parcelable {
     }
 
     public String getBlogApp() {
+        if (blogApp == null) {
+            return this.spaceUserId;
+        }
         return blogApp;
     }
 

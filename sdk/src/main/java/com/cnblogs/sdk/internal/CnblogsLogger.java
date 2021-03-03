@@ -36,4 +36,10 @@ public final class CnblogsLogger {
             Log.i(TAG, msg);
         }
     }
+
+    public static void d(String tag, String msg) {
+        if (CnblogsSdk.S_DEBUG) {
+            Log.d(TAG.concat(".").concat(tag), msg);
+        }
+    }
 }

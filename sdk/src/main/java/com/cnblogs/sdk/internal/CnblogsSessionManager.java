@@ -3,8 +3,8 @@ package com.cnblogs.sdk.internal;
 import android.content.Context;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
-import android.webkit.ValueCallback;
 
+import com.cnblogs.sdk.CnblogsSdk;
 import com.cnblogs.sdk.model.UserInfo;
 import com.github.raedev.swift.session.SharedPreferencesSessionManager;
 
@@ -101,15 +101,58 @@ public final class CnblogsSessionManager extends SharedPreferencesSessionManager
         cookieManager.flush();
     }
 
+    /**
+     * 清除JavaNetCookie
+     */
+    private void clearJavaNetCookie() {
+        HttpUrl url = HttpUrl.parse("https://cnblogs.com");
+        if (url == null) {
+            return;
+        }
+        List<Cookie> cookies = mCookieJar.loadForRequest(url);
+        List<Cookie> emptyCookies = new ArrayList<>(cookies.size());
+        for (Cookie cookie : cookies) {
+            // 使Cookie过期
+            emptyCookies.add(new Cookie
+                    .Builder()
+                    .name(cookie.name())
+                    .value("")
+                    .httpOnly()
+                    .domain(cookie.domain())
+                    .path(cookie.path())
+                    .expiresAt(0)
+                    .build());
+        }
+        this.mCookieJar.saveFromResponse(url, emptyCookies);
+    }
+
     @Override
     public void forgot() {
         super.forgot();
-        // 清除Cookie
-        CookieManager.getInstance().removeAllCookies(new ValueCallback<Boolean>() {
-            @Override
-            public void onReceiveValue(Boolean value) {
-                CnblogsLogger.d("清除Cookie缓存结果：" + value);
-            }
-        });
+        // 清除WebCookie
+        CookieManager.getInstance().removeAllCookies(null);
+        // 清除JavaNetCookie
+        this.clearJavaNetCookie();
+    }
+
+    /**
+     * 设置调试信息，仅仅当debug的时候调用
+     * @param cookie .CNBlogsCookie
+     * @param netCookie .Cnblogs.AspNetCore.Cookies
+     */
+    public void mockLogin(String cookie, String netCookie) {
+        if (!CnblogsSdk.S_DEBUG) {
+            CnblogsLogger.w("调试登录信息请打开debug开关");
+            return;
+        }
+        HttpUrl url = HttpUrl.parse("https://cnblogs.com");
+        if (url == null) {
+            return;
+        }
+        List<Cookie> cookies = new ArrayList<>();
+        cookies.add(new Cookie.Builder().name(".CNBlogsCookie").domain("cnblogs.com").value(cookie).path("/").httpOnly().build());
+        cookies.add(new Cookie.Builder().name(".Cnblogs.AspNetCore.Cookies").domain("cnblogs.com").value(netCookie).path("/").httpOnly().build());
+        mCookieJar.saveFromResponse(url, cookies);
+        syncJavaNetCookie();
     }
 }

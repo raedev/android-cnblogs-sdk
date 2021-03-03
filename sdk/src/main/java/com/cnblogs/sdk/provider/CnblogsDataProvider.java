@@ -1,8 +1,6 @@
 package com.cnblogs.sdk.provider;
 
-import com.cnblogs.sdk.data.api.IUserDataApi;
-import com.cnblogs.sdk.data.impl.UserDataApiImpl;
-import com.cnblogs.sdk.exception.CnblogsSdkException;
+import com.cnblogs.sdk.data.impl.DataApiProvider;
 
 /**
  * 博客园数据提供者
@@ -11,32 +9,5 @@ import com.cnblogs.sdk.exception.CnblogsSdkException;
  * @author RAE
  * @date 2021/02/20
  */
-public class CnblogsDataProvider extends BaseApiProvider {
-
-    public CnblogsDataProvider() {
-    }
-
-    @SuppressWarnings("unchecked")
-    protected <T> T createDataApi(Class<T> cls) {
-        String key = cls.getName();
-        Object api = mLruCache.get(key);
-        if (api == null) {
-            try {
-                T t = cls.newInstance();
-                mLruCache.put(key, t);
-                return t;
-            } catch (Throwable e) {
-                throw new CnblogsSdkException("实例化接口异常！", e);
-            }
-        }
-        return (T) api;
-    }
-
-    /**
-     * 获取用户数据接口
-     */
-    public final IUserDataApi getUserDataApi() {
-        return createDataApi(UserDataApiImpl.class);
-    }
-
+public class CnblogsDataProvider extends DataApiProvider {
 }

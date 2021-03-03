@@ -13,6 +13,7 @@
         android:padding="20dp">
 
         <Button
+            android:id="@+id/btn_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="com.cnblogs.sdk.demo.activity.OAuthWebLoginActivity"
@@ -23,5 +24,18 @@
             android:layout_height="wrap_content"
             android:tag="com.cnblogs.sdk.demo.activity.UserApiActivity"
             android:text="用户接口" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="com.cnblogs.sdk.demo.activity.CategoryApiActivity"
+            android:text="分类接口" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="com.cnblogs.sdk.demo.activity.BlogApiActivity"
+            android:text="博客接口" />
+
     </LinearLayout>
 </ScrollView>

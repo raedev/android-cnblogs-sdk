@@ -10,11 +10,21 @@ import java.io.IOException;
 @SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 public class CnblogsSdkIOException extends IOException {
 
+
+    private int httpCode;
+    private int errorCode;
+
     public CnblogsSdkIOException() {
     }
 
     public CnblogsSdkIOException(String message) {
         super(message);
+    }
+
+    public CnblogsSdkIOException(String message, int errorCode, int httpCode) {
+        super(message);
+        this.errorCode = errorCode;
+        this.httpCode = httpCode;
     }
 
     public CnblogsSdkIOException(String message, Throwable cause) {
@@ -24,4 +34,13 @@ public class CnblogsSdkIOException extends IOException {
     public CnblogsSdkIOException(Throwable cause) {
         super(cause);
     }
+
+    public int getHttpCode() {
+        return httpCode;
+    }
+
+    public int getErrorCode() {
+        return errorCode;
+    }
+
 }

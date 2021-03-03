@@ -1,5 +1,6 @@
 package com.cnblogs.sdk.demo.entity;
 
+import android.app.Activity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -25,13 +26,24 @@ public class ApiDetailInfo implements Parcelable {
     private String json;
     private String name;
     private String title;
+    private String methodName;
+    private Object mTarget;
 
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
+    }
 
     public ApiDetailInfo(String title, String name, Object object) {
         this.title = title;
         this.json = JsonUtils.toJson(object);
         this.name = name;
     }
+
+
 
     protected ApiDetailInfo(Parcel in) {
         json = in.readString();
@@ -73,5 +85,13 @@ public class ApiDetailInfo implements Parcelable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setTarget(Object target) {
+        mTarget = target;
+    }
+
+    public Object getTarget() {
+        return mTarget;
     }
 }

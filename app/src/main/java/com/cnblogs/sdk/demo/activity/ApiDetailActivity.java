@@ -31,9 +31,12 @@ public class ApiDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_api_detail);
         mDetailInfo = getIntent().getParcelableExtra("detail");
         setTitle(mDetailInfo.getTitle());
-        JsonViewLayout jsonView = findViewById(R.id.jsonView);
-        jsonView.bindJson(mDetailInfo.getJson());
-        jsonView.expandAll();
+        if (mDetailInfo.getJson() != null) {
+            JsonViewLayout jsonView = findViewById(R.id.jsonView);
+            jsonView.bindJson(mDetailInfo.getJson());
+            jsonView.expandAll();
+            jsonView.setTextSize(12);
+        }
         TextView titleView = findViewById(R.id.tv_title);
         titleView.setText(String.format("%s(%s)", mDetailInfo.getTitle(), mDetailInfo.getName()));
     }
