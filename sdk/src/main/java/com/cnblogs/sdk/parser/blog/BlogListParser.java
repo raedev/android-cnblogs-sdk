@@ -35,7 +35,7 @@ public final class BlogListParser extends BaseHtmlParser<List<ArticleInfo>> {
             // 解析Id
             parseArticleId(element, m);
             // 没有获取到PostId
-            if (m.getPostId() == null) {
+            if (m.getBlogId() == null) {
                 continue;
             }
             // 标题
@@ -122,8 +122,11 @@ public final class BlogListParser extends BaseHtmlParser<List<ArticleInfo>> {
         }
         String url = link.attr("href");
         String avatarUrl = element.select(".post_item_summary img").attr("src");
-        m.getAuthorInfo().setUrl(url);
-        m.getAuthorInfo().setName(link.text().trim());
-        m.getAuthorInfo().setAvatar(avatarUrl);
+        AuthorInfo authorInfo = m.getAuthorInfo();
+        if (authorInfo!=null) {
+            authorInfo.setBlogUrl(url);
+            authorInfo.setDisplayName(link.text().trim());
+            authorInfo.setAvatarUrl(avatarUrl);
+        }
     }
 }

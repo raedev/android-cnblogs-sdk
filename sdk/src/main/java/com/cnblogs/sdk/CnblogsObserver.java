@@ -1,14 +1,18 @@
-package com.cnblogs.sdk.http;
+package com.cnblogs.sdk;
 
 import androidx.annotation.NonNull;
 
 import com.cnblogs.sdk.exception.CnblogsSdkException;
 import com.cnblogs.sdk.internal.CnblogsLogger;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.observers.DisposableObserver;
 
 /**
- * 观察者
+ * SDK回调处理观察者
+ * 建议用SDK里面调用的{@link Observable#subscribe(Observer)} 使用该回调。
+ * 将会处理统一的错误信息
  * @author RAE
  * @date 2021/02/24
  */
@@ -21,7 +25,7 @@ public abstract class CnblogsObserver<T> extends DisposableObserver<T> {
 
     @Override
     public void onError(@NonNull Throwable e) {
-        CnblogsLogger.e("发生异常：" + e.getMessage(), e);
+        CnblogsLogger.e("程序异常：" + e.getMessage(), e);
         onError(new CnblogsSdkException(e));
     }
 

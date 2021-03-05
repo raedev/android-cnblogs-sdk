@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sdk_token_expired">登录过期，请重新登录</string>
+    <string name="sdk_format_response_error">接口发生异常，Code：%d</string>
+</resources>

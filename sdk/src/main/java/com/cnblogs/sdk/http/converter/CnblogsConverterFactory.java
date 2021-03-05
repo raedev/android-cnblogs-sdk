@@ -1,8 +1,11 @@
-package com.cnblogs.sdk.internal;
+package com.cnblogs.sdk.http.converter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cnblogs.sdk.internal.CnblogsLogger;
+import com.cnblogs.sdk.parser.HtmlParser;
+import com.cnblogs.sdk.internal.ObjectCacheHashMap;
 import com.cnblogs.sdk.parser.IHtmlParser;
 
 import org.jetbrains.annotations.NotNull;

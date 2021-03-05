@@ -1,7 +1,7 @@
 package com.cnblogs.sdk.demo.activity;
 
 import com.cnblogs.sdk.CnblogsSdk;
-import com.cnblogs.sdk.data.api.IUserDataApi;
+import com.cnblogs.sdk.data.api.UserDataApi;
 import com.cnblogs.sdk.demo.ApiListAdapter;
 import com.cnblogs.sdk.model.ProfileInfo;
 import com.cnblogs.sdk.model.UserInfo;
@@ -17,7 +17,7 @@ import io.reactivex.rxjava3.core.Observable;
  */
 public class UserApiActivity extends ApiListActivity {
 
-    IUserDataApi mUserDataApi;
+    UserDataApi mUserDataApi;
 
     @Override
     public void onLoadApiItems(ApiListAdapter adapter) {

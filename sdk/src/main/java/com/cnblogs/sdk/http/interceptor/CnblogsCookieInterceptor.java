@@ -1,4 +1,4 @@
-package com.cnblogs.sdk.http;
+package com.cnblogs.sdk.http.interceptor;
 
 import com.cnblogs.sdk.CnblogsSdk;
 

@@ -86,10 +86,6 @@ public class ArticleInfo {
     @Nullable
     private String thumbUrl;
 
-    /**
-     * 是否已读
-     */
-    private boolean isRead;
 
     /**
      * 创建时间
@@ -202,14 +198,6 @@ public class ArticleInfo {
 
     public void setThumbUrl(@Nullable String thumbUrl) {
         this.thumbUrl = thumbUrl;
-    }
-
-    public boolean isRead() {
-        return isRead;
-    }
-
-    public void setRead(boolean read) {
-        isRead = read;
     }
 
     public long getCreatedTime() {

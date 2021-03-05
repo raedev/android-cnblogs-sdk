@@ -5,10 +5,10 @@ import android.util.Log;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.cnblogs.sdk.CnblogsSdk;
 import com.cnblogs.sdk.api.ICategoryApi;
-import com.cnblogs.sdk.data.api.ICategoryDataApi;
+import com.cnblogs.sdk.data.api.CategoryDataApi;
 import com.cnblogs.sdk.demo.ApiListAdapter;
 import com.cnblogs.sdk.model.CategoryInfo;
-import com.cnblogs.sdk.param.SubCategoryParam;
+import com.cnblogs.sdk.http.body.SubCategoryRequestBody;
 import com.github.raedev.swift.AppSwift;
 import com.github.raedev.swift.utils.JsonUtils;
 
@@ -24,7 +24,7 @@ import io.reactivex.rxjava3.core.Observable;
  */
 public class CategoryApiActivity extends ApiListActivity {
 
-    ICategoryDataApi mDataApi;
+    CategoryDataApi mDataApi;
     ICategoryApi mCategoryApi;
 
     @Override
@@ -37,7 +37,7 @@ public class CategoryApiActivity extends ApiListActivity {
 
     public Observable<List<CategoryInfo>> queryHomeCategory() {
         return mCategoryApi.getHomeCategory().flatMap(data -> {
-            SubCategoryParam param = new SubCategoryParam(data);
+            SubCategoryRequestBody param = new SubCategoryRequestBody(data);
             return mCategoryApi.getHomeSubCategory(param).map(res -> {
                 data.addAll(res);
                 return data;

@@ -47,7 +47,15 @@ public final class CnblogsSdk {
         mContext = context;
         mCnblogsWebApiProvider = new CnblogsWebApiProvider();
         mCnblogsDataProvider = new CnblogsDataProvider();
-        mDataBase = Room.databaseBuilder(context, CnblogsDatabase.class, "cnblogs-v2").build();
+        mDataBase = Room.databaseBuilder(context, CnblogsDatabase.class, "cnblogs.v2").build();
+    }
+
+    /**
+     * 用来校验包的完整性
+     * 每一个版本都会有固定的一个值
+     */
+    public static String md5() {
+        return "2888cd106bd98b888fca74c785bd6cf5";
     }
 
     /**
@@ -62,6 +70,7 @@ public final class CnblogsSdk {
             synchronized (CnblogsSdk.class) {
                 Application application = builder.mApplication;
                 if (sFactory == null) {
+                    // TODO：通过DexClassLoader 加载本地dex版本库实现接口热修复功能
                     // 初始化 AppSwift
                     AppSwift.init(application);
                     // 初始化用户管理
@@ -123,6 +132,7 @@ public final class CnblogsSdk {
         }
         return mConfigProvider;
     }
+
 
     @NonNull
     public CnblogsDatabase getDatabase() {

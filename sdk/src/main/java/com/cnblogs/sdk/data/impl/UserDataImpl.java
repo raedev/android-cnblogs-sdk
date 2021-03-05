@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 import com.cnblogs.sdk.CnblogsSdk;
 import com.cnblogs.sdk.api.IAccountApi;
 import com.cnblogs.sdk.api.IUserApi;
-import com.cnblogs.sdk.data.api.IUserDataApi;
+import com.cnblogs.sdk.data.api.UserDataApi;
 import com.cnblogs.sdk.exception.CnblogsSdkException;
 import com.cnblogs.sdk.exception.CnblogsTokenException;
 import com.cnblogs.sdk.http.Composer;
@@ -25,12 +25,12 @@ import io.reactivex.rxjava3.functions.Function;
  * @author RAE
  * @date 2021/02/20
  */
-class UserDataApiImpl extends BaseDataApi implements IUserDataApi {
+class UserDataImpl extends BaseDataApi implements UserDataApi {
 
     private final IAccountApi mAccountApi;
     private final IUserApi mUserApi;
 
-    public UserDataApiImpl() {
+    public UserDataImpl() {
         mAccountApi = getWebApiProvider().getAccountApi();
         mUserApi = getWebApiProvider().getUserApi();
     }

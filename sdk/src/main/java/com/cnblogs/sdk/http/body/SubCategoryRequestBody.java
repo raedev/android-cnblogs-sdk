@@ -1,4 +1,4 @@
-package com.cnblogs.sdk.param;
+package com.cnblogs.sdk.http.body;
 
 import com.cnblogs.sdk.api.ApiConstant;
 import com.cnblogs.sdk.model.CategoryInfo;
@@ -20,19 +20,15 @@ import okio.BufferedSink;
  * @author RAE
  * @date 2021/03/01
  */
-public class SubCategoryParam extends RequestBody {
+public class SubCategoryRequestBody extends RequestBody {
 
     private final List<String> mCategoryList = new ArrayList<>();
 
-    public SubCategoryParam(List<CategoryInfo> categoryList) {
+    public SubCategoryRequestBody(List<CategoryInfo> categoryList) {
         for (CategoryInfo categoryInfo : categoryList) {
             mCategoryList.add(categoryInfo.getCategoryId());
         }
     }
-
-    public SubCategoryParam() {
-    }
-
 
     @Nullable
     @Override

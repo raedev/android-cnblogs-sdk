@@ -9,6 +9,13 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ResponseInfo {
 
+    public static  final  ResponseInfo S_SUCCESS_INFO = new ResponseInfo();
+
+    public static ResponseInfo success(){
+        S_SUCCESS_INFO.setSuccessful(true);
+        return S_SUCCESS_INFO;
+    }
+
     @SerializedName("IsSucceed")
     private boolean isSuccessful;
 

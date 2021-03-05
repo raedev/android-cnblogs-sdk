@@ -1,4 +1,4 @@
-package com.cnblogs.sdk.http;
+package com.cnblogs.sdk.http.body;
 
 import com.cnblogs.sdk.api.ApiConstant;
 import com.cnblogs.sdk.exception.CnblogsSdkException;

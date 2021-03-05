@@ -1,4 +1,4 @@
-package com.cnblogs.sdk.internal;
+package com.cnblogs.sdk.http.converter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

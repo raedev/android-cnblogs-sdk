@@ -14,7 +14,7 @@ import io.reactivex.rxjava3.core.Observable;
  * @author RAE
  * @date 2021/02/20
  */
-public interface IUserDataApi {
+public interface UserDataApi {
 
     /**
      * 获取用户信息

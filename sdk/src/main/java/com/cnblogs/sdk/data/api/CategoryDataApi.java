@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.core.Observable;
  * @author RAE
  * @date 2021/02/25
  */
-public interface ICategoryDataApi {
+public interface CategoryDataApi {
 
     /**
      * 获取首页分类接口

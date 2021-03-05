@@ -1,7 +1,7 @@
 package com.cnblogs.sdk.demo.activity;
 
 import com.cnblogs.sdk.CnblogsSdk;
-import com.cnblogs.sdk.data.api.IBlogDataApi;
+import com.cnblogs.sdk.data.api.BlogDataApi;
 import com.cnblogs.sdk.demo.ApiListAdapter;
 import com.cnblogs.sdk.model.ArticleInfo;
 import com.cnblogs.sdk.model.CategoryInfo;
@@ -17,7 +17,7 @@ import io.reactivex.rxjava3.core.Observable;
  */
 public class BlogApiActivity extends ApiListActivity {
 
-    IBlogDataApi mDataApi;
+    BlogDataApi mDataApi;
 
     @Override
     public void onLoadApiItems(ApiListAdapter adapter) {

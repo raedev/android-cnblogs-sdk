@@ -1,8 +1,8 @@
 package com.cnblogs.sdk.api;
 
-import com.cnblogs.sdk.internal.HtmlParser;
+import com.cnblogs.sdk.parser.HtmlParser;
 import com.cnblogs.sdk.model.ArticleInfo;
-import com.cnblogs.sdk.param.BlogParam;
+import com.cnblogs.sdk.http.body.BlogRequestBody;
 import com.cnblogs.sdk.parser.blog.BlogListParser;
 
 import java.util.List;
@@ -27,5 +27,5 @@ public interface IBlogApi {
     @POST(ApiConstant.API_BLOG_LIST)
     @Headers(ApiConstant.HEADER_XHR)
     @HtmlParser(BlogListParser.class)
-    Observable<List<ArticleInfo>> getBlogs(@Body BlogParam param);
+    Observable<List<ArticleInfo>> getBlogs(@Body BlogRequestBody param);
 }

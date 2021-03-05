@@ -1,6 +1,5 @@
-package com.cnblogs.sdk.param;
+package com.cnblogs.sdk.http.body;
 
-import com.cnblogs.sdk.http.JsonRequestBody;
 import com.cnblogs.sdk.model.CategoryInfo;
 import com.cnblogs.sdk.parser.HtmlParserUtils;
 
@@ -11,7 +10,7 @@ import org.json.JSONObject;
  * @author RAE
  * @date 2021/03/01
  */
-public class BlogParam extends JsonRequestBody {
+public class BlogRequestBody extends JsonRequestBody {
 
     private final int mPage;
     private final CategoryInfo mCategoryInfo;
@@ -20,7 +19,7 @@ public class BlogParam extends JsonRequestBody {
      * @param categoryInfo 分类
      * @param page 页码
      */
-    public BlogParam(CategoryInfo categoryInfo, int page) {
+    public BlogRequestBody(CategoryInfo categoryInfo, int page) {
         mCategoryInfo = categoryInfo;
         mPage = page;
     }

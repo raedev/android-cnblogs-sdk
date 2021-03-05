@@ -1,7 +1,7 @@
 package com.cnblogs.sdk.data.impl;
 
 import com.blankj.utilcode.util.ResourceUtils;
-import com.cnblogs.sdk.data.api.ICategoryDataApi;
+import com.cnblogs.sdk.data.api.CategoryDataApi;
 import com.cnblogs.sdk.db.CategoryDao;
 import com.cnblogs.sdk.internal.CnblogsLogger;
 import com.cnblogs.sdk.model.CategoryInfo;
@@ -18,11 +18,11 @@ import io.reactivex.rxjava3.core.Observable;
  * @author RAE
  * @date 2021/02/26
  */
-class CategoryDataApiImpl extends BaseDataApi implements ICategoryDataApi {
+class CategoryDataImpl extends BaseDataApi implements CategoryDataApi {
 
     private final CategoryDao mCategoryDao;
 
-    public CategoryDataApiImpl() {
+    public CategoryDataImpl() {
         mCategoryDao = getDatabase().getCategoryDao();
     }
 

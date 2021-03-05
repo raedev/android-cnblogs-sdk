@@ -1,9 +1,9 @@
 package com.cnblogs.sdk.data.impl;
 
-import com.cnblogs.sdk.data.api.IBlogDataApi;
+import com.cnblogs.sdk.data.api.BlogDataApi;
 import com.cnblogs.sdk.model.ArticleInfo;
 import com.cnblogs.sdk.model.CategoryInfo;
-import com.cnblogs.sdk.param.BlogParam;
+import com.cnblogs.sdk.http.body.BlogRequestBody;
 
 import java.util.List;
 
@@ -14,11 +14,11 @@ import io.reactivex.rxjava3.core.Observable;
  * @author RAE
  * @date 2021/03/01
  */
-class BlogDataApiImpl extends ArticleDataApi implements IBlogDataApi {
+class BlogDataImpl extends ArticleDataImpl implements BlogDataApi {
 
     @Override
     public Observable<List<ArticleInfo>> queryBlogs(CategoryInfo categoryInfo, int page) {
-        return mBlogApi.getBlogs(new BlogParam(categoryInfo, page)).flatMap(data -> cacheToLocal(categoryInfo, data));
+        return mBlogApi.getBlogs(new BlogRequestBody(categoryInfo, page)).flatMap(data -> cacheToLocal(categoryInfo, data));
     }
 
 }

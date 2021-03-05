@@ -1,6 +1,6 @@
 package com.cnblogs.sdk.api;
 
-import com.cnblogs.sdk.internal.HtmlParser;
+import com.cnblogs.sdk.parser.HtmlParser;
 import com.cnblogs.sdk.model.ProfileInfo;
 import com.cnblogs.sdk.model.ResponseInfo;
 import com.cnblogs.sdk.parser.user.ProfileInfoParser;

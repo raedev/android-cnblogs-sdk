@@ -13,9 +13,9 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.cnblogs.sdk.CnblogsSdk;
 import com.cnblogs.sdk.api.ApiConstant;
-import com.cnblogs.sdk.data.api.IUserDataApi;
+import com.cnblogs.sdk.data.api.UserDataApi;
 import com.cnblogs.sdk.exception.CnblogsSdkException;
-import com.cnblogs.sdk.http.CnblogsObserver;
+import com.cnblogs.sdk.CnblogsObserver;
 import com.cnblogs.sdk.http.Composer;
 import com.cnblogs.sdk.internal.CnblogsLogger;
 import com.cnblogs.sdk.model.UserInfo;
@@ -37,7 +37,7 @@ public class AuthWebViewHandler {
 
     private final WeakReference<WebView> mWeakReference;
     private final LifecycleOwner mOwner;
-    private final IUserDataApi mUserApi;
+    private final UserDataApi mUserApi;
     AuthWebViewClient mWebViewClient;
     private AuthWebViewCallback mOnAuthWebViewCallback;
 

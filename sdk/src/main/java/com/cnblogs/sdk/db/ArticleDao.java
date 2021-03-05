@@ -1,5 +1,6 @@
 package com.cnblogs.sdk.db;
 
+import androidx.annotation.Nullable;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -30,5 +31,6 @@ public interface ArticleDao {
      * @return 文章实体
      */
     @Query("SELECT * FROM ARTICLE WHERE postId=:postId")
+    @Nullable
     ArticleInfo find(String postId);
 }

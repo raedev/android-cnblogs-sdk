@@ -6,8 +6,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cnblogs.sdk.CnblogsSdk;
-import com.cnblogs.sdk.data.api.IUserDataApi;
 import com.cnblogs.sdk.demo.ApiListAdapter;
 import com.cnblogs.sdk.demo.R;
 

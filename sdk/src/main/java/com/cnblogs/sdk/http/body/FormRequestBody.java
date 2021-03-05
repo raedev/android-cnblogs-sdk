@@ -1,4 +1,4 @@
-package com.cnblogs.sdk.http;
+package com.cnblogs.sdk.http.body;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,19 +15,19 @@ import okio.BufferedSink;
  * @author RAE
  * @date 2021/02/20
  */
-public class FormParam extends RequestBody {
+public class FormRequestBody extends RequestBody {
     private final FormBody.Builder mFormBody;
 
-    public FormParam() {
+    public FormRequestBody() {
         mFormBody = new FormBody.Builder();
     }
 
-    public FormParam addQuery(String name, String value) {
+    public FormRequestBody addQuery(String name, String value) {
         mFormBody.add(name, value);
         return this;
     }
 
-    public FormParam addEncodeQuery(String name, String value) {
+    public FormRequestBody addEncodeQuery(String name, String value) {
         mFormBody.addEncoded(name, value);
         return this;
     }

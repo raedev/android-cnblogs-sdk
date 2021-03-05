@@ -1,6 +1,4 @@
-package com.cnblogs.sdk.internal;
-
-import com.cnblogs.sdk.parser.IHtmlParser;
+package com.cnblogs.sdk.parser;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
