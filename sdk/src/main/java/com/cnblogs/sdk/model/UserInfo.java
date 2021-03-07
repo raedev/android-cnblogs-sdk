@@ -5,10 +5,11 @@ import android.os.Parcelable;
 
 /**
  * 用户信息
+ *
  * @author RAE
  * @date 2021/02/23
  */
-public class UserInfo extends AuthTokenInfo implements Parcelable {
+public class UserInfo implements Parcelable {
 
     /**
      * 账号
@@ -54,7 +55,6 @@ public class UserInfo extends AuthTokenInfo implements Parcelable {
     }
 
     protected UserInfo(Parcel in) {
-        super(in);
         spaceUserId = in.readString();
         displayName = in.readString();
         blogApp = in.readString();
@@ -67,7 +67,6 @@ public class UserInfo extends AuthTokenInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeString(spaceUserId);
         dest.writeString(displayName);
         dest.writeString(blogApp);

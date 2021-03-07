@@ -2,6 +2,8 @@ package com.cnblogs.sdk.exception;
 
 import com.cnblogs.sdk.internal.ObjectCacheHashMap;
 
+import java.lang.reflect.Constructor;
+
 import retrofit2.Retrofit;
 
 /**
@@ -52,7 +54,9 @@ public final class ApiCreator {
         Object api = mApiCacheMap.get(key);
         if (api == null) {
             try {
-                T t = cls.newInstance();
+                Constructor<T> constructor = cls.getConstructor();
+                constructor.setAccessible(true);
+                T t = constructor.newInstance();
                 mApiCacheMap.put(key, t);
                 return t;
             } catch (Throwable e) {
