@@ -3,7 +3,7 @@ package com.cnblogs.sdk.data.impl;
 import com.cnblogs.sdk.data.api.BlogDataApi;
 import com.cnblogs.sdk.data.api.CategoryDataApi;
 import com.cnblogs.sdk.data.api.UserDataApi;
-import com.cnblogs.sdk.exception.ApiCreator;
+import com.cnblogs.sdk.internal.ApiCreator;
 
 /**
  * 数据接口提供者

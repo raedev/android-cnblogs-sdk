@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.functions.Function;
  * @author RAE
  * @date 2021/02/20
  */
-class UserDataImpl extends BaseDataApi implements UserDataApi {
+public class UserDataImpl extends BaseDataApi implements UserDataApi {
 
     private final IAccountApi mAccountApi;
     private final IUserApi mUserApi;

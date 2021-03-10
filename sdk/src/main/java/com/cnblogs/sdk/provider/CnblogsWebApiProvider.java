@@ -6,11 +6,11 @@ import com.cnblogs.sdk.api.IAccountApi;
 import com.cnblogs.sdk.api.IBlogApi;
 import com.cnblogs.sdk.api.ICategoryApi;
 import com.cnblogs.sdk.api.IUserApi;
-import com.cnblogs.sdk.exception.ApiCreator;
 import com.cnblogs.sdk.http.converter.CnblogsConverterFactory;
 import com.cnblogs.sdk.http.interceptor.CnblogsCookieInterceptor;
 import com.cnblogs.sdk.http.interceptor.CnblogsRequestInterceptor;
 import com.cnblogs.sdk.http.interceptor.CnblogsResponseInterceptor;
+import com.cnblogs.sdk.internal.ApiCreator;
 import com.cnblogs.sdk.internal.CnblogsLogger;
 
 import java.util.concurrent.TimeUnit;

@@ -19,7 +19,7 @@ import io.reactivex.rxjava3.core.Observable;
  * @date 2021/02/26
  * @
  */
-class CategoryDataImpl extends BaseDataApi implements CategoryDataApi {
+public class CategoryDataImpl extends BaseDataApi implements CategoryDataApi {
 
     private final CategoryDao mCategoryDao;
 

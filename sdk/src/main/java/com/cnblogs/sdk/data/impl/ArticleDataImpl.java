@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.cnblogs.sdk.api.IBlogApi;
+import com.cnblogs.sdk.data.api.ArticleDataApi;
 import com.cnblogs.sdk.db.ArticleDao;
 import com.cnblogs.sdk.db.ArticleHistoryDao;
 import com.cnblogs.sdk.exception.CnblogsSdkException;
@@ -21,11 +22,10 @@ import io.reactivex.rxjava3.core.ObservableSource;
 
 /**
  * 文章数据库接口
- *
  * @author RAE
  * @date 2021/03/01
  */
-abstract class ArticleDataImpl extends BaseDataApi implements com.cnblogs.sdk.data.api.ArticleDataApi {
+abstract class ArticleDataImpl extends BaseDataApi implements ArticleDataApi {
     protected final IBlogApi mBlogApi;
     protected final ArticleDao mArticleDao;
     protected final ArticleHistoryDao mArticleHistoryDao;
@@ -39,7 +39,6 @@ abstract class ArticleDataImpl extends BaseDataApi implements com.cnblogs.sdk.da
 
     /**
      * 文章缓存到数据库
-     *
      * @param data 数据
      * @return 观察者
      */
