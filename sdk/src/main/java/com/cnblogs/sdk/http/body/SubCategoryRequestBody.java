@@ -1,6 +1,6 @@
 package com.cnblogs.sdk.http.body;
 
-import com.cnblogs.sdk.api.ApiConstant;
+import com.cnblogs.sdk.internal.ApiConstant;
 import com.cnblogs.sdk.model.CategoryInfo;
 
 import org.jetbrains.annotations.NotNull;

@@ -3,10 +3,9 @@ buildscript {
     repositories {
         maven { url 'https://maven.raeblog.com/repository/public/' }
         google()
-        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.2'
+        classpath 'com.android.tools.build:gradle:4.2.2'
     }
 }
 
@@ -14,7 +13,6 @@ allprojects {
     repositories {
         maven { url 'https://maven.raeblog.com/repository/public/' }
         maven { url 'https://jitpack.io' }
-        jcenter()
         google()
     }
 }

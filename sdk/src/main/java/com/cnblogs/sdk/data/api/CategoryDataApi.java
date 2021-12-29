@@ -18,4 +18,11 @@ public interface CategoryDataApi {
      * @return 分类
      */
     Observable<List<CategoryInfo>> queryHomeCategory();
+
+    /**
+     * 通过Id查找分类
+     * @param categoryId 分类Id
+     * @return 分类
+     */
+    Observable<CategoryInfo> find(String categoryId);
 }

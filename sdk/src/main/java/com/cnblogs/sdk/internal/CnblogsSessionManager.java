@@ -4,8 +4,11 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
 
+import androidx.annotation.NonNull;
+
 import com.cnblogs.sdk.CnblogsSdk;
 import com.cnblogs.sdk.model.UserInfo;
+import com.github.raedev.swift.AppSwift;
 import com.github.raedev.swift.session.SharedPreferencesSessionManager;
 
 import java.net.CookieHandler;
@@ -18,7 +21,6 @@ import okhttp3.JavaNetCookieJar;
 
 /**
  * 博客园会话管理，维护登录信息、Token信息、Cookie同步。
- *
  * @author RAE
  * @date 2021/02/20
  */
@@ -27,6 +29,14 @@ public final class CnblogsSessionManager extends SharedPreferencesSessionManager
     private final JavaNetCookieJar mCookieJar;
     private final String mCookieUrl = "https://cnblogs.com";
     private final HttpUrl mCookieHttpUrl;
+
+    @NonNull
+    public static CnblogsSessionManager getDefault() {
+        if (sSessionManager == null) {
+            sSessionManager = new CnblogsSessionManager(AppSwift.getContext());
+        }
+        return (CnblogsSessionManager) sSessionManager;
+    }
 
     public CnblogsSessionManager(Context context) {
         super(context, "CnblogsSessionManager", UserInfo.class);
@@ -126,17 +136,14 @@ public final class CnblogsSessionManager extends SharedPreferencesSessionManager
 
     /**
      * 设置调试信息，仅仅当debug的时候调用
-     *
-     * @param cookie    .CNBlogsCookie
      * @param netCookie .Cnblogs.AspNetCore.Cookies
      */
-    public void mockLogin(String cookie, String netCookie) {
+    public void mockLogin(String netCookie) {
         if (!CnblogsSdk.S_DEBUG) {
             CnblogsLogger.w("调试登录信息请打开debug开关");
             return;
         }
         List<Cookie> cookies = new ArrayList<>();
-        cookies.add(new Cookie.Builder().name(".CNBlogsCookie").domain("cnblogs.com").value(cookie).path("/").httpOnly().build());
         cookies.add(new Cookie.Builder().name(".Cnblogs.AspNetCore.Cookies").domain("cnblogs.com").value(netCookie).path("/").httpOnly().build());
         mCookieJar.saveFromResponse(mCookieHttpUrl, cookies);
         syncJavaNetCookie();

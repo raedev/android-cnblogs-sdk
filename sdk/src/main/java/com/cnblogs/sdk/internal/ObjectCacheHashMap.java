@@ -35,11 +35,11 @@ public final class ObjectCacheHashMap<K, V> {
             }
             if (firstKey != null) {
                 mCacheMap.remove(firstKey);
-                CnblogsLogger.d("rae", "移除对象：" + key + "=" + value);
+//                CnblogsLogger.d("rae", "移除对象：" + key + "=" + value);
             }
         }
         mCacheMap.put(key, value);
-        CnblogsLogger.d("rae", "缓存对象：" + key + "=" + value);
+//        CnblogsLogger.d("rae", "缓存对象：" + key + "=" + value);
     }
 
     public int size() {

@@ -1,7 +1,7 @@
 package com.cnblogs.sdk.http.body;
 
-import com.cnblogs.sdk.api.ApiConstant;
-import com.cnblogs.sdk.exception.CnblogsSdkException;
+import com.cnblogs.sdk.internal.ApiConstant;
+import com.cnblogs.sdk.exception.CnblogsRuntimeException;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -37,7 +37,7 @@ public abstract class JsonRequestBody extends RequestBody {
         try {
             String json = toJson();
             if (json == null) {
-                throw new CnblogsSdkException("Json类型请求参数不能为空");
+                throw new CnblogsRuntimeException("Json类型请求参数不能为空");
             }
             bufferedSink.writeString(json, StandardCharsets.UTF_8);
         } catch (Exception e) {

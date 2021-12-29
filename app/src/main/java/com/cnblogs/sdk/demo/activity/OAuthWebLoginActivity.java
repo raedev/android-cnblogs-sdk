@@ -5,11 +5,11 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.cnblogs.sdk.demo.R;
-import com.cnblogs.sdk.exception.CnblogsSdkException;
+import com.cnblogs.sdk.exception.CnblogsRuntimeException;
 import com.cnblogs.sdk.internal.CnblogsLogger;
 import com.cnblogs.sdk.model.UserInfo;
 import com.cnblogs.sdk.oauth.AuthWebViewCallback;
-import com.cnblogs.sdk.ui.WebAuthFragment;
+import com.cnblogs.sdk.oauth.WebAuthFragment;
 
 /**
  * 官网登录接口
@@ -35,7 +35,7 @@ public class OAuthWebLoginActivity extends BaseActivity implements AuthWebViewCa
     }
 
     @Override
-    public void onLoginFailed(CnblogsSdkException exception) {
+    public void onLoginFailed(CnblogsRuntimeException exception) {
         showAlert("登录失败：" + exception.getMessage());
     }
 }

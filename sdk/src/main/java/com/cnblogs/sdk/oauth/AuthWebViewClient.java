@@ -14,7 +14,6 @@ import com.cnblogs.sdk.internal.CnblogsLogger;
  * @author RAE
  * @date 2021/02/22
  */
-@SuppressWarnings("SpellCheckingInspection")
 public class AuthWebViewClient extends WebViewClient {
 
     private OnAuthSuccessListener mOnAuthSuccessListener;

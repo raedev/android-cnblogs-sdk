@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.blankj.utilcode.util.FileIOUtils;
 import com.cnblogs.sdk.CnblogsSdk;
-import com.cnblogs.sdk.api.ICategoryApi;
+import com.cnblogs.sdk.api.ICategoryWebApi;
 import com.cnblogs.sdk.data.api.CategoryDataApi;
 import com.cnblogs.sdk.demo.ApiListAdapter;
 import com.cnblogs.sdk.model.CategoryInfo;
@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.core.Observable;
 public class CategoryApiActivity extends ApiListActivity {
 
     CategoryDataApi mDataApi;
-    ICategoryApi mCategoryApi;
+    ICategoryWebApi mCategoryApi;
 
     @Override
     public void onLoadApiItems(ApiListAdapter adapter) {

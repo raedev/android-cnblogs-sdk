@@ -11,14 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.cnblogs.sdk.CnblogsSdk;
-import com.cnblogs.sdk.api.ApiConstant;
-import com.cnblogs.sdk.data.api.UserDataApi;
-import com.cnblogs.sdk.exception.CnblogsSdkException;
 import com.cnblogs.sdk.CnblogsObserver;
-import com.cnblogs.sdk.http.Composer;
+import com.cnblogs.sdk.CnblogsSdk;
+import com.cnblogs.sdk.data.api.UserDataApi;
+import com.cnblogs.sdk.exception.CnblogsRuntimeException;
+import com.cnblogs.sdk.internal.ApiConstant;
 import com.cnblogs.sdk.internal.CnblogsLogger;
 import com.cnblogs.sdk.model.UserInfo;
+import com.github.raedev.swift.rx.Composer;
 import com.github.raedev.swift.utils.JsonUtils;
 
 import java.lang.ref.WeakReference;
@@ -141,11 +141,11 @@ public class AuthWebViewHandler {
                     }
 
                     @Override
-                    public void onError(@NonNull CnblogsSdkException exception) {
+                    protected void onError(String message) {
                         if (mOnAuthWebViewCallback != null) {
-                            mOnAuthWebViewCallback.onLoginFailed(exception);
+                            mOnAuthWebViewCallback.onLoginFailed(new CnblogsRuntimeException(message));
                         }
-                        loadFailedPage(exception.getMessage());
+                        loadFailedPage(message);
                     }
                 });
     }

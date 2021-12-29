@@ -26,12 +26,14 @@ public class CategoryInfo {
     /**
      * 分类ID
      */
+    @SerializedName("cate_id")
     private String categoryId;
 
     /**
      * 上一级ID
      */
     @ColumnInfo(defaultValue = "0")
+    @SerializedName("parent_id")
     private String parentId;
 
     /**
@@ -50,13 +52,14 @@ public class CategoryInfo {
      * 分类排序
      */
     @ColumnInfo(defaultValue = "0")
+    @SerializedName("order_no")
     private int orderNo;
 
     /**
      * 状态：0显示，-1隐藏
      */
-    @ColumnInfo(defaultValue = "0")
-    private int state;
+    @ColumnInfo(defaultValue = "1")
+    private int visible;
 
     /**
      * 子类
@@ -112,12 +115,12 @@ public class CategoryInfo {
         this.orderNo = orderNo;
     }
 
-    public int getState() {
-        return state;
+    public int getVisible() {
+        return visible;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setVisible(int visible) {
+        this.visible = visible;
     }
 
     public List<CategoryInfo> getChildren() {

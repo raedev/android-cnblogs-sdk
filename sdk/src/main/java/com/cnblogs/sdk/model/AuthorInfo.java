@@ -5,6 +5,6 @@ package com.cnblogs.sdk.model;
  * @author RAE
  * @date 2021/03/01
  */
-public class AuthorInfo extends  ProfileInfo{
-    
+public class AuthorInfo extends ProfileInfo {
+
 }

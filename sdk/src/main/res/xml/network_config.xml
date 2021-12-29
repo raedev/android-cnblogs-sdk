@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">t.cn</domain>
+        <domain includeSubdomains="true">cnblogs.com</domain>
+        <domain includeSubdomains="true">raeblog.com</domain>
+        <domain includeSubdomains="true">mayizhuanlan.com</domain>
+        <domain includeSubdomains="true">192.168.2.12</domain>
+    </domain-config>
+</network-security-config>

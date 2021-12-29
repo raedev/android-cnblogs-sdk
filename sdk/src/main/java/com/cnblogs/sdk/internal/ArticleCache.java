@@ -29,7 +29,7 @@ public final class ArticleCache {
     }
 
     private File cacheFile() {
-        File cacheDir = AppSwift.getApplication().getExternalCacheDir();
+        File cacheDir = AppSwift.getContext().getExternalCacheDir();
         File parent = new File(cacheDir, "article");
         FileUtils.createOrExistsDir(parent);
         return new File(parent, cacheKey());

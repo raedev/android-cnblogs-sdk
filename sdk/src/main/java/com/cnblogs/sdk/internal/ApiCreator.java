@@ -1,6 +1,6 @@
 package com.cnblogs.sdk.internal;
 
-import com.cnblogs.sdk.exception.CnblogsSdkException;
+import com.cnblogs.sdk.exception.CnblogsRuntimeException;
 
 import retrofit2.Retrofit;
 
@@ -15,12 +15,11 @@ public final class ApiCreator {
     /**
      * 缓存接口，因为调用频繁，避免过多的实例化操作
      */
-    private static final ObjectCacheHashMap<String, Object> API_CACHE_MAP = new ObjectCacheHashMap<>(12);
+    private static final ObjectCacheHashMap<String, Object> API_CACHE_MAP = new ObjectCacheHashMap<>(10);
 
     private ApiCreator() {
-        throw new IllegalStateException("hey guys!");
+        throw new IllegalStateException("私有类");
     }
-
 
     /**
      * 创建接口实例
@@ -55,7 +54,7 @@ public final class ApiCreator {
                 API_CACHE_MAP.put(key, t);
                 return t;
             } catch (Throwable e) {
-                throw new CnblogsSdkException("实例化接口异常！", e);
+                throw new CnblogsRuntimeException("实例化接口异常！", e);
             }
         }
         return (T) api;

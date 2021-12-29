@@ -1,15 +1,14 @@
 package com.cnblogs.sdk.provider;
 
 import com.cnblogs.sdk.CnblogsSdk;
-import com.cnblogs.sdk.api.ApiConstant;
-import com.cnblogs.sdk.api.IAccountApi;
-import com.cnblogs.sdk.api.IBlogApi;
-import com.cnblogs.sdk.api.ICategoryApi;
-import com.cnblogs.sdk.api.IUserApi;
+import com.cnblogs.sdk.api.IAccountWebApi;
+import com.cnblogs.sdk.api.IBlogWebApi;
+import com.cnblogs.sdk.api.IUserWebApi;
 import com.cnblogs.sdk.http.converter.CnblogsConverterFactory;
 import com.cnblogs.sdk.http.interceptor.CnblogsCookieInterceptor;
 import com.cnblogs.sdk.http.interceptor.CnblogsRequestInterceptor;
 import com.cnblogs.sdk.http.interceptor.CnblogsResponseInterceptor;
+import com.cnblogs.sdk.internal.ApiConstant;
 import com.cnblogs.sdk.internal.ApiCreator;
 import com.cnblogs.sdk.internal.CnblogsLogger;
 
@@ -22,28 +21,28 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 
 /**
  * 博客园Web网页接口提供者
- *
  * @author RAE
  * @date 2021/02/10
  */
 public final class CnblogsWebApiProvider {
-    final Retrofit mRetrofit;
-    final OkHttpClient mHttpClient;
+    private final Retrofit mRetrofit;
+    private final ICnblogsSdkConfig mConfig;
 
-    public CnblogsWebApiProvider() {
-        mHttpClient = makeHttpClient();
-        mRetrofit = makeRetrofitBuilder(mHttpClient).build();
+    public CnblogsWebApiProvider(ICnblogsSdkConfig config) {
+        mConfig = config;
+        OkHttpClient httpClient = makeHttpClient();
+        mRetrofit = makeRetrofitBuilder(httpClient).build();
     }
 
     private OkHttpClient makeHttpClient() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(makeLogger());
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
         return new OkHttpClient.Builder()
                 .cookieJar(CnblogsSdk.getSessionManager().getCookieJar())
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .addInterceptor(new CnblogsCookieInterceptor())
-                .addInterceptor(new CnblogsRequestInterceptor())
+                .addInterceptor(CnblogsRequestInterceptor.create(mConfig))
                 .addInterceptor(new CnblogsResponseInterceptor())
                 .addInterceptor(loggingInterceptor)
                 .build();
@@ -64,28 +63,22 @@ public final class CnblogsWebApiProvider {
     /**
      * 获取账号接口
      */
-    public IAccountApi getAccountApi() {
-        return ApiCreator.create(mRetrofit, IAccountApi.class);
+    public IAccountWebApi getAccountApi() {
+        return ApiCreator.create(mRetrofit, IAccountWebApi.class);
     }
 
     /**
      * 获取用户接口
      */
-    public IUserApi getUserApi() {
-        return ApiCreator.create(mRetrofit, IUserApi.class);
-    }
-
-    /**
-     * 分类接口
-     */
-    public ICategoryApi getCategoryApi() {
-        return ApiCreator.create(mRetrofit, ICategoryApi.class);
+    public IUserWebApi getUserApi() {
+        return ApiCreator.create(mRetrofit, IUserWebApi.class);
     }
 
     /**
      * 博客接口
      */
-    public IBlogApi getBlogApi() {
-        return ApiCreator.create(mRetrofit, IBlogApi.class);
+    public IBlogWebApi getBlogApi() {
+        return ApiCreator.create(mRetrofit, IBlogWebApi.class);
     }
+
 }

@@ -7,6 +7,7 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -20,6 +21,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 
 }
 
@@ -32,9 +38,12 @@ dependencies {
 
     implementation rootProject.ext.dependencies.appcompat
 
+//    implementation rootProject.ext.dependencies.swift
+    api project(":module-basic:swift")
+
     // Room
-    implementation "androidx.room:room-runtime:2.2.6"
-    annotationProcessor "androidx.room:room-compiler:2.2.6"
+    implementation rootProject.ext.dependencies.room
+    annotationProcessor rootProject.ext.annotationProcessors.room
 
     // rx
     implementation rootProject.ext.dependencies.rxjava
@@ -49,7 +58,7 @@ dependencies {
     implementation rootProject.ext.dependencies.retrofitLog
     implementation rootProject.ext.dependencies.jsoup
     implementation rootProject.ext.dependencies.gson
-    implementation rootProject.ext.dependencies.swift
+
     // Java Cookie
     implementation rootProject.ext.dependencies.urlconnection
     implementation 'com.trello.rxlifecycle4:rxlifecycle-android-lifecycle:4.0.2'

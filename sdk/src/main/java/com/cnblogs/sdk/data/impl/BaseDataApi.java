@@ -5,8 +5,9 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.cnblogs.sdk.CnblogsSdk;
-import com.cnblogs.sdk.db.CnblogsDatabase;
+import com.cnblogs.sdk.data.dao.CnblogsDatabase;
 import com.cnblogs.sdk.model.UserInfo;
+import com.cnblogs.sdk.provider.CnblogsGatewayApiProvider;
 import com.cnblogs.sdk.provider.CnblogsWebApiProvider;
 
 import java.util.List;
@@ -22,6 +23,10 @@ public abstract class BaseDataApi {
     @NonNull
     protected CnblogsWebApiProvider getWebApiProvider() {
         return CnblogsSdk.getInstance().getWebApiProvider();
+    }
+
+    protected CnblogsGatewayApiProvider getGatewayApiProvider(){
+        return CnblogsSdk.getInstance().getGatewayApiProvider();
     }
 
     @NonNull

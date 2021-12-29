@@ -3,15 +3,15 @@ package com.cnblogs.sdk.data.impl;
 import androidx.annotation.Nullable;
 
 import com.cnblogs.sdk.CnblogsSdk;
-import com.cnblogs.sdk.api.IAccountApi;
-import com.cnblogs.sdk.api.IUserApi;
+import com.cnblogs.sdk.api.IAccountWebApi;
+import com.cnblogs.sdk.api.IUserWebApi;
 import com.cnblogs.sdk.data.api.UserDataApi;
-import com.cnblogs.sdk.exception.CnblogsSdkException;
+import com.cnblogs.sdk.exception.CnblogsRuntimeException;
 import com.cnblogs.sdk.exception.CnblogsTokenException;
-import com.cnblogs.sdk.http.Composer;
 import com.cnblogs.sdk.model.ProfileInfo;
 import com.cnblogs.sdk.model.UserInfo;
 import com.cnblogs.sdk.parser.HtmlParserUtils;
+import com.github.raedev.swift.rx.Composer;
 
 import java.util.List;
 
@@ -27,8 +27,8 @@ import io.reactivex.rxjava3.functions.Function;
  */
 public class UserDataImpl extends BaseDataApi implements UserDataApi {
 
-    private final IAccountApi mAccountApi;
-    private final IUserApi mUserApi;
+    private final IAccountWebApi mAccountApi;
+    private final IUserWebApi mUserApi;
 
     public UserDataImpl() {
         mAccountApi = getWebApiProvider().getAccountApi();
@@ -91,7 +91,7 @@ public class UserDataImpl extends BaseDataApi implements UserDataApi {
             // 退出会话
             UserInfo userInfo = CnblogsSdk.getSessionManager().getUserInfo();
             if (userInfo == null) {
-                throw new CnblogsSdkException("没有登录，无需退出");
+                throw new CnblogsRuntimeException("没有登录，无需退出");
             }
             CnblogsSdk.getSessionManager().forgot();
             emitter.onNext(userInfo);

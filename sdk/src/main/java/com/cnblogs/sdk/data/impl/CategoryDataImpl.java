@@ -1,12 +1,11 @@
 package com.cnblogs.sdk.data.impl;
 
-import com.blankj.utilcode.util.ResourceUtils;
+import com.cnblogs.sdk.api.gateway.IUserApi;
 import com.cnblogs.sdk.data.api.CategoryDataApi;
-import com.cnblogs.sdk.db.CategoryDao;
+import com.cnblogs.sdk.data.dao.CategoryDao;
+import com.cnblogs.sdk.exception.CnblogsRuntimeException;
 import com.cnblogs.sdk.internal.CnblogsLogger;
 import com.cnblogs.sdk.model.CategoryInfo;
-import com.github.raedev.swift.utils.ArraysUtils;
-import com.github.raedev.swift.utils.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,31 +20,47 @@ import io.reactivex.rxjava3.core.Observable;
  */
 public class CategoryDataImpl extends BaseDataApi implements CategoryDataApi {
 
-    private final CategoryDao mCategoryDao;
+    private final CategoryDao mDao;
+    private final IUserApi mUserApi;
 
     public CategoryDataImpl() {
-        mCategoryDao = getDatabase().getCategoryDao();
+        mDao = getDatabase().getCategoryDao();
+        mUserApi = getGatewayApiProvider().getUserApi();
     }
 
     @Override
     public Observable<List<CategoryInfo>> queryHomeCategory() {
         return Observable.create(emitter -> {
-            List<CategoryInfo> result;
-            // 查询数据库中是否有数据，如果没有从Json中读取并保持到数据库
-            if (mCategoryDao.count() <= 0) {
-                // 从Json中初始化数据
-                String json = ResourceUtils.readAssets2String("category.json");
-                List<CategoryInfo> categoryInfoList = JsonUtils.toList(json, CategoryInfo.class);
-                attachDefaultCategory(categoryInfoList);
-                mCategoryDao.insertAll(categoryInfoList);
-                CnblogsLogger.d("分类入库：" + categoryInfoList.size());
-            }
-            // 查询数据库分类
-            result = mCategoryDao.queryHome();
-            if (ArraysUtils.isEmpty(result)) {
+            List<CategoryInfo> result = null;
+            try {
+                // 查询数据库中是否有数据
+                result = mDao.queryHome();
+                if (result.size() <= 0) {
+                    // 没有从接口获取
+                    result = mUserApi.getUserCategory().blockingFirst();
+                    // 保存到数据库
+                    mDao.insertAll(result);
+                }
+            } catch (Exception e) {
+                // 加载默认的分类
+                CnblogsLogger.e("加载分类异常！", e);
                 result = new ArrayList<>();
+                attachDefaultCategory(result);
             }
+            // TODO: 更新策略
             emitter.onNext(result);
+            emitter.onComplete();
+        });
+    }
+
+    @Override
+    public Observable<CategoryInfo> find(String categoryId) {
+        return Observable.create(emitter -> {
+            CategoryInfo data = mDao.find(categoryId);
+            if (data == null) {
+                throw new CnblogsRuntimeException("本地没有该分类：" + categoryId);
+            }
+            emitter.onNext(data);
             emitter.onComplete();
         });
     }

@@ -28,7 +28,7 @@ public abstract class BaseApiTest {
     public void setup() {
         Application application = (Application) InstrumentationRegistry.getInstrumentation().getContext().getApplicationContext();
         // 初始化接口
-        CnblogsSdk.config(new CnblogsSdk.Builder(application).build());
+        CnblogsSdk.init(new CnblogsSdk.Builder(application));
     }
 
     public <T> void runTest(Observable<T> observable) {

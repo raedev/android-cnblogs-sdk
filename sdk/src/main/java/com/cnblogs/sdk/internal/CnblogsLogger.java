@@ -2,11 +2,8 @@ package com.cnblogs.sdk.internal;
 
 import android.util.Log;
 
-import com.cnblogs.sdk.CnblogsSdk;
-
 /**
  * 日志记录
- *
  * @author RAE
  * @date 2021/02/15
  */
@@ -14,7 +11,7 @@ public final class CnblogsLogger {
 
     public static boolean DEBUG = true;
 
-    public static final String TAG = "cnblogs.logger";
+    public static final String TAG = "CnblogsLogger";
 
     public static void e(String msg, Throwable e) {
         Log.e(TAG, msg, e);
@@ -26,6 +23,10 @@ public final class CnblogsLogger {
 
     public static void w(String msg) {
         Log.w(TAG, msg);
+    }
+
+    public static void w(String msg, Throwable e) {
+        Log.w(TAG, msg, e);
     }
 
     public static void d(String msg) {

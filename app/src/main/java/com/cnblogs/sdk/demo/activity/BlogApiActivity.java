@@ -38,7 +38,7 @@ public class BlogApiActivity extends ApiListActivity {
         picked.setTypeName("Picked");
         picked.setParentId("0");
 
-        return mDataApi.queryBlogs(picked, 1);
+        return mDataApi.queryBlogs(home, 1);
     }
 
 }

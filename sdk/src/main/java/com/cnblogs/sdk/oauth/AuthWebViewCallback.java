@@ -1,6 +1,6 @@
 package com.cnblogs.sdk.oauth;
 
-import com.cnblogs.sdk.exception.CnblogsSdkException;
+import com.cnblogs.sdk.exception.CnblogsRuntimeException;
 import com.cnblogs.sdk.model.UserInfo;
 
 /**
@@ -20,5 +20,5 @@ public interface AuthWebViewCallback {
      * 登录失败
      * @param exception 错误信息
      */
-    void onLoginFailed(CnblogsSdkException exception);
+    void onLoginFailed(CnblogsRuntimeException exception);
 }

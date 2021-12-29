@@ -8,9 +8,9 @@
 
     <application
         android:allowBackup="true"
+        android:debuggable="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:debuggable="true"
         android:theme="@style/Theme.CnblogsSdkDemo"
         tools:ignore="HardcodedDebugMode">
         <activity android:name=".activity.MainActivity">
