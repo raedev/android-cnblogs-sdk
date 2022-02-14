@@ -1,14 +1,11 @@
 package com.cnblogs.sdk.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
  * 用户信息
  * @author RAE
  * @date 2021/02/23
  */
-public class UserInfo extends AuthTokenInfo implements Parcelable {
+public class UserInfo {
 
     /**
      * 账号
@@ -52,48 +49,6 @@ public class UserInfo extends AuthTokenInfo implements Parcelable {
 
     public UserInfo() {
     }
-
-    protected UserInfo(Parcel in) {
-        super(in);
-        spaceUserId = in.readString();
-        displayName = in.readString();
-        blogApp = in.readString();
-        unreadMsg = in.readInt();
-        homeLink = in.readString();
-        blogLink = in.readString();
-        iconName = in.readString();
-        avatarName = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
-        dest.writeString(spaceUserId);
-        dest.writeString(displayName);
-        dest.writeString(blogApp);
-        dest.writeInt(unreadMsg);
-        dest.writeString(homeLink);
-        dest.writeString(blogLink);
-        dest.writeString(iconName);
-        dest.writeString(avatarName);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
-        @Override
-        public UserInfo createFromParcel(Parcel in) {
-            return new UserInfo(in);
-        }
-
-        @Override
-        public UserInfo[] newArray(int size) {
-            return new UserInfo[size];
-        }
-    };
 
     public String getSpaceUserId() {
         return spaceUserId;

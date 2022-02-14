@@ -1,7 +1,7 @@
 package com.cnblogs.sdk.demo.activity;
 
 import com.cnblogs.sdk.CnblogsSdk;
-import com.cnblogs.sdk.data.api.IBlogDataApi;
+import com.cnblogs.sdk.internal.data.api.IBlogDataApi;
 import com.cnblogs.sdk.demo.ApiListAdapter;
 import com.cnblogs.sdk.model.ArticleInfo;
 import com.cnblogs.sdk.model.CategoryInfo;

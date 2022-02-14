@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cnblogs.sdk.CnblogsSdk;
 import com.cnblogs.sdk.demo.R;
-import com.cnblogs.sdk.http.CnblogsObserver;
+import com.cnblogs.sdk.internal.http.CnblogsObserver;
 import com.cnblogs.sdk.model.UserInfo;
 
 /**
