@@ -6,6 +6,7 @@
       <w>gson</w>
       <w>jsoup</w>
       <w>mozilla</w>
+      <w>xsrf</w>
     </words>
   </dictionary>
 </component>

@@ -1,11 +1,18 @@
 package com.cnblogs.sdk.internal.utils;
 
 import androidx.annotation.Nullable;
+import androidx.core.util.Predicate;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
@@ -39,5 +46,37 @@ public final class CnblogsUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static <T> boolean remove(List<T> data, Predicate<T> comparable) {
+        List<T> temp = new ArrayList<>();
+        for (T item : data) {
+            if (comparable.test(item)) {
+                temp.add(item);
+            }
+        }
+        if (temp.size() <= 0) {
+            return false;
+        }
+        return data.removeAll(temp);
+    }
+
+    public static RequestBody createFileBody(String name, File file) {
+        return new MultipartBody.Builder()
+                .addFormDataPart(name, file.getName(), RequestBody.create(file, MediaType.parse("image/" + file.getName().split("\\.")[1])))
+                .build();
+    }
+
+    public static <T> void filter(List<T> data, Predicate<T> comparable) {
+        List<T> temp = new ArrayList<>();
+        for (T item : data) {
+            if (!comparable.test(item)) {
+                temp.add(item);
+            }
+        }
+        if (temp.size() <= 0) {
+            return;
+        }
+        data.removeAll(temp);
     }
 }

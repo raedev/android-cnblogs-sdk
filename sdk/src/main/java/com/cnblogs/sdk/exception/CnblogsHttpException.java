@@ -3,7 +3,7 @@ package com.cnblogs.sdk.exception;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.io.IOException;
+import com.cnblogs.sdk.internal.utils.Constant;
 
 /**
  * 博客园HTTP类型异常
@@ -12,7 +12,7 @@ import java.io.IOException;
  * Copyright (c) https://github.com/raedev All rights reserved.
  */
 @SuppressWarnings("unused")
-public class CnblogsHttpException extends IOException {
+public class CnblogsHttpException extends CnblogsIOException {
 
     /**
      * Http状态码
@@ -20,16 +20,22 @@ public class CnblogsHttpException extends IOException {
     private final int mStatusCode;
     @Nullable
     private final String mContent;
-
+    private String mMessage;
 
     public CnblogsHttpException(int code, @Nullable String content) {
-        super("HTTP请求错误，状态码：" + code);
-        mStatusCode = code;
-        mContent = content;
+        this(code, content, null);
     }
 
     public CnblogsHttpException(int code, @Nullable String content, String message) {
-        super(message);
+        mMessage = "网络请求发生错误，错误代码:" + code;
+        if (message != null) {
+            mMessage += ": ";
+            mMessage += message;
+        }
+        if (Constant.DEBUG) {
+            mMessage += "返回数据为：";
+            mMessage += content;
+        }
         mStatusCode = code;
         mContent = content;
     }
@@ -49,9 +55,15 @@ public class CnblogsHttpException extends IOException {
         return mContent;
     }
 
+    @Nullable
+    @Override
+    public String getMessage() {
+        return mMessage;
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return "HTTP返回内容：\r\n" + mContent + "\r\n" + super.toString();
+        return mMessage;
     }
 }

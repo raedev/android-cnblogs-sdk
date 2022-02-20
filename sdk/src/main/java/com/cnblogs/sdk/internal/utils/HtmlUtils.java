@@ -95,7 +95,7 @@ public final class HtmlUtils {
         for (String item : array) {
             text = text.replace(item, "");
         }
-        return text;
+        return text.trim();
     }
 
     /**

@@ -116,4 +116,5 @@ public class UserInfo {
     public void setAvatarName(String avatarName) {
         this.avatarName = avatarName;
     }
+
 }

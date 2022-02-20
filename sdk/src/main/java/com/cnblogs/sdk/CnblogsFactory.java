@@ -6,10 +6,9 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.cnblogs.sdk.internal.Constant;
-import com.cnblogs.sdk.internal.Logger;
-import com.cnblogs.sdk.internal.patch.PatchLoader;
-import com.cnblogs.sdk.manager.UserManager;
+import com.cnblogs.sdk.internal.loader.CnblogsClassLoader;
+import com.cnblogs.sdk.internal.utils.Constant;
+import com.cnblogs.sdk.internal.utils.Logger;
 import com.cnblogs.sdk.provider.GatewayApiProvider;
 import com.cnblogs.sdk.provider.OpenApiProvider;
 import com.cnblogs.sdk.provider.WebApiProvider;
@@ -27,17 +26,23 @@ public final class CnblogsFactory {
 
     @Nullable
     private static CnblogsFactory sFactory;
+    private static Application sContext;
     private final OpenApiProvider mOpenApiProvider;
     private final WebApiProvider mWebApiProvider;
     private final GatewayApiProvider mGatewayApiProvider;
-    private final Application mContext;
 
-    CnblogsFactory(Context context) {
-        mContext = (Application) context;
+    CnblogsFactory(Application context) {
         // 初始化接口提供程序
-        mOpenApiProvider = new OpenApiProvider();
-        mWebApiProvider = new WebApiProvider();
-        mGatewayApiProvider = new GatewayApiProvider();
+        mOpenApiProvider = new OpenApiProvider(context);
+        mWebApiProvider = new WebApiProvider(context);
+        mGatewayApiProvider = new GatewayApiProvider(context);
+    }
+
+    /**
+     * 获取初始化的上下文
+     */
+    public static Context getContext() {
+        return Objects.requireNonNull(sContext, "博客园接口尚未初始化，请先调用initFactory方法");
     }
 
     /**
@@ -49,24 +54,25 @@ public final class CnblogsFactory {
     }
 
     /**
-     * 初始化博客园接口
+     * 初始化博客园接口，在Application中调用。
      */
     public static void initFactory(@NonNull Application application) {
         if (sFactory != null) {
             Logger.w("无需重复初始化接口");
             return;
         }
-        // 初始化Context
-        Constant.context = application;
-        // 初始化用户管理器
-        UserManager.initManager(application);
+        sContext = application;
         // 初始化补丁包加载器
-        PatchLoader loader = new PatchLoader(application);
+        CnblogsClassLoader loader = new CnblogsClassLoader(application);
         // 初始化工厂
-        sFactory = loader.newInstance(CnblogsFactory.class, application);
-        if (sFactory == null) {
-            throw new NullPointerException("初始化博客园接口失败，请查看Logcat日志");
-        }
+        sFactory = Objects.requireNonNull(loader.newInstance(CnblogsFactory.class, application), "初始化博客园接口失败，请查看Logcat日志");
+    }
+
+    /**
+     * 打开调试模式，将在Logcat中输出更多信息，配置过滤TAG：Cnblogs
+     */
+    public void openDebug() {
+        Constant.DEBUG = true;
     }
 
     /**
@@ -95,6 +101,7 @@ public final class CnblogsFactory {
     public GatewayApiProvider getGatewayApiProvider() {
         return mGatewayApiProvider;
     }
+
 
     /**
      * 获取当前接口版本号
