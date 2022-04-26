@@ -5,11 +5,11 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.swift.session.SessionManager;
+import androidx.swift.session.SessionStateListener;
 
 import com.cnblogs.sdk.CnblogsFactory;
 import com.cnblogs.sdk.model.UserInfo;
-import com.github.raedev.swift.session.SessionManager;
-import com.github.raedev.swift.session.SessionStateListener;
 
 import java.util.Objects;
 

@@ -1,15 +1,30 @@
-# Cnblogs Android SDK
+<img src="./doc/images/logo.jpg" alt="logo" width="100%"/>
 
-博客园Android SDK
+博客园网站Android SDK，提供[https://www.cnblogs.com](https://www.cnblogs.com) 网站大部分数据接口。通过该接口可以自行实现一个博客类客户端。
 
-- 开发环境：`Android Studio 2021.1.1 及以上`
-- Java版本：`Java 11`
+该接口应用于开源的 [博客园Android客户端](https://github.com/raedev/android-cnblogs) 。
 
-## 项目结构
+## 准备开发
+
+- 开发环境：`Android Studio 2021.1.1 +`
+- Java版本：`Jdk11`
+- Gradle版本： `gradle-7.3`
+
+## 项目说明
+
+> 接口数据获取方式
+
+- 1、通过对官方网站类爬虫模式抓取网页`html`代码进行数据解析。接口提供者类为：`WebApiProvider`
+- 2、通过官网开发接口[https://api.cnblogs.com/](https://api.cnblogs.com/) OpenAPI方式访问。当前`OpenApiProvider`
+  接口未实现，大部分数据通过第一种方式已经获取得到。有兴趣的同学可以自行`fork`下来实现。
+
+## 项目架构说明
 
 ## 接口设计
 
-## License
+## 开源协议 License
+
+`Apache2.0` 开源协议，完全免费使用。
 
 ```text
 Copyright 2022 RAE
@@ -26,7 +41,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
-
 
 
 

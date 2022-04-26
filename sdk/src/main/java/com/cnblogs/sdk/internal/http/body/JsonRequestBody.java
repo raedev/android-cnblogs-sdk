@@ -2,8 +2,7 @@ package com.cnblogs.sdk.internal.http.body;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.github.raedev.swift.utils.JsonUtils;
+import androidx.swift.util.JsonUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

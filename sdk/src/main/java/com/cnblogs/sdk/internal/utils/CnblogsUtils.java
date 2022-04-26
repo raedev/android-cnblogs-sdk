@@ -79,4 +79,8 @@ public final class CnblogsUtils {
         }
         data.removeAll(temp);
     }
+
+    public static boolean isHomeCategory(String categoryId) {
+        return false;
+    }
 }

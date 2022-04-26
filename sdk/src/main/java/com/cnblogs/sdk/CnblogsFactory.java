@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.cnblogs.sdk.internal.loader.CnblogsClassLoader;
 import com.cnblogs.sdk.internal.utils.Constant;
 import com.cnblogs.sdk.internal.utils.Logger;
+import com.cnblogs.sdk.provider.DataApiProvider;
 import com.cnblogs.sdk.provider.GatewayApiProvider;
 import com.cnblogs.sdk.provider.OpenApiProvider;
 import com.cnblogs.sdk.provider.WebApiProvider;
@@ -18,6 +19,7 @@ import java.util.Objects;
 /**
  * 博客园全局入口类，提供全套的API接口实例。
  * <p>工厂提供两种接口, 一种官网开放接口{@link #getOpenApiProvider()}，另一种网页接口{@link #getWebApiProvider()}</p>
+ * <p>一般你只需要使用{@link #getDataApiProvider()} 数据接口，该接口封装了大部分的数据交互和业务逻辑，比如从网络到本地数据库的处理。</p>
  * @author RAE
  * @date 2021/12/29
  * Copyright (c) https://github.com/raedev All rights reserved.
@@ -30,12 +32,14 @@ public final class CnblogsFactory {
     private final OpenApiProvider mOpenApiProvider;
     private final WebApiProvider mWebApiProvider;
     private final GatewayApiProvider mGatewayApiProvider;
+    private final DataApiProvider mDataApiProvider;
 
     CnblogsFactory(Application context) {
         // 初始化接口提供程序
         mOpenApiProvider = new OpenApiProvider(context);
         mWebApiProvider = new WebApiProvider(context);
         mGatewayApiProvider = new GatewayApiProvider(context);
+        mDataApiProvider = new DataApiProvider(context, mWebApiProvider);
     }
 
     /**
@@ -100,6 +104,14 @@ public final class CnblogsFactory {
      */
     public GatewayApiProvider getGatewayApiProvider() {
         return mGatewayApiProvider;
+    }
+
+    /**
+     * 获取数据接口
+     * @return 数据接口
+     */
+    public DataApiProvider getDataApiProvider() {
+        return mDataApiProvider;
     }
 
 
