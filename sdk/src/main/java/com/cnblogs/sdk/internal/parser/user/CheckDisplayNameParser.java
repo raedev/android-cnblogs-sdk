@@ -1,6 +1,7 @@
 package com.cnblogs.sdk.internal.parser.user;
 
-import com.blankj.utilcode.util.GsonUtils;
+import androidx.swift.util.GsonUtils;
+
 import com.cnblogs.sdk.exception.CnblogsIOException;
 import com.cnblogs.sdk.internal.parser.HtmlParser;
 import com.cnblogs.sdk.internal.utils.Logger;

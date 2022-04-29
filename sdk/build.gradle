@@ -1,16 +1,17 @@
 apply plugin: 'com.android.library'
 
-Properties prop = new Properties();
+Properties prop = new Properties()
 prop.load(new FileInputStream(new File(rootProject.rootDir, "local.properties")))
 def testCookie = prop.getProperty("test.cookie")
 def clientId = prop.getProperty("sdk.clientId")
 def clientSecret = prop.getProperty("sdk.clientSecret")
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
+    buildToolsVersion '32.0.0'
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 32
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // 测试用的登录Cookie，在官网上找到.Cnblogs.AspNetCore.Cookies的值
@@ -44,9 +45,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.0'
 
     // Room
-//    implementation "androidx.room:room-runtime:2.4.1"
-//    annotationProcessor "androidx.room:room-compiler:2.4.1"
-//    implementation 'org.greenrobot:eventbus:3.2.0'
+    implementation "androidx.room:room-runtime:2.4.2"
+    annotationProcessor "androidx.room:room-compiler:2.4.2"
+    implementation 'org.greenrobot:eventbus:3.2.0'
 
     // rx
     implementation 'io.reactivex.rxjava3:rxjava:3.1.1'
@@ -55,12 +56,12 @@ dependencies {
 
     // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-//    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     // Java Cookie
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
     implementation 'org.jsoup:jsoup:1.14.3'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.github.raedev:swift:1.0.2'
+    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation project(':other:swift')
 }
