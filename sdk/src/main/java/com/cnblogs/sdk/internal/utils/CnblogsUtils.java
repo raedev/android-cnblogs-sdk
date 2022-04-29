@@ -1,5 +1,7 @@
 package com.cnblogs.sdk.internal.utils;
 
+import android.text.TextUtils;
+
 import androidx.annotation.Nullable;
 import androidx.core.util.Predicate;
 
@@ -78,5 +80,9 @@ public final class CnblogsUtils {
             return;
         }
         data.removeAll(temp);
+    }
+
+    public static String emptyOrDefault(String text, String defaultValue) {
+        return TextUtils.isEmpty(text) ? defaultValue : text;
     }
 }

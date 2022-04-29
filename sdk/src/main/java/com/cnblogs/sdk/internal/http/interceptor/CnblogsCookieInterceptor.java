@@ -30,6 +30,7 @@ public class CnblogsCookieInterceptor implements Interceptor {
      * Cookie同步器
      */
     private final CookieSynchronizer mCookieSynchronizer;
+    private String mXsrfToken;
 
     private CnblogsCookieInterceptor() {
         mCookieSynchronizer = CookieSynchronizer.getInstance();
@@ -50,13 +51,17 @@ public class CnblogsCookieInterceptor implements Interceptor {
         // 请求前： WebCookie 同步到 JavaCookie
         mCookieSynchronizer.syncWebCookie();
         // XSRF-TOKEN 处理
-        Cookie xsrfTokenCookie = mCookieSynchronizer.getCookie(request.url().toString(), "XSRF-TOKEN");
-        if (xsrfTokenCookie != null) {
-            request = request.newBuilder().header("x-xsrf-token", xsrfTokenCookie.value()).build();
+        if (this.mXsrfToken != null) {
+            request = request.newBuilder().header("x-xsrf-token", this.mXsrfToken).build();
         }
         Response response = chain.proceed(request);
         // 请求后：JavaCookie 同步到 WebCookie
         mCookieSynchronizer.syncJavaNetCookie();
+        Cookie cookie = mCookieSynchronizer.getCookie(request.url().toString(), "XSRF-TOKEN");
+        if (cookie != null) {
+            // 全局通用的XSRF-TOKEN
+            this.mXsrfToken = cookie.value();
+        }
         return response;
     }
 }

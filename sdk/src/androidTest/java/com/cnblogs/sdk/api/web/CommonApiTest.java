@@ -5,12 +5,12 @@ import android.os.Environment;
 import com.cnblogs.sdk.base.BaseApiTest;
 import com.cnblogs.sdk.base.CnblogsAndroidRunner;
 import com.cnblogs.sdk.base.WebApi;
-import com.cnblogs.sdk.internal.utils.CnblogsUtils;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import okhttp3.RequestBody;
 
@@ -35,9 +35,23 @@ public class CommonApiTest extends BaseApiTest {
     }
 
     @Test
-    public void testUploadFile() {
+    public void testUploadFile() throws Exception {
+        // 1.预先请求
+        exec(mApi.prepareUploadFile());
+
+        // 2.获取上传文件的Token
         File file = new File(Environment.getExternalStorageDirectory(), "11.bmp");
-        RequestBody body = CnblogsUtils.createFileBody("file", file);
-        exec(mApi.requestUploadFileToken(file.getName(), file.length(), body));
+        // 删除文件
+        exec(mApi.deleteFile(file.getName()));
+
+        if (!file.exists()) {
+            throw new FileNotFoundException("测试文件不存在:" + file.getPath());
+        }
+        String token = exec(mApi.requestUploadFileToken(file.getName(), file.length())).getUploadToken();
+
+        // 3.调用上传
+        RequestBody body = RequestBody.create(file, null);
+//        exec(mApi.uploadFile(token, "image/bmp", body));
+
     }
 }

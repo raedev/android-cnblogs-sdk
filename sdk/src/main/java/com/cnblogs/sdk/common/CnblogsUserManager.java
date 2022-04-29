@@ -4,12 +4,10 @@ import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.cnblogs.sdk.CnblogsFactory;
 import com.cnblogs.sdk.model.UserInfo;
-import com.github.raedev.swift.session.SessionManager;
-import com.github.raedev.swift.session.SessionStateListener;
+import com.github.raedev.swift.session.SharedPreferencesSessionManager;
 
 import java.util.Objects;
 
@@ -20,16 +18,12 @@ import java.util.Objects;
  * @date 2021/12/29
  * Copyright (c) https://github.com/raedev All rights reserved.
  */
-public class CnblogsUserManager {
+public class CnblogsUserManager extends SharedPreferencesSessionManager {
 
     private static CnblogsUserManager sUserManager;
-    private final SessionManager mManager;
 
     protected CnblogsUserManager(Context context) {
-        mManager = new SessionManager.Builder(context)
-                .setSessionName("CnblogsUserManager")
-                .setUserClass(UserInfo.class)
-                .build();
+        super(context, "CnblogsUserManager", UserInfo.class);
     }
 
     @NonNull
@@ -41,52 +35,23 @@ public class CnblogsUserManager {
     }
 
     /**
-     * 获取当前登录的用户信息
-     * @return 用户信息
-     */
-    @Nullable
-    public UserInfo getUser() {
-        return mManager.getUserInfo();
-    }
-
-    /**
-     * 设置用户信息，实现登录
-     * @param user 用户信息
-     */
-    public void setUser(UserInfo user) {
-        mManager.setUserInfo(user);
-    }
-
-    /**
      * @return 是否登录
      */
     public boolean isUnauthorized() {
-        return getUser() == null;
+        return !isLogin();
     }
 
     /**
      * 退出登录
      */
     public void clear() {
-        mManager.forgot();
+        super.forgot();
     }
 
     /**
-     * 监听用户信息改变
-     * @param listener listener
+     * 设置登录Cookie
+     * @param cookieValue 登录Cookie值，key = .Cnblogs.AspNetCore.Cookies
      */
-    public void addSessionStateListener(SessionStateListener listener) {
-        mManager.addSessionStateListener(listener);
-    }
-
-    /**
-     * 移除监听
-     * @param listener listener
-     */
-    public void removeSessionStateListener(SessionStateListener listener) {
-        mManager.removeSessionStateListener(listener);
-    }
-
     public void setLoginCookie(String cookieValue) {
         CookieSynchronizer.getInstance().setCookie(".Cnblogs.AspNetCore.Cookies", cookieValue);
     }

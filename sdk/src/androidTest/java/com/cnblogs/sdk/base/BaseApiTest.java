@@ -1,12 +1,11 @@
 package com.cnblogs.sdk.base;
 
-import android.util.Log;
-
 import com.cnblogs.sdk.internal.utils.Logger;
 
 import org.junit.Assert;
 import org.junit.Rule;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 
 /**
@@ -20,12 +19,22 @@ public abstract class BaseApiTest {
     /**
      * 执行测试
      */
-    protected <T> void exec(Observable<T> observable) {
+    protected <T> T exec(Observable<T> observable) {
+        try {
+            return TestExecutor.exec(observable);
+        } catch (Throwable throwable) {
+            Logger.e("测试异常", throwable);
+            Assert.fail("异常结束测试" + throwable.getMessage());
+        }
+        return null;
+    }
+
+    protected <T> void exec(Completable observable) {
         try {
             TestExecutor.exec(observable);
         } catch (Throwable throwable) {
             Logger.e("测试异常", throwable);
-            Assert.fail("测试异常！" + Log.getStackTraceString(throwable));
+            Assert.fail("异常结束测试" + throwable.getMessage());
         }
     }
 }

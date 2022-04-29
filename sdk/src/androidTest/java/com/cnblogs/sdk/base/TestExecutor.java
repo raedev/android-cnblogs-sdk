@@ -7,6 +7,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 
 /**
@@ -17,20 +18,26 @@ import io.reactivex.rxjava3.core.Observable;
  */
 public final class TestExecutor {
 
+
     /**
      * 执行测试
      */
-    public static <T> void exec(Observable<T> observable) throws Throwable {
+    public static <T> T exec(Observable<T> observable) throws Throwable {
         String testMethod = getTestMethod();
         Logger.d("Test", "ExecTest at " + testMethod);
         T data = observable.blockingFirst();
         printObject(testMethod, data);
+        return data;
     }
 
     /**
      * 打印对象
      */
     private static <T> void printObject(String testMethod, T data) {
+//        if (data instanceof Response) {
+//            Logger.w("Test.Result", "无内容响应");
+//            return;
+//        }
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapterFactory(new TypeAdapterFactory() {
@@ -59,4 +66,10 @@ public final class TestExecutor {
         return traceElement.getClassName() + "." + traceElement.getMethodName() + "(" + Class.forName(traceElement.getClassName()).getSimpleName() + ".java:" + traceElement.getLineNumber() + ")";
     }
 
+    public static <T> void exec(Completable observable) throws Throwable {
+        String testMethod = getTestMethod();
+        Logger.d("Test", "Exec Test at " + testMethod);
+        observable.blockingSubscribe();
+        Logger.i("Test", "Test is Finished: " + testMethod);
+    }
 }

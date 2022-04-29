@@ -12,22 +12,41 @@ import com.google.gson.annotations.SerializedName;
  * Copyright (c) https://github.com/raedev All rights reserved.
  */
 public class BlogListParam extends JsonRequestBody {
+
+    /**
+     * 固定值
+     */
     @SerializedName("CategoryType")
     public String categoryType = "TopSiteCategory";
 
+    /**
+     * 父节点分类Id
+     */
     @SerializedName("ParentCategoryId")
     public String parentCategoryId = "0";
 
+    /**
+     * 分类ID
+     */
     @SerializedName("CategoryId")
     @NonNull
     public String categoryId;
 
+    /**
+     * 页码
+     */
     @SerializedName("PageIndex")
     public int pageIndex;
 
+    /**
+     * 固定值
+     */
     @SerializedName("ItemListActionName")
     public String actionName = "AggSitePostList";
 
+    /**
+     * 固定值
+     */
     @SerializedName("TotalPostCount")
     public int totalPostCount = 4000;
 

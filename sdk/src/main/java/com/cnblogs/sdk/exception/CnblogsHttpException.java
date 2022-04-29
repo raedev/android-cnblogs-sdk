@@ -1,9 +1,8 @@
 package com.cnblogs.sdk.exception;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.cnblogs.sdk.internal.utils.Constant;
+import com.cnblogs.sdk.internal.utils.CnblogsUtils;
 
 /**
  * 博客园HTTP类型异常
@@ -20,22 +19,13 @@ public class CnblogsHttpException extends CnblogsIOException {
     private final int mStatusCode;
     @Nullable
     private final String mContent;
-    private String mMessage;
 
-    public CnblogsHttpException(int code, @Nullable String content) {
-        this(code, content, null);
+    public CnblogsHttpException(int code, String message) {
+        this(code, message, null);
     }
 
-    public CnblogsHttpException(int code, @Nullable String content, String message) {
-        mMessage = "网络请求发生错误，错误代码:" + code;
-        if (message != null) {
-            mMessage += ": ";
-            mMessage += message;
-        }
-        if (Constant.DEBUG) {
-            mMessage += "返回数据为：";
-            mMessage += content;
-        }
+    public CnblogsHttpException(int code, String message, @Nullable String content) {
+        super(CnblogsUtils.emptyOrDefault(message, "网络请求发生" + code + "错误"));
         mStatusCode = code;
         mContent = content;
     }
@@ -53,17 +43,5 @@ public class CnblogsHttpException extends CnblogsIOException {
     @Nullable
     public String getContent() {
         return mContent;
-    }
-
-    @Nullable
-    @Override
-    public String getMessage() {
-        return mMessage;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return mMessage;
     }
 }

@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.util.Map;
 
 /**
  * 用户接口测试
@@ -90,5 +91,19 @@ public class UserApiTest extends BaseApiTest {
     public void testFollow() {
         exec(mApi.follow("5b861abe-ca5e-e611-9fc1-ac853d9f53cc", "测试备注上去的"));
         exec(mApi.unfollow("5b861abe-ca5e-e611-9fc1-ac853d9f53cc", false));
+    }
+
+
+    @Test
+    public void testIsFollow() {
+        exec(mApi.isFollow("5b861abe-ca5e-e611-9fc1-ac853d9f53cc"));
+        exec(mApi.isFollow("9f65360b-63cf-dd11-9e4d-001cf0cd104b"));
+    }
+
+    @Test
+    public void testIntroFields() {
+        Map<String, String> map = exec(mApi.introFields());
+        map.put("Introduction", "技术改变世界-" + System.currentTimeMillis());
+        exec(mApi.updateIntro(map));
     }
 }
