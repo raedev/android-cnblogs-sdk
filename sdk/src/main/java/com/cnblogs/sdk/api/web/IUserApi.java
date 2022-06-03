@@ -6,7 +6,9 @@ import com.cnblogs.sdk.internal.http.HttpHeader;
 import com.cnblogs.sdk.internal.http.annotation.HTML;
 import com.cnblogs.sdk.internal.http.annotation.JSON;
 import com.cnblogs.sdk.internal.parser.user.CheckDisplayNameParser;
+import com.cnblogs.sdk.internal.parser.user.FollowStatusParser;
 import com.cnblogs.sdk.internal.parser.user.FollowerParser;
+import com.cnblogs.sdk.internal.parser.user.IntroFieldParser;
 import com.cnblogs.sdk.internal.parser.user.ProfileParser;
 import com.cnblogs.sdk.model.AccountInfo;
 import com.cnblogs.sdk.model.BaseResponse;
@@ -14,9 +16,13 @@ import com.cnblogs.sdk.model.PersonalInfo;
 import com.cnblogs.sdk.model.UploadAvatarBean;
 import com.cnblogs.sdk.model.UserInfo;
 
+import java.util.Map;
+
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -99,6 +105,24 @@ public interface IUserApi {
     @Headers({HttpHeader.ACCEPT_TYPE_JSON, HttpHeader.JSON_PARAM, HttpHeader.XHR})
     Observable<BaseResponse> updateDisplayName(@Field("displayName") String displayName);
 
+    /**
+     * 获取个人信息的提交的字段
+     * @return 字段列表
+     */
+    @GET("https://home.cnblogs.com/set/intro/")
+    @HTML(IntroFieldParser.class)
+    Observable<Map<String, String>> introFields();
+
+
+    /**
+     * 更新个人信息的字段
+     * @param map 字段列表，在 {@link #introFields()} 中获取
+     * @return 无
+     */
+    @POST("https://home.cnblogs.com/Set/IntroSubmit")
+    @FormUrlEncoded
+    Completable updateIntro(@FieldMap Map<String, String> map);
+
     // endregion
 
     // region 关注/粉丝 相关
@@ -146,6 +170,18 @@ public interface IUserApi {
     @FormUrlEncoded
     @Headers({HttpHeader.ACCEPT_TYPE_JSON, HttpHeader.XHR})
     Observable<Empty> unfollow(@Field("userId") String userId, @Field("isRemoveGroup") Boolean isRemoveGroup);
+
+
+    /**
+     * 是否关注
+     * @param userId 用户ID
+     * @return Observable
+     */
+    @GET("https://www.cnblogs.com/artech/ajax/Follow/GetFollowStatus.aspx")
+    @Headers({HttpHeader.XHR})
+    @HTML(FollowStatusParser.class)
+    Observable<Boolean> isFollow(@Query("blogUserGuid") String userId);
+
 
     // endregion
 

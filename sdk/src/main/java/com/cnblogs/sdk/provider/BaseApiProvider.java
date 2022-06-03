@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.cnblogs.sdk.common.CookieSynchronizer;
 import com.cnblogs.sdk.internal.http.interceptor.CnblogsCookieInterceptor;
-import com.cnblogs.sdk.internal.http.interceptor.CnblogsLoggingInterceptor;
+import com.cnblogs.sdk.internal.http.interceptor.CnblogsNetworkInterceptor;
 import com.cnblogs.sdk.internal.http.interceptor.CnblogsRequestInterceptor;
 import com.cnblogs.sdk.internal.http.interceptor.CnblogsResponseInterceptor;
 import com.cnblogs.sdk.internal.loader.CnblogsClassLoader;
@@ -71,7 +71,7 @@ abstract class BaseApiProvider {
                 .addInterceptor(CnblogsRequestInterceptor.create())
                 .addInterceptor(CnblogsResponseInterceptor.create())
                 // 网络层日志输出
-                .addNetworkInterceptor(CnblogsLoggingInterceptor.create())
+                .addNetworkInterceptor(CnblogsNetworkInterceptor.create())
                 .build();
     }
 
