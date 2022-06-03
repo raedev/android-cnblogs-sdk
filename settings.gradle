@@ -1,5 +1,5 @@
 rootProject.name = 'CnblogsSDK'
 include ':sdk'
-include ':other:swift'
 
+include ':other:swift'
 project(':other:swift').projectDir = new File("../../GitHub/android-component/swift")
