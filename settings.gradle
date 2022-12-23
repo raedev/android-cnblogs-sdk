@@ -1,6 +1,3 @@
 rootProject.name = 'CnblogsSDK'
-//include ':sdk'
-
-//include ':other:swift'
-//project(':other:swift').projectDir = new File("../../GitHub/android-component/swift")
-include ':kotlin-sdk'
+include ':sdk'
+include ':demo'

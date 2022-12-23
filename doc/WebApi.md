@@ -2,24 +2,6 @@
 
 本文接口从接口工厂中获取`WebApiProvider`实例。所有接口均通过解析HTML网页所得。
 
-```java
-CnblogsFactory.getInstance().getWebApiProvider();
-```
-
-接口汇总列表：
-
-- 公共接口：`ICommonApi`
-- 用户接口：`IUserApi`
-- 博客接口：`IBlogpi`
-- 闪存接口：`IMomentApi`
-- 新闻接口：`INewsApi`
-- 上传接口：`IUploadApi`
-- 排行榜接口：`IRankingApi`
-- 搜索接口：`ISearchApi`
-- 博问接口：`IBlogQuestionApi`
-- 收藏接口：`IFavoriteApi`
-- 分类接口：`ICategoryApi`
-
 # 用户接口 `IUserApi`
 
 | 接口名称         | 方法名称                                            |
