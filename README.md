@@ -20,14 +20,18 @@
 
 ## 项目架构说明
 
-## 接口设计
+## 技术选型
+
+- `Kotlin` + `MVVM`
+- `Retrofit + OkHttp3 + Coroutines`
+- `HtmlParser + JavaCookie`
 
 ## 开源协议（License）
 
 遵守`Apache2.0` 开源协议，完全免费使用。
 
 ```text
-Copyright 2022 RAE
+Copyright 2023 RAE
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

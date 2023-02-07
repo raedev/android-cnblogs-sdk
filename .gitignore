@@ -14,3 +14,4 @@
 .externalNativeBuild
 /sdk-backup
 /.idea/deploymentTargetDropDown.xml
+*.bkp
