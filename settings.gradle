@@ -1,3 +1,19 @@
-rootProject.name = 'CnblogsSDK'
-include ':sdk'
+pluginManagement {
+    repositories {
+        maven { url 'https://maven.raeblog.com/repository/public/' }
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { url 'https://maven.raeblog.com/repository/public/' }
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = 'cnblogs-sdk'
 include ':demo'
+include ':lib'
